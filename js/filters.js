@@ -1307,7 +1307,7 @@ function initUnitsUaButton() {
         // input event автоматически скроет крестик
         reloadUnitsUaLayer();
     });
-    searchInput.addEventListener('keypress', (e) => {
+    searchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') applyUnitsSearch();
     });
 

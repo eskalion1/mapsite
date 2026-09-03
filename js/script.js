@@ -2979,7 +2979,7 @@ document.querySelectorAll('#coords-input, #coords-input-clone').forEach(input =>
     });
     
     // Обработка Enter: координаты → центрирование, текст → поиск населённого пункта
-    input.addEventListener('keypress', function(e) {
+    input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && !isProgrammaticChange) {
             const coords = normalizeToTuple(parseCoordinates(this.value.trim()));
             if (coords) {
@@ -3314,7 +3314,7 @@ function setupDropdownListeners() {
         });
         
         // Обработка Enter: координаты → центрирование + закрытие меню, текст → поиск
-        coordsClone.addEventListener('keypress', function(e) {
+        coordsClone.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 const coords = normalizeToTuple(parseCoordinates(this.value.trim()));
                 if (coords) {
