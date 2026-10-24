@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика территорий — Creamy caprice</title>
+    <meta name="description" content="Прирост и уменьшение контроля территорий по месячным срезам. Плюс — продвижение ВС РФ.">
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Wallpoet&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/stats.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+    <script src="js/stats.js" defer></script>
+</head>
+<body class="stats-page">
+    <header class="stats-header">
+        <div class="stats-header-inner">
+            <a class="stats-brand" href="index.html">Creamy caprice</a>
+            <nav class="stats-nav" aria-label="Навигация">
+                <a class="stats-nav-link" href="index.html">← На карту</a>
+                <span class="stats-nav-current">Статистика</span>
+            </nav>
+        </div>
+    </header>
+
+    <main class="stats-main">
+        <div id="stats-content">
+            <div class="stats-title-row">
+                <div>
+                    <h1>Статистика территорий</h1>
+                    <p class="stats-subtitle">Прирост и уменьшение контроля по месячным срезам. Плюс — продвижение ВС РФ.</p>
+                </div>
+                <div id="stats-updated" class="stats-updated" aria-live="polite"></div>
+            </div>
+
+            <section id="stats-cards" class="stats-cards" aria-label="Сводка"></section>
+
+            <section class="stats-panel">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2>Динамика по месяцам</h2>
+                        <p id="stats-chart-sub" class="stats-panel-sub">Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто.</p>
+                    </div>
+                    <div class="stats-legend" aria-hidden="true">
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-gain"></span>прирост</span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-loss"></span>уменьшение</span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-net"></span>нетто</span>
+                    </div>
+                </div>
+                <div class="stats-chart-wrap">
+                    <canvas id="monthly-chart" aria-label="График прироста, уменьшения и нетто по месяцам" role="img"></canvas>
+                </div>
+                <p id="stats-chart-fallback" class="stats-note hidden">График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает.</p>
+            </section>
+
+            <section class="stats-panel">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2>Таблица по месяцам</h2>
+                        <p class="stats-panel-sub">Фактические даты срезов, между которыми посчитана дельта.</p>
+                    </div>
+                </div>
+                <div class="stats-table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Месяц</th>
+                                <th>Период</th>
+                                <th class="num">Дней</th>
+                                <th class="num">Прирост, км²</th>
+                                <th class="num">Уменьшение, км²</th>
+                                <th class="num">Нетто, км²</th>
+                                <th class="num">Темп, км²/день</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-table-body"></tbody>
+                    </table>
+                </div>
+                <p id="stats-table-note" class="stats-note"></p>
+            </section>
+
+            <section class="stats-panel stats-method">
+                <h2>Как считается</h2>
+                <ul>
+                    <li>Источник — месячные срезы <code>kml/ControlZones</code>. Красный полигон — контроль ВС РФ.</li>
+                    <li>Прирост — площадь, которую полигон ВС РФ получил между соседними срезами; уменьшение — потерял.</li>
+                    <li>Площадь считается по сфере, в квадратных километрах. Микрополигоны меньше <span id="stats-threshold">0,5</span> км² не учитываются.</li>
+                    <li>Текущий месяц неполный: он считается от последнего месячного среза до последнего доступного обновления.</li>
+                    <li>Исключаемые участки (например, дно Каховского водохранилища) пока не применяются.</li>
+                </ul>
+                <p id="stats-source-note" class="stats-note"></p>
+            </section>
+        </div>
+
+        <div id="stats-empty" class="stats-empty hidden" role="alert">
+            <h1>Статистика пока не рассчитана</h1>
+            <p id="stats-empty-text">Не удалось загрузить <code>stats/stats.json</code>.</p>
+        </div>
+    </main>
+</body>
+</html>

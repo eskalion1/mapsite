@@ -1,0 +1,472 @@
+/* ============================================================
+   Страница статистики территорий.
+   Опирается на токены css/variables.css.
+   ============================================================ */
+
+:root {
+    --stats-gain: #e01b0b;
+    --stats-gain-soft: rgba(224, 27, 11, 0.14);
+    --stats-loss: #2f63b8;
+    --stats-loss-soft: rgba(47, 99, 184, 0.14);
+    --stats-net: #1f2328;
+    --stats-max-width: 1180px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body.stats-page {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--gray-50);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    font-size: var(--font-size-md);
+    line-height: 1.45;
+}
+
+.hidden {
+    display: none !important;
+}
+
+a {
+    color: var(--primary-dark);
+}
+
+code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 1px 5px;
+}
+
+/* ---------- Шапка ---------- */
+
+.stats-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--gray-200);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(6px);
+}
+
+.stats-header-inner {
+    max-width: var(--stats-max-width);
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.stats-brand {
+    font-family: var(--font-logo);
+    font-size: var(--font-size-xl);
+    letter-spacing: 1px;
+    color: var(--brand);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.stats-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--font-size-sm);
+}
+
+.stats-nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.stats-nav-link:hover {
+    background: var(--gray-100);
+    color: var(--text-main);
+}
+
+.stats-nav-current {
+    color: var(--text-main);
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: var(--radius-md);
+    background: var(--gray-100);
+}
+
+/* ---------- Контейнер ---------- */
+
+.stats-main {
+    max-width: var(--stats-max-width);
+    margin: 0 auto;
+    padding: 26px 20px 70px;
+}
+
+.stats-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.stats-title-row h1 {
+    margin: 0 0 6px;
+    font-size: var(--font-size-2xl);
+    line-height: 1.15;
+}
+
+.stats-subtitle {
+    margin: 0;
+    max-width: 720px;
+    color: var(--text-secondary);
+}
+
+.stats-updated {
+    flex-shrink: 0;
+    margin-top: 4px;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ---------- Карточки сводки ---------- */
+
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.stats-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    padding: 16px 18px 15px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.stats-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: var(--gray-300);
+}
+
+.stats-card.is-gain::before { background: var(--stats-gain); }
+.stats-card.is-loss::before { background: var(--stats-loss); }
+.stats-card.is-total::before { background: var(--stats-net); }
+
+.stats-card-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.stats-card-value {
+    display: block;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+}
+
+.stats-card-value.gain { color: var(--stats-gain); }
+.stats-card-value.loss { color: var(--stats-loss); }
+.stats-card-value.neutral { color: var(--stats-net); }
+
+.stats-card-sub {
+    display: block;
+    margin-top: 7px;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+/* ---------- Панели ---------- */
+
+.stats-panel {
+    background: var(--surface);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 22px 18px;
+    margin-bottom: 18px;
+}
+
+.stats-panel h2 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+}
+
+.stats-panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.stats-panel-sub {
+    margin: 5px 0 0;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.stats-chart-wrap {
+    position: relative;
+    height: 370px;
+}
+
+.stats-chart-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.stats-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    padding-top: 4px;
+}
+
+.stats-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.stats-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.stats-dot-gain { background: var(--stats-gain); }
+.stats-dot-loss { background: var(--stats-loss); }
+.stats-dot-net { background: var(--stats-net); height: 3px; border-radius: 2px; }
+
+/* ---------- Таблица ---------- */
+
+.stats-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+}
+
+.stats-table {
+    width: 100%;
+    min-width: 820px;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.stats-table th,
+.stats-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--gray-200);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.stats-table th {
+    background: var(--gray-50);
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.stats-table th.num,
+.stats-table td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.stats-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.stats-table tbody tr:hover {
+    background: var(--gray-50);
+}
+
+.stats-table tbody tr.is-partial {
+    background: #fff8e1;
+}
+
+.stats-table tbody tr.is-partial:hover {
+    background: #fff3cc;
+}
+
+.stats-table .month-cell {
+    font-weight: 700;
+}
+
+.stats-table .gain { color: var(--stats-gain); }
+.stats-table .loss { color: var(--stats-loss); }
+.stats-table .net-pos { color: var(--stats-gain); font-weight: 700; }
+.stats-table .net-neg { color: var(--stats-loss); font-weight: 700; }
+.stats-table .muted { color: var(--text-muted); }
+
+.stats-badge {
+    display: inline-block;
+    margin-left: 7px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: #ffe9a8;
+    color: #7a5b00;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    vertical-align: 1px;
+}
+
+.stats-note {
+    margin: 12px 0 0;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* ---------- Методика ---------- */
+
+.stats-method ul {
+    margin: 12px 0 0;
+    padding-left: 20px;
+    color: var(--text-secondary);
+}
+
+.stats-method li {
+    margin-bottom: 7px;
+}
+
+.stats-method li::marker {
+    color: var(--stats-gain);
+}
+
+/* ---------- Пустое состояние ---------- */
+
+.stats-empty {
+    max-width: 620px;
+    margin: 12vh auto 0;
+    padding: 30px;
+    background: var(--surface);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+
+.stats-empty h1 {
+    margin: 0 0 10px;
+    font-size: var(--font-size-xl);
+}
+
+.stats-empty p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 1020px) {
+    .stats-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .stats-header-inner {
+        padding: 10px 14px;
+    }
+
+    .stats-brand {
+        font-size: 1.2rem;
+    }
+
+    .stats-nav {
+        gap: 6px;
+    }
+
+    .stats-nav-current {
+        display: none;
+    }
+
+    .stats-main {
+        padding: 18px 14px 50px;
+    }
+
+    .stats-title-row {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .stats-title-row h1 {
+        font-size: 1.55rem;
+    }
+
+    .stats-updated {
+        text-align: left;
+        white-space: normal;
+    }
+
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-panel {
+        padding: 16px 14px 14px;
+        border-radius: var(--radius-lg);
+    }
+
+    .stats-panel-head {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .stats-chart-wrap {
+        height: 290px;
+    }
+
+    .stats-table {
+        min-width: 720px;
+        font-size: var(--font-size-xs);
+    }
+
+    .stats-table th,
+    .stats-table td {
+        padding: 8px 9px;
+    }
+
+    .stats-legend {
+        gap: 9px;
+    }
+}

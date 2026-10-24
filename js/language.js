@@ -66,6 +66,7 @@ const translations = {
         viewSwitchMap: "Карта",
         viewSwitchSt1: "Статистика",
         viewSwitchSt2: "Потери ВСУ",
+        viewSwitchStats: "Статистика",
         
         viewSwitchTlg:  "Гугл-карта",
         viewSwitchDon:  "Сбор на СВО",
@@ -146,6 +147,7 @@ const translations = {
         viewSwitchMap: "Map",
         viewSwitchSt1: "Statistics",
         viewSwitchSt2: "UA Losses",
+        viewSwitchStats: "Statistics",
         
         viewSwitchTlg:  "Google-map",
         viewSwitchDon:  "Donate",
@@ -285,12 +287,14 @@ function setLanguage(lang) {
     if (fullscreenBtn) fullscreenBtn.title = t.fullscreenTitle;
  	
     setText('map-btn'   , t.viewSwitchMap);
+    setText('stats-btn' , t.viewSwitchStats);
     setText('stats1-btn', t.viewSwitchSt1);
     setText('stats2-btn', t.viewSwitchSt2);
     setText('tlg-btn'   , t.viewSwitchTlg);
     setText('donate-btn', t.viewSwitchDon);
     setText('info-btn'  , t.viewSwitchInfo);
     setText('map-btn-desktop'   , t.viewSwitchMap);
+    setText('stats-btn-desktop' , t.viewSwitchStats);
     setText('stats1-btn-desktop', t.viewSwitchSt1);
     setText('stats2-btn-desktop', t.viewSwitchSt2);
     setText('tlg-btn-desktop'   , t.viewSwitchTlg);
