@@ -995,6 +995,13 @@
         select.value = state.range;
     }
 
+    function updateRangeControls() {
+        var select = document.getElementById('stats-range-select');
+        if (select && select.value !== state.range) select.value = state.range;
+        var reset = document.getElementById('stats-month-reset');
+        if (reset) reset.classList.toggle('hidden', !isMonthRange(state.range));
+    }
+
     function renderAll() {
         var data = state.data;
         if (!data) return;
@@ -1006,6 +1013,7 @@
         renderDirections(data, periods);
         renderGroups(data, periods);
         updateRangeLabel(data, periods);
+        updateRangeControls();
     }
 
     function syncUrl() {
@@ -1033,6 +1041,13 @@
         syncUrl();
     }
 
+    function resetMonth() {
+        if (!state.data) return;
+        state.range = 'all';
+        renderAll();
+        syncUrl();
+    }
+
     function selectDirection(id) {
         if (!state.data) return;
         state.direction = id;
@@ -1052,6 +1067,11 @@
                 renderAll();
                 syncUrl();
             });
+        }
+
+        var monthReset = document.getElementById('stats-month-reset');
+        if (monthReset) {
+            monthReset.addEventListener('click', resetMonth);
         }
 
         var directionSelect = document.getElementById('stats-direction-select');
