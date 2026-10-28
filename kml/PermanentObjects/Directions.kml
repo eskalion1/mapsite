@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
-<name>Направления (тестовые границы)</name>
-<description>Грубые тестовые границы для отладки статистики. Области — реальные границы; направления — прямоугольные секторы вокруг опорных пунктов. Заменить на корректные.</description>
+<name>Направления</name>
+<description>Границы направлений: области и секторы вокруг опорных пунктов.</description>
 <Style id="dir1"><LineStyle><color>ff1c1ae4</color><width>1.5</width></LineStyle><PolyStyle><color>4d1c1ae4</color><fill>1</fill><outline>1</outline></PolyStyle></Style>
 <Style id="dir2"><LineStyle><color>ffb87e37</color><width>1.5</width></LineStyle><PolyStyle><color>4db87e37</color><fill>1</fill><outline>1</outline></PolyStyle></Style>
 <Style id="dir3"><LineStyle><color>ff4aaf4d</color><width>1.5</width></LineStyle><PolyStyle><color>4d4aaf4d</color><fill>1</fill><outline>1</outline></PolyStyle></Style>

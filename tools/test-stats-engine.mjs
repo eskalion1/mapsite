@@ -97,8 +97,8 @@ test('реальные срезы 01.10.2024 → 01.11.2024', () => {
     assert.ok(summary.net > 812 && summary.net < 818, 'net=' + summary.net);
 });
 
-test('тестовый KML направлений: 10 полигонов с id', () => {
-    const text = fs.readFileSync(path.join(ROOT, 'kml/PermanentObjects/Directions_test.kml'), 'utf8');
+test('KML направлений: 10 полигонов с id', () => {
+    const text = fs.readFileSync(path.join(ROOT, 'kml/PermanentObjects/Directions.kml'), 'utf8');
     const directions = StatsEngine.parseKmlPolygons(text);
     assert.equal(directions.length, 10);
     assert.equal(directions[0].id, 'sumy');

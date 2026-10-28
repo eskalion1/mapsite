@@ -349,11 +349,6 @@ code {
     vertical-align: 1px;
 }
 
-.stats-badge-test {
-    background: #e7f1ff;
-    color: #1f5f9f;
-}
-
 .stats-table--directions {
     min-width: 560px;
 }

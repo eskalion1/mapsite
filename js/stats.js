@@ -222,10 +222,8 @@
 
         body.innerHTML = rows.join('');
         if (note) {
-            var meta = data.source && data.source.directions;
-            note.innerHTML = 'Тестовые границы: '
-                + escapeHtml(meta && meta.note ? meta.note : 'области и грубые секторы, компонент — по центроиду.')
-                + ' Файл: <a href="kml/PermanentObjects/Directions_test.kml">Directions_test.kml</a>.'
+            note.innerHTML = 'Границы направлений: области и секторы вокруг опорных пунктов.'
+                + ' Файл: <a href="kml/PermanentObjects/Directions.kml">Directions.kml</a>.'
                 + ' Сумма прироста и уменьшения по строкам сходится с общим итогом полных месяцев.';
         }
         section.classList.remove('hidden');

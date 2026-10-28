@@ -32,7 +32,7 @@ const outputPath = path.resolve(ROOT, arg('--out', 'stats/stats.json'));
 const thresholdKm2 = Number(arg('--threshold', '0.5'));
 const minDate = arg('--min-date', '2023-09-01');
 const includePartial = !process.argv.includes('--no-partial');
-const directionsPath = path.resolve(ROOT, arg('--directions', 'kml/PermanentObjects/Directions_test.kml'));
+const directionsPath = path.resolve(ROOT, arg('--directions', 'kml/PermanentObjects/Directions.kml'));
 
 function fail(message) {
     console.error('Ошибка: ' + message);
@@ -88,8 +88,8 @@ const result = StatsEngine.buildStats(snapshots, rings, clip, {
     minDate,
     includePartial,
     directions,
-    directionsVersion: 'test-1',
-    directionsNote: 'Тестовые границы: области и грубые секторы; компонент относится к направлению по центроиду.',
+    directionsVersion: '1',
+    directionsNote: 'Границы направлений: области и секторы; компонент относится к направлению по центроиду.',
     generator: 'tools/build-stats.mjs',
     generatedAt: new Date().toISOString()
 });
