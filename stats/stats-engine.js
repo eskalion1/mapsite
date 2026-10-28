@@ -73,6 +73,44 @@
         return ring;
     }
 
+    function decodeXml(value) {
+        return String(value == null ? '' : value)
+            .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&apos;/g, "'")
+            .replace(/&amp;/g, '&')
+            .trim();
+    }
+
+    /**
+     * Разбирает KML с несколькими Placemark: имя, id (ExtendedData Data name="id")
+     * и первое кольцо координат. Для тестовых границ направлений.
+     */
+    function parseKmlPolygons(text) {
+        if (typeof text !== 'string' || !text) return [];
+        var re = /<Placemark\b[^>]*>([\s\S]*?)<\/Placemark>/gi;
+        var result = [];
+        var match;
+        var index = 0;
+        while ((match = re.exec(text)) !== null) {
+            index += 1;
+            var body = match[1];
+            var nameMatch = body.match(/<name[^>]*>([\s\S]*?)<\/name>/i);
+            var idMatch = body.match(/<Data\s+name=["']id["'][^>]*>\s*<value>([\s\S]*?)<\/value>/i);
+            var coords = body.match(/<coordinates>([\s\S]*?)<\/coordinates>/i);
+            if (!coords) continue;
+            var ring = parseCoordinateText(coords[1]);
+            if (!ring) continue;
+            var name = decodeXml(nameMatch ? nameMatch[1] : '');
+            var id = decodeXml(idMatch ? idMatch[1] : '');
+            if (!id) id = 'direction-' + index;
+            result.push({ id: id, name: name || ('Направление ' + index), polygon: ring });
+        }
+        return result;
+    }
+
     /** Площадь кольца на сфере, км². */
     function ringAreaKm2(ring) {
         if (!Array.isArray(ring) || ring.length < 3) return 0;
@@ -148,17 +186,180 @@
         };
     }
 
+    /** Центроид кольца (плоская формула; для классификации этого достаточно). */
+    function ringCentroid(ring) {
+        if (!Array.isArray(ring) || ring.length < 3) return null;
+        var twiceArea = 0;
+        var cx = 0;
+        var cy = 0;
+        var i;
+        for (i = 0; i < ring.length - 1; i++) {
+            var x1 = ring[i][0];
+            var y1 = ring[i][1];
+            var x2 = ring[i + 1][0];
+            var y2 = ring[i + 1][1];
+            var cross = x1 * y2 - x2 * y1;
+            twiceArea += cross;
+            cx += (x1 + x2) * cross;
+            cy += (y1 + y2) * cross;
+        }
+        if (Math.abs(twiceArea) > 1e-12) {
+            return [cx / (3 * twiceArea), cy / (3 * twiceArea)];
+        }
+        var sx = 0;
+        var sy = 0;
+        var count = Math.max(1, ring.length - 1);
+        for (i = 0; i < ring.length - 1; i++) {
+            sx += ring[i][0];
+            sy += ring[i][1];
+        }
+        return [sx / count, sy / count];
+    }
+
+    function pointInRing(point, ring) {
+        if (!Array.isArray(point) || !Array.isArray(ring) || ring.length < 4) return false;
+        var x = point[0];
+        var y = point[1];
+        var inside = false;
+        for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+            var xi = ring[i][0];
+            var yi = ring[i][1];
+            var xj = ring[j][0];
+            var yj = ring[j][1];
+            var crosses = ((yi > y) !== (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (crosses) inside = !inside;
+        }
+        return inside;
+    }
+
+    /** Точка внутри полигона polygon-clipping: [outer, hole...]. */
+    function pointInPolygon(point, polygon) {
+        if (!Array.isArray(polygon) || !polygon.length) return false;
+        if (!pointInRing(point, polygon[0])) return false;
+        for (var i = 1; i < polygon.length; i++) {
+            if (pointInRing(point, polygon[i])) return false;
+        }
+        return true;
+    }
+
+    function bboxOfRing(ring) {
+        var bbox = [Infinity, Infinity, -Infinity, -Infinity];
+        for (var i = 0; i < ring.length; i++) {
+            var point = ring[i];
+            if (point[0] < bbox[0]) bbox[0] = point[0];
+            if (point[1] < bbox[1]) bbox[1] = point[1];
+            if (point[0] > bbox[2]) bbox[2] = point[0];
+            if (point[1] > bbox[3]) bbox[3] = point[1];
+        }
+        return bbox;
+    }
+
     /**
-     * Считает один период между двумя срезами.
-     * gain/loss — только компоненты >= порога; micro — отброшенные.
+     * Приводит описания направлений к внутреннему виду.
+     * polygon — либо кольцо [[lon,lat],...], либо полигон [outer, hole...].
      */
-    function summarizeDelta(prevRing, currRing, clip, options) {
-        var opts = options || {};
-        var threshold = Number(opts.thresholdKm2);
-        if (!Number.isFinite(threshold) || threshold < 0) threshold = 0.5;
-        var delta = computeDelta(prevRing, currRing, clip);
-        var gain = splitComponents(delta.gain, threshold);
-        var loss = splitComponents(delta.loss, threshold);
+    function normalizeDirections(directions) {
+        var list = Array.isArray(directions) ? directions : [];
+        var result = [];
+        for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            if (!item || !Array.isArray(item.polygon)) continue;
+            var rings = null;
+            if (Array.isArray(item.polygon[0]) && Array.isArray(item.polygon[0][0])) {
+                rings = item.polygon;
+            } else if (Array.isArray(item.polygon[0])) {
+                rings = [item.polygon];
+            }
+            if (!rings || !rings.length || rings[0].length < 3) continue;
+            var area = polygonAreaKm2(rings);
+            if (!(area > 0)) continue;
+            result.push({
+                id: item.id || ('direction-' + (result.length + 1)),
+                name: item.name || item.id || ('Направление ' + (result.length + 1)),
+                group: item.group || null,
+                polygon: rings,
+                area: area,
+                bbox: bboxOfRing(rings[0])
+            });
+        }
+        return result;
+    }
+
+    /**
+     * Относит каждый компонент к одному направлению по центроиду.
+     * Если центроид попадает в несколько тестовых полигонов — побеждает
+     * меньший по площади (более специальный). Иначе — unassigned.
+     */
+    function classifyComponents(gainComponents, lossComponents, directions) {
+        var dirs = (Array.isArray(directions) && directions.length && directions[0].bbox)
+            ? directions
+            : normalizeDirections(directions);
+        var byId = {};
+        var unassigned = { gain: 0, loss: 0, net: 0, gainCount: 0, lossCount: 0 };
+        var i;
+        for (i = 0; i < dirs.length; i++) {
+            byId[dirs[i].id] = {
+                id: dirs[i].id,
+                name: dirs[i].name,
+                gain: 0,
+                loss: 0,
+                net: 0,
+                gainCount: 0,
+                lossCount: 0
+            };
+        }
+
+        function pick(component) {
+            var ring = component && component[0];
+            var centroid = ringCentroid(ring);
+            if (!centroid) return null;
+            var best = null;
+            for (var k = 0; k < dirs.length; k++) {
+                var dir = dirs[k];
+                var bbox = dir.bbox;
+                if (centroid[0] < bbox[0] || centroid[0] > bbox[2]
+                    || centroid[1] < bbox[1] || centroid[1] > bbox[3]) continue;
+                if (!pointInPolygon(centroid, dir.polygon)) continue;
+                if (!best || dir.area < best.area) best = dir;
+            }
+            return best;
+        }
+
+        function add(list, side) {
+            var components = Array.isArray(list) ? list : [];
+            for (var k = 0; k < components.length; k++) {
+                var component = components[k];
+                var area = polygonAreaKm2(component);
+                var dir = pick(component);
+                if (dir) {
+                    byId[dir.id][side] += area;
+                    byId[dir.id][side + 'Count'] += 1;
+                } else {
+                    unassigned[side] += area;
+                    unassigned[side + 'Count'] += 1;
+                }
+            }
+        }
+
+        add(gainComponents, 'gain');
+        add(lossComponents, 'loss');
+
+        for (var key in byId) {
+            if (!Object.prototype.hasOwnProperty.call(byId, key)) continue;
+            var item = byId[key];
+            item.gain = round2(item.gain);
+            item.loss = round2(item.loss);
+            item.net = round2(item.gain - item.loss);
+        }
+        unassigned.gain = round2(unassigned.gain);
+        unassigned.loss = round2(unassigned.loss);
+        unassigned.net = round2(unassigned.gain - unassigned.loss);
+        return { byId: byId, unassigned: unassigned };
+    }
+
+    /** Сводка по уже разобранным компонентам прироста/уменьшения. */
+    function summarizeComponents(gain, loss) {
         var gainArea = gain.keptArea;
         var lossArea = loss.keptArea;
         var rawGain = gain.keptArea + gain.droppedArea;
@@ -183,6 +384,21 @@
                 net: round2(rawGain - rawLoss)
             }
         };
+    }
+
+    /**
+     * Считает один период между двумя срезами.
+     * gain/loss — только компоненты >= порога; micro — отброшенные.
+     */
+    function summarizeDelta(prevRing, currRing, clip, options) {
+        var opts = options || {};
+        var threshold = Number(opts.thresholdKm2);
+        if (!Number.isFinite(threshold) || threshold < 0) threshold = 0.5;
+        var delta = computeDelta(prevRing, currRing, clip);
+        return summarizeComponents(
+            splitComponents(delta.gain, threshold),
+            splitComponents(delta.loss, threshold)
+        );
     }
 
     /** Информация о снимке из имени файла Control_YY_MM_DD.kml. */
@@ -300,9 +516,66 @@
                 return a.name < b.name ? -1 : 1;
             });
 
+        var directionDefs = normalizeDirections(opts.directions);
+        var directionsEnabled = directionDefs.length > 0;
         var boundaries = selectMonthlySnapshots(all);
         var periods = [];
         var warnings = [];
+
+        function directionValues(directionSummary) {
+            var list = [];
+            for (var d = 0; d < directionDefs.length; d++) {
+                var def = directionDefs[d];
+                var item = directionSummary.byId[def.id] || { gain: 0, loss: 0 };
+                list.push({
+                    id: def.id,
+                    name: def.name,
+                    gain: round2(item.gain),
+                    loss: round2(item.loss),
+                    net: round2(item.gain - item.loss)
+                });
+            }
+            return list;
+        }
+
+        function unassignedValues(directionSummary) {
+            var item = directionSummary.unassigned;
+            return {
+                gain: round2(item.gain),
+                loss: round2(item.loss),
+                net: round2(item.gain - item.loss)
+            };
+        }
+
+        function summarizePeriod(from, to, fromRing, toRing, partial) {
+            var delta = computeDelta(fromRing, toRing, clip);
+            var gainParts = splitComponents(delta.gain, threshold);
+            var lossParts = splitComponents(delta.loss, threshold);
+            var summary = summarizeComponents(gainParts, lossParts);
+            var directionSummary = directionsEnabled
+                ? classifyComponents(gainParts.kept, lossParts.kept, directionDefs)
+                : null;
+            var month = partial ? monthKey(to.iso) : previousMonth(monthKey(to.iso));
+            var days = dateDiffDays(from.iso, to.iso);
+            var period = Object.assign({
+                id: partial ? month + '-partial' : month,
+                month: month,
+                label: monthLabelRu(month),
+                from: from.iso,
+                fromName: from.name,
+                to: to.iso,
+                toName: to.name,
+                days: days,
+                daysCount: days,
+                partial: partial,
+                rate: days > 0 ? round2(summary.net / days) : 0
+            }, summary);
+            if (directionSummary) {
+                period.directions = directionValues(directionSummary);
+                period.unassigned = unassignedValues(directionSummary);
+            }
+            return period;
+        }
 
         for (var i = 1; i < boundaries.length; i++) {
             var from = boundaries[i - 1];
@@ -313,22 +586,7 @@
                 warnings.push('Нет геометрии для периода ' + from.name + ' → ' + to.name);
                 continue;
             }
-            var summary = summarizeDelta(fromRing, toRing, clip, { thresholdKm2: threshold });
-            var month = previousMonth(monthKey(to.iso));
-            var days = dateDiffDays(from.iso, to.iso);
-            periods.push(Object.assign({
-                id: month,
-                month: month,
-                label: monthLabelRu(month),
-                from: from.iso,
-                fromName: from.name,
-                to: to.iso,
-                toName: to.name,
-                days: days,
-                daysCount: days,
-                partial: false,
-                rate: days > 0 ? round2(summary.net / days) : 0
-            }, summary));
+            periods.push(summarizePeriod(from, to, fromRing, toRing, false));
         }
 
         if (includePartial && all.length && boundaries.length) {
@@ -338,22 +596,7 @@
                 var partialFromRing = getRing(lastBoundary.name);
                 var partialToRing = getRing(latest.name);
                 if (partialFromRing && partialToRing) {
-                    var partialSummary = summarizeDelta(partialFromRing, partialToRing, clip, { thresholdKm2: threshold });
-                    var partialMonth = monthKey(latest.iso);
-                    var partialDays = dateDiffDays(lastBoundary.iso, latest.iso);
-                    periods.push(Object.assign({
-                        id: partialMonth + '-partial',
-                        month: partialMonth,
-                        label: monthLabelRu(partialMonth),
-                        from: lastBoundary.iso,
-                        fromName: lastBoundary.name,
-                        to: latest.iso,
-                        toName: latest.name,
-                        days: partialDays,
-                        daysCount: partialDays,
-                        partial: true,
-                        rate: partialDays > 0 ? round2(partialSummary.net / partialDays) : 0
-                    }, partialSummary));
+                    periods.push(summarizePeriod(lastBoundary, latest, partialFromRing, partialToRing, true));
                 }
             }
         }
@@ -372,6 +615,88 @@
             }
         }
 
+        var directions = [];
+        var unassigned = null;
+        if (directionsEnabled) {
+            for (var d = 0; d < directionDefs.length; d++) {
+                var def = directionDefs[d];
+                var directionPeriods = [];
+                var directionTotals = { gain: 0, loss: 0, net: 0 };
+                var directionFullTotals = { gain: 0, loss: 0, net: 0 };
+                for (var k = 0; k < periods.length; k++) {
+                    var current = periods[k];
+                    var values = { gain: 0, loss: 0, net: 0 };
+                    if (current.directions) {
+                        for (var q = 0; q < current.directions.length; q++) {
+                            if (current.directions[q].id === def.id) {
+                                values = current.directions[q];
+                                break;
+                            }
+                        }
+                    }
+                    directionPeriods.push({
+                        month: current.month,
+                        label: current.label,
+                        from: current.from,
+                        to: current.to,
+                        days: current.days,
+                        partial: current.partial,
+                        gain: values.gain,
+                        loss: values.loss,
+                        net: values.net,
+                        rate: current.days > 0 ? round2(values.net / current.days) : 0
+                    });
+                    directionTotals.gain += values.gain;
+                    directionTotals.loss += values.loss;
+                    directionTotals.net += values.net;
+                    if (!current.partial) {
+                        directionFullTotals.gain += values.gain;
+                        directionFullTotals.loss += values.loss;
+                        directionFullTotals.net += values.net;
+                    }
+                }
+                directions.push({
+                    id: def.id,
+                    name: def.name,
+                    group: def.group,
+                    periods: directionPeriods,
+                    totals: {
+                        gain: round2(directionTotals.gain),
+                        loss: round2(directionTotals.loss),
+                        net: round2(directionTotals.net)
+                    },
+                    fullTotals: {
+                        gain: round2(directionFullTotals.gain),
+                        loss: round2(directionFullTotals.loss),
+                        net: round2(directionFullTotals.net)
+                    }
+                });
+            }
+
+            unassigned = {
+                totals: { gain: 0, loss: 0, net: 0 },
+                fullTotals: { gain: 0, loss: 0, net: 0 }
+            };
+            for (var u = 0; u < periods.length; u++) {
+                var uPeriod = periods[u];
+                if (!uPeriod.unassigned) continue;
+                unassigned.totals.gain += uPeriod.unassigned.gain;
+                unassigned.totals.loss += uPeriod.unassigned.loss;
+                unassigned.totals.net += uPeriod.unassigned.net;
+                if (!uPeriod.partial) {
+                    unassigned.fullTotals.gain += uPeriod.unassigned.gain;
+                    unassigned.fullTotals.loss += uPeriod.unassigned.loss;
+                    unassigned.fullTotals.net += uPeriod.unassigned.net;
+                }
+            }
+            unassigned.totals.gain = round2(unassigned.totals.gain);
+            unassigned.totals.loss = round2(unassigned.totals.loss);
+            unassigned.totals.net = round2(unassigned.totals.net);
+            unassigned.fullTotals.gain = round2(unassigned.fullTotals.gain);
+            unassigned.fullTotals.loss = round2(unassigned.fullTotals.loss);
+            unassigned.fullTotals.net = round2(unassigned.fullTotals.net);
+        }
+
         return {
             schemaVersion: 1,
             generatedAt: opts.generatedAt || new Date().toISOString(),
@@ -384,7 +709,13 @@
                 thresholdKm2: threshold,
                 excludedAreas: Array.isArray(opts.excludeAreas) ? opts.excludeAreas : [],
                 minDate: minDate,
-                note: 'Плюс — продвижение ВС РФ. Компоненты меньше порога не учитываются; их сумма приведена в micro.'
+                note: 'Плюс — продвижение ВС РФ. Компоненты меньше порога не учитываются; их сумма приведена в micro.',
+                directions: directionsEnabled ? {
+                    version: opts.directionsVersion || 'test',
+                    note: opts.directionsNote || null,
+                    method: 'centroid',
+                    count: directionDefs.length
+                } : null
             },
             snapshotCount: all.length,
             firstSnapshot: all.length ? all[0].iso : null,
@@ -400,7 +731,8 @@
                 loss: round2(fullTotals.loss),
                 net: round2(fullTotals.net)
             },
-            directions: [],
+            directions: directions,
+            unassigned: unassigned,
             groupings: [],
             warnings: warnings
         };
@@ -410,13 +742,20 @@
         EARTH_RADIUS_KM: EARTH_RADIUS_KM,
         MONTHS_RU: MONTHS_RU,
         parseControlKml: parseControlKml,
+        parseKmlPolygons: parseKmlPolygons,
         parseCoordinateText: parseCoordinateText,
         ringAreaKm2: ringAreaKm2,
         polygonAreaKm2: polygonAreaKm2,
         multiPolygonAreaKm2: multiPolygonAreaKm2,
         computeDelta: computeDelta,
         splitComponents: splitComponents,
+        summarizeComponents: summarizeComponents,
         summarizeDelta: summarizeDelta,
+        ringCentroid: ringCentroid,
+        pointInRing: pointInRing,
+        pointInPolygon: pointInPolygon,
+        normalizeDirections: normalizeDirections,
+        classifyComponents: classifyComponents,
         snapshotInfo: snapshotInfo,
         selectMonthlySnapshots: selectMonthlySnapshots,
         buildStats: buildStats,

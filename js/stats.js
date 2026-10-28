@@ -179,6 +179,58 @@
         }
     }
 
+    function renderDirections(data) {
+        var section = document.getElementById('stats-directions');
+        var body = document.getElementById('stats-directions-body');
+        var note = document.getElementById('stats-directions-note');
+        var directions = data.directions || [];
+        if (!section || !body) return;
+        if (!directions.length) {
+            section.classList.add('hidden');
+            return;
+        }
+
+        function money(value, sign) {
+            var number = Number(value) || 0;
+            if (number <= 0) return '0';
+            return (sign === 'loss' ? '−' : '+') + formatNumber(number);
+        }
+
+        var rows = directions.map(function (direction) {
+            var totals = direction.fullTotals || direction.totals || {};
+            var net = Number(totals.net) || 0;
+            var netClass = net > 0 ? 'net-pos' : net < 0 ? 'net-neg' : 'muted';
+            return '<tr>'
+                + '<td>' + escapeHtml(direction.name) + '</td>'
+                + '<td class="num gain">' + money(totals.gain, 'gain') + '</td>'
+                + '<td class="num loss">' + money(totals.loss, 'loss') + '</td>'
+                + '<td class="num ' + netClass + '">' + escapeHtml(signed(net)) + '</td>'
+                + '</tr>';
+        });
+
+        var unassigned = data.unassigned && (data.unassigned.fullTotals || data.unassigned.totals);
+        if (unassigned) {
+            var unassignedNet = Number(unassigned.net) || 0;
+            rows.push('<tr class="is-unassigned">'
+                + '<td>Вне направлений</td>'
+                + '<td class="num gain">' + money(unassigned.gain, 'gain') + '</td>'
+                + '<td class="num loss">' + money(unassigned.loss, 'loss') + '</td>'
+                + '<td class="num ' + (unassignedNet > 0 ? 'net-pos' : unassignedNet < 0 ? 'net-neg' : 'muted') + '">'
+                + escapeHtml(signed(unassignedNet)) + '</td>'
+                + '</tr>');
+        }
+
+        body.innerHTML = rows.join('');
+        if (note) {
+            var meta = data.source && data.source.directions;
+            note.innerHTML = 'Тестовые границы: '
+                + escapeHtml(meta && meta.note ? meta.note : 'области и грубые секторы, компонент — по центроиду.')
+                + ' Файл: <a href="kml/PermanentObjects/Directions_test.kml">Directions_test.kml</a>.'
+                + ' Сумма прироста и уменьшения по строкам сходится с общим итогом полных месяцев.';
+        }
+        section.classList.remove('hidden');
+    }
+
     function renderChart(data) {
         var canvas = document.getElementById('monthly-chart');
         var wrap = canvas ? canvas.closest('.stats-chart-wrap') : null;
@@ -338,6 +390,7 @@
 
         renderCards(data);
         renderTable(data);
+        renderDirections(data);
         renderChart(data);
 
         var content = document.getElementById('stats-content');

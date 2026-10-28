@@ -32,6 +32,7 @@ const outputPath = path.resolve(ROOT, arg('--out', 'stats/stats.json'));
 const thresholdKm2 = Number(arg('--threshold', '0.5'));
 const minDate = arg('--min-date', '2023-09-01');
 const includePartial = !process.argv.includes('--no-partial');
+const directionsPath = path.resolve(ROOT, arg('--directions', 'kml/PermanentObjects/Directions_test.kml'));
 
 function fail(message) {
     console.error('Ошибка: ' + message);
@@ -74,10 +75,21 @@ for (const snapshot of needed.values()) {
 }
 if (loaded) process.stdout.write('\n');
 
+let directions = [];
+if (fs.existsSync(directionsPath)) {
+    directions = StatsEngine.parseKmlPolygons(fs.readFileSync(directionsPath, 'utf8'));
+    console.log('\nНаправлений: ' + directions.length + ' (' + path.relative(ROOT, directionsPath) + ')');
+} else {
+    console.warn('Нет файла границ направлений: ' + directionsPath + ' — считаю только общий итог');
+}
+
 const result = StatsEngine.buildStats(snapshots, rings, clip, {
     thresholdKm2,
     minDate,
     includePartial,
+    directions,
+    directionsVersion: 'test-1',
+    directionsNote: 'Тестовые границы: области и грубые секторы; компонент относится к направлению по центроиду.',
     generator: 'tools/build-stats.mjs',
     generatedAt: new Date().toISOString()
 });
@@ -97,6 +109,22 @@ for (const period of result.periods.slice(-6)) {
     console.log('  ' + period.month + tag + ': +' + fmt.format(period.gain)
         + ' / −' + fmt.format(period.loss) + ' = ' + (period.net >= 0 ? '+' : '−')
         + fmt.format(Math.abs(period.net)) + ' км², ' + period.days + ' дн.');
+}
+if (result.directions.length) {
+    console.log('');
+    console.log('По направлениям, полные месяцы:');
+    for (const direction of result.directions) {
+        const totals = direction.fullTotals;
+        console.log('  ' + direction.name + ': +' + fmt.format(totals.gain)
+            + ' / −' + fmt.format(totals.loss) + ' = ' + (totals.net >= 0 ? '+' : '−')
+            + fmt.format(Math.abs(totals.net)) + ' км²');
+    }
+    if (result.unassigned) {
+        const u = result.unassigned.fullTotals;
+        console.log('  [вне направлений]: +' + fmt.format(u.gain)
+            + ' / −' + fmt.format(u.loss) + ' = ' + (u.net >= 0 ? '+' : '−')
+            + fmt.format(Math.abs(u.net)) + ' км²');
+    }
 }
 if (result.warnings.length) {
     console.log('');

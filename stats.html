@@ -81,6 +81,29 @@
                 <p id="stats-table-note" class="stats-note"></p>
             </section>
 
+            <section id="stats-directions" class="stats-panel hidden">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2>По направлениям <span class="stats-badge stats-badge-test">тест</span></h2>
+                        <p class="stats-panel-sub">Полные месяцы. Границы тестовые: области и грубые секторы вокруг опорных пунктов.</p>
+                    </div>
+                </div>
+                <div class="stats-table-wrap">
+                    <table class="stats-table stats-table--directions">
+                        <thead>
+                            <tr>
+                                <th>Направление</th>
+                                <th class="num">Прирост, км²</th>
+                                <th class="num">Уменьшение, км²</th>
+                                <th class="num">Нетто, км²</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-directions-body"></tbody>
+                    </table>
+                </div>
+                <p id="stats-directions-note" class="stats-note"></p>
+            </section>
+
             <section class="stats-panel stats-method">
                 <h2>Как считается</h2>
                 <ul>
@@ -89,6 +112,7 @@
                     <li>Площадь считается по сфере, в квадратных километрах. Микрополигоны меньше <span id="stats-threshold">0,5</span> км² не учитываются.</li>
                     <li>Текущий месяц неполный: он считается от последнего месячного среза до последнего доступного обновления.</li>
                     <li>Исключаемые участки (например, дно Каховского водохранилища) пока не применяются.</li>
+                    <li>Направления сейчас тестовые. Каждый компонент относится к одному направлению по центроиду; если центроид вне всех секторов — в «вне направлений». Сумма прироста и уменьшения по строкам сходится с общим итогом полных месяцев.</li>
                 </ul>
                 <p id="stats-source-note" class="stats-note"></p>
             </section>

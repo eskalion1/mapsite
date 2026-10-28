@@ -97,4 +97,46 @@ test('реальные срезы 01.10.2024 → 01.11.2024', () => {
     assert.ok(summary.net > 812 && summary.net < 818, 'net=' + summary.net);
 });
 
+test('тестовый KML направлений: 10 полигонов с id', () => {
+    const text = fs.readFileSync(path.join(ROOT, 'kml/PermanentObjects/Directions_test.kml'), 'utf8');
+    const directions = StatsEngine.parseKmlPolygons(text);
+    assert.equal(directions.length, 10);
+    assert.equal(directions[0].id, 'sumy');
+    assert.equal(directions[0].name, 'Сумская область');
+    assert.ok(directions.every(direction => direction.polygon.length >= 5));
+});
+
+test('направления: сумма направлений + unassigned = итог', () => {
+    const snapshots = [
+        StatsEngine.snapshotInfo('Control_26_09_02.kml'),
+        StatsEngine.snapshotInfo('Control_26_10_04.kml')
+    ];
+    const prev = [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]];
+    const curr = [[5, 0], [15, 0], [15, 10], [5, 10], [5, 0]];
+    const east = {
+        id: 'east',
+        name: 'Восток',
+        polygon: [[10, 0], [20, 0], [20, 10], [10, 10], [10, 0]]
+    };
+    const result = StatsEngine.buildStats(snapshots, {
+        'Control_26_09_02.kml': prev,
+        'Control_26_10_04.kml': curr
+    }, clip, {
+        thresholdKm2: 0.5,
+        includePartial: false,
+        directions: [east]
+    });
+    assert.equal(result.directions.length, 1);
+    assert.equal(result.directions[0].name, 'Восток');
+    assert.ok(result.directions[0].fullTotals.gain > 6000, 'gain=' + result.directions[0].fullTotals.gain);
+    assert.equal(result.directions[0].fullTotals.loss, 0);
+    assert.ok(result.unassigned.fullTotals.loss > 6000, 'loss=' + result.unassigned.fullTotals.loss);
+    const assignedGain = result.directions.reduce((sum, direction) => sum + direction.fullTotals.gain, 0);
+    const assignedLoss = result.directions.reduce((sum, direction) => sum + direction.fullTotals.loss, 0);
+    assert.ok(Math.abs(assignedGain + result.unassigned.fullTotals.gain - result.fullTotals.gain) < 0.02,
+        'gain invariant');
+    assert.ok(Math.abs(assignedLoss + result.unassigned.fullTotals.loss - result.fullTotals.loss) < 0.02,
+        'loss invariant');
+});
+
 console.log('\nВсе проверки пройдены.');
