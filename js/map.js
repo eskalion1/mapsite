@@ -687,3 +687,135 @@ vectorLinesPane.style.zIndex = 420;
 vectorControlPane.style.pointerEvents = 'none';
 vectorPolyPane.style.pointerEvents = 'none';
 vectorLinesPane.style.pointerEvents = 'none';
+
+// Границы направлений по ссылке со страницы статистики (?directions=1).
+// Полигоны подписаны названием направления и статистикой за текущий период.
+if (new URLSearchParams(window.location.search).has('directions') && typeof omnivore !== 'undefined') {
+    const directionNumber = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
+    const directionLabelMinZoom = 8;
+
+    function directionSigned(value) {
+        const number = Number(value) || 0;
+        if (number > 0) return '+' + directionNumber.format(number);
+        if (number < 0) return '−' + directionNumber.format(Math.abs(number));
+        return directionNumber.format(0);
+    }
+
+    function directionValue(value) {
+        return directionNumber.format(Number(value) || 0);
+    }
+
+    function directionEscape(value) {
+        return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    const directionHint = L.control({ position: 'bottomleft' });
+    directionHint.onAdd = function () {
+        const div = L.DomUtil.create('div', 'direction-hint');
+        div.textContent = 'Статистика направлений: приблизьте карту';
+        return div;
+    };
+    directionHint.addTo(map);
+
+    const directionsLayer = omnivore.kml('kml/PermanentObjects/Directions.kml');
+    let directionsStats = null;
+    let directionsReady = false;
+
+    function updateDirectionLabelVisibility() {
+        const show = map.getZoom() >= directionLabelMinZoom;
+        directionsLayer.eachLayer(function (layer) {
+            const tooltip = layer.getTooltip && layer.getTooltip();
+            if (!tooltip) return;
+            const element = tooltip.getElement && tooltip.getElement();
+            if (element) element.style.display = show ? '' : 'none';
+        });
+        const hint = document.querySelector('.direction-hint');
+        if (hint) hint.style.display = show ? 'none' : '';
+    }
+
+    const decorateDirections = function () {
+        const periods = directionsStats && Array.isArray(directionsStats.periods)
+            ? directionsStats.periods
+            : [];
+        const period = periods.length ? periods[periods.length - 1] : null;
+        const statsDirections = directionsStats && Array.isArray(directionsStats.directions)
+            ? directionsStats.directions
+            : [];
+        const currentByName = {};
+        if (period && Array.isArray(period.directions)) {
+            period.directions.forEach(function (direction) {
+                currentByName[direction.name] = direction;
+            });
+        }
+        if (period) {
+            const hint = document.querySelector('.direction-hint');
+            if (hint) hint.textContent = 'Статистика направлений за ' + period.label + ': приблизьте карту';
+        }
+
+        let index = 0;
+        directionsLayer.eachLayer(function (layer) {
+            if (typeof layer.setStyle === 'function') {
+                layer.setStyle({
+                    color: '#1f5f9f',
+                    weight: 2,
+                    opacity: 0.95,
+                    dashArray: '6 4',
+                    fillColor: '#1f5f9f',
+                    fillOpacity: 0.03
+                });
+            }
+
+            const properties = layer.feature && layer.feature.properties ? layer.feature.properties : {};
+            const fallback = statsDirections[index];
+            const name = properties.name || (fallback && fallback.name) || 'Направление';
+            const current = currentByName[name] || null;
+            let html = '<div class="direction-label-inner"><b>' + directionEscape(name) + '</b>';
+            if (current && period) {
+                html += '<span class="direction-label-period">' + directionEscape(period.label) + '</span>'
+                    + '<span class="direction-label-row">+' + directionValue(current.gain)
+                    + ' / −' + directionValue(current.loss) + '</span>'
+                    + '<span class="direction-label-net">' + directionSigned(current.net) + ' км²</span>';
+            }
+            html += '</div>';
+
+            if (typeof layer.unbindTooltip === 'function') layer.unbindTooltip();
+            if (typeof layer.bindTooltip === 'function') {
+                layer.bindTooltip(html, {
+                    permanent: true,
+                    direction: 'center',
+                    className: 'direction-label',
+                    opacity: 0.96
+                });
+            }
+            index += 1;
+        });
+        updateDirectionLabelVisibility();
+    };
+
+    directionsLayer.on('ready', function () {
+        directionsReady = true;
+        this.addTo(map);
+        decorateDirections();
+        map.on('zoomend', updateDirectionLabelVisibility);
+        if (typeof urlCoords === 'undefined' || !urlCoords) {
+            const bounds = this.getBounds && this.getBounds();
+            if (bounds && bounds.isValid()) map.fitBounds(bounds, { padding: [20, 20] });
+        }
+    });
+
+    fetch('stats/stats.json?ts=' + Date.now(), { cache: 'no-store' })
+        .then(function (response) { return response.ok ? response.json() : null; })
+        .then(function (data) {
+            directionsStats = data;
+            if (directionsReady) decorateDirections();
+        })
+        .catch(function (error) {
+            console.warn('Не удалось загрузить статистику для подписей направлений:', error);
+            if (directionsReady) decorateDirections();
+        });
+}
