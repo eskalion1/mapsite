@@ -99,6 +99,7 @@
             var body = match[1];
             var nameMatch = body.match(/<name[^>]*>([\s\S]*?)<\/name>/i);
             var idMatch = body.match(/<Data\s+name=["']id["'][^>]*>\s*<value>([\s\S]*?)<\/value>/i);
+            var groupMatch = body.match(/<Data\s+name=["']group["'][^>]*>\s*<value>([\s\S]*?)<\/value>/i);
             var coords = body.match(/<coordinates>([\s\S]*?)<\/coordinates>/i);
             if (!coords) continue;
             var ring = parseCoordinateText(coords[1]);
@@ -106,7 +107,13 @@
             var name = decodeXml(nameMatch ? nameMatch[1] : '');
             var id = decodeXml(idMatch ? idMatch[1] : '');
             if (!id) id = 'direction-' + index;
-            result.push({ id: id, name: name || ('Направление ' + index), polygon: ring });
+            var group = decodeXml(groupMatch ? groupMatch[1] : '');
+            result.push({
+                id: id,
+                name: name || ('Направление ' + index),
+                group: group || null,
+                polygon: ring
+            });
         }
         return result;
     }

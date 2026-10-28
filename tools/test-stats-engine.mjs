@@ -103,6 +103,7 @@ test('KML направлений: 10 полигонов с id', () => {
     assert.equal(directions.length, 10);
     assert.equal(directions[0].id, 'sumy');
     assert.equal(directions[0].name, 'Сумская область');
+    assert.equal(directions[0].group, 'Север');
     assert.ok(directions.every(direction => direction.polygon.length >= 5));
 });
 
@@ -116,6 +117,7 @@ test('направления: сумма направлений + unassigned = �
     const east = {
         id: 'east',
         name: 'Восток',
+        group: 'Тест',
         polygon: [[10, 0], [20, 0], [20, 10], [10, 10], [10, 0]]
     };
     const result = StatsEngine.buildStats(snapshots, {
@@ -128,6 +130,7 @@ test('направления: сумма направлений + unassigned = �
     });
     assert.equal(result.directions.length, 1);
     assert.equal(result.directions[0].name, 'Восток');
+    assert.equal(result.directions[0].group, 'Тест');
     assert.ok(result.directions[0].fullTotals.gain > 6000, 'gain=' + result.directions[0].fullTotals.gain);
     assert.equal(result.directions[0].fullTotals.loss, 0);
     assert.ok(result.unassigned.fullTotals.loss > 6000, 'loss=' + result.unassigned.fullTotals.loss);

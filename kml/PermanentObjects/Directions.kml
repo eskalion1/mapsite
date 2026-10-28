@@ -17,7 +17,7 @@
 <name>Сумская область</name>
 <styleUrl>#dir1</styleUrl>
 <description>id: sumy</description>
-<ExtendedData><Data name="id"><value>sumy</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>sumy</value></Data><Data name="group"><value>Север</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 32.94260,51.08969,0 33.06932,51.06920,0 33.08508,51.03747,0 33.04033,50.99219,0 33.11791,51.00671,0 33.13700,50.96149,0
 33.20031,50.96162,0 33.21093,50.90144,0 33.17034,50.88802,0 33.18517,50.84869,0 33.15633,50.79226,0 33.24024,50.73235,0
@@ -51,7 +51,7 @@
 <name>Харьковская область</name>
 <styleUrl>#dir2</styleUrl>
 <description>id: kharkiv</description>
-<ExtendedData><Data name="id"><value>kharkiv</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>kharkiv</value></Data><Data name="group"><value>Север</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 34.85631,49.98702,0 34.85947,49.94963,0 34.96147,49.88897,0 35.21937,49.82965,0 35.20540,49.75648,0 35.25936,49.73343,0
 35.24366,49.69352,0 35.43337,49.67345,0 35.48568,49.57201,0 35.40495,49.55716,0 35.48459,49.51651,0 35.48130,49.48407,0
@@ -84,7 +84,7 @@
 <name>Купянское направление</name>
 <styleUrl>#dir3</styleUrl>
 <description>id: kupyansk</description>
-<ExtendedData><Data name="id"><value>kupyansk</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>kupyansk</value></Data><Data name="group"><value>Запад</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 36.90000,49.50000,0 38.30000,49.50000,0 38.30000,50.20000,0 36.90000,50.20000,0 36.90000,49.50000,0
 </coordinates></LinearRing></outerBoundaryIs></Polygon>
@@ -93,7 +93,7 @@
 <name>Боровая</name>
 <styleUrl>#dir4</styleUrl>
 <description>id: borovaya</description>
-<ExtendedData><Data name="id"><value>borovaya</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>borovaya</value></Data><Data name="group"><value>Запад</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 36.80000,49.20000,0 38.20000,49.20000,0 38.20000,49.50000,0 36.80000,49.50000,0 36.80000,49.20000,0
 </coordinates></LinearRing></outerBoundaryIs></Polygon>
@@ -102,7 +102,7 @@
 <name>Красный Лиман</name>
 <styleUrl>#dir5</styleUrl>
 <description>id: krasny_liman</description>
-<ExtendedData><Data name="id"><value>krasny_liman</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>krasny_liman</value></Data><Data name="group"><value>Запад</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 37.30000,48.90000,0 38.70000,48.90000,0 38.70000,49.20000,0 37.30000,49.20000,0 37.30000,48.90000,0
 </coordinates></LinearRing></outerBoundaryIs></Polygon>
@@ -111,7 +111,7 @@
 <name>Славянское (Северск - Славянск - Краматорск)</name>
 <styleUrl>#dir6</styleUrl>
 <description>id: slavyansk</description>
-<ExtendedData><Data name="id"><value>slavyansk</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>slavyansk</value></Data><Data name="group"><value>Запад</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 36.60000,48.40000,0 38.40000,48.40000,0 38.40000,48.90000,0 36.60000,48.90000,0 36.60000,48.40000,0
 </coordinates></LinearRing></outerBoundaryIs></Polygon>
@@ -120,7 +120,7 @@
 <name>Красноармейское (Авдеевка - Красноармейск)</name>
 <styleUrl>#dir7</styleUrl>
 <description>id: krasnoarmeysk</description>
-<ExtendedData><Data name="id"><value>krasnoarmeysk</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>krasnoarmeysk</value></Data><Data name="group"><value>Центр</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 36.10000,47.80000,0 38.00000,47.80000,0 38.00000,48.40000,0 36.10000,48.40000,0 36.10000,47.80000,0
 </coordinates></LinearRing></outerBoundaryIs></Polygon>
@@ -129,7 +129,7 @@
 <name>Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)</name>
 <styleUrl>#dir8</styleUrl>
 <description>id: donetsk_zaporizhzhia</description>
-<ExtendedData><Data name="id"><value>donetsk_zaporizhzhia</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>donetsk_zaporizhzhia</value></Data><Data name="group"><value>Восток</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 36.00000,47.00000,0 37.40000,47.00000,0 37.40000,47.80000,0 36.00000,47.80000,0 36.00000,47.00000,0
 </coordinates></LinearRing></outerBoundaryIs></Polygon>
@@ -138,7 +138,7 @@
 <name>Днепропетровское (Днепропетровская область)</name>
 <styleUrl>#dir9</styleUrl>
 <description>id: dnipropetrovsk</description>
-<ExtendedData><Data name="id"><value>dnipropetrovsk</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>dnipropetrovsk</value></Data><Data name="group"><value>Восток</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 33.14569,47.57139,0 33.23342,47.57737,0 33.21551,47.53311,0 33.28720,47.54330,0 33.31425,47.48254,0 33.34882,47.49367,0
 33.32269,47.52356,0 33.48610,47.54393,0 33.47372,47.58733,0 33.58032,47.60019,0 33.60906,47.56187,0 33.57592,47.52867,0
@@ -178,7 +178,7 @@
 <name>Днепровско-Запорожское (Орехов - Степногорск)</name>
 <styleUrl>#dir10</styleUrl>
 <description>id: orekhiv</description>
-<ExtendedData><Data name="id"><value>orekhiv</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>orekhiv</value></Data><Data name="group"><value>Восток</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 34.80000,46.70000,0 36.00000,46.70000,0 36.00000,47.80000,0 34.80000,47.80000,0 34.80000,46.70000,0
 </coordinates></LinearRing></outerBoundaryIs></Polygon>

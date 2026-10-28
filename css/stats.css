@@ -358,6 +358,11 @@ code {
     min-width: 250px;
 }
 
+.stats-table tbody tr.is-total td {
+    font-weight: 700;
+    background: var(--gray-50);
+}
+
 .stats-table tbody tr.is-unassigned {
     background: var(--gray-50);
 }
@@ -370,6 +375,142 @@ code {
     margin: 12px 0 0;
     font-size: var(--font-size-xs);
     color: var(--text-muted);
+}
+
+/* ---------- Фильтр периода и навигация ---------- */
+
+.stats-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.stats-range,
+.stats-inline-select {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.stats-range select,
+.stats-inline-select select {
+    height: 34px;
+    padding: 0 28px 0 10px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--text-main);
+    font: inherit;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+}
+
+.stats-range-label {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+}
+
+.stats-jump {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+.stats-jump a {
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    text-decoration: none;
+}
+
+.stats-jump a:hover {
+    color: var(--stats-gain);
+}
+
+.stats-panel-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.stats-map-link {
+    color: var(--stats-gain);
+    font-size: var(--font-size-xs);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.stats-map-link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Направления и группировки ---------- */
+
+.stats-table tbody tr.is-clickable {
+    cursor: pointer;
+}
+
+.stats-table tbody tr.is-selected {
+    background: #fff8e1;
+    box-shadow: inset 3px 0 0 var(--stats-gain);
+}
+
+.stats-table tbody tr.is-selected:hover {
+    background: #fff3cc;
+}
+
+.stats-table--compact {
+    min-width: 620px;
+}
+
+.stats-direction-detail {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.stats-direction-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.stats-direction-head h3 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+}
+
+.stats-direction-totals {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: var(--font-size-sm);
+    font-variant-numeric: tabular-nums;
+}
+
+.stats-direction-totals .gain { color: var(--stats-gain); }
+.stats-direction-totals .loss { color: var(--stats-loss); }
+.stats-direction-totals .net { font-weight: 700; }
+
+.stats-chart-wrap--small {
+    height: 300px;
+    margin-top: 8px;
 }
 
 /* ---------- Методика ---------- */
@@ -481,6 +622,30 @@ code {
     .stats-table th,
     .stats-table td {
         padding: 8px 9px;
+    }
+
+    .stats-toolbar {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .stats-jump {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .stats-panel-actions {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .stats-direction-head {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .stats-chart-wrap--small {
+        height: 260px;
     }
 
     .stats-legend {

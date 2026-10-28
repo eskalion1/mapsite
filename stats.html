@@ -35,9 +35,23 @@
                 <div id="stats-updated" class="stats-updated" aria-live="polite"></div>
             </div>
 
+            <div class="stats-toolbar">
+                <label class="stats-range">
+                    <span>Период</span>
+                    <select id="stats-range-select" aria-label="Период статистики"></select>
+                </label>
+                <span id="stats-range-label" class="stats-range-label"></span>
+                <nav class="stats-jump" aria-label="Разделы статистики">
+                    <a href="#months">Месяцы</a>
+                    <a href="#stats-current">Текущий</a>
+                    <a href="#directions">Направления</a>
+                    <a href="#groups">Группировки</a>
+                </nav>
+            </div>
+
             <section id="stats-cards" class="stats-cards" aria-label="Сводка"></section>
 
-            <section class="stats-panel">
+            <section id="months" class="stats-panel">
                 <div class="stats-panel-head">
                     <div>
                         <h2>Динамика по месяцам</h2>
@@ -59,7 +73,7 @@
                 <div class="stats-panel-head">
                     <div>
                         <h2>Таблица по месяцам</h2>
-                        <p class="stats-panel-sub">Фактические даты срезов, между которыми посчитана дельта.</p>
+                        <p id="stats-table-sub" class="stats-panel-sub">Фактические даты срезов, между которыми посчитана дельта.</p>
                     </div>
                 </div>
                 <div class="stats-table-wrap">
@@ -81,11 +95,42 @@
                 <p id="stats-table-note" class="stats-note"></p>
             </section>
 
-            <section id="stats-directions" class="stats-panel hidden">
+            <section id="stats-current" class="stats-panel hidden">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2>Текущий период по направлениям</h2>
+                        <p id="stats-current-sub" class="stats-panel-sub"></p>
+                    </div>
+                </div>
+                <div class="stats-table-wrap">
+                    <table class="stats-table stats-table--compact">
+                        <thead>
+                            <tr>
+                                <th>Направление</th>
+                                <th class="num">Прирост, км²</th>
+                                <th class="num">Уменьшение, км²</th>
+                                <th class="num">Нетто, км²</th>
+                                <th class="num">Темп, км²/день</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-current-body"></tbody>
+                    </table>
+                </div>
+                <p id="stats-current-note" class="stats-note"></p>
+            </section>
+
+            <section id="directions" class="stats-panel hidden">
                 <div class="stats-panel-head">
                     <div>
                         <h2>По направлениям</h2>
-                        <p class="stats-panel-sub">Полные месяцы; текущий неполный — в общей таблице.</p>
+                        <p id="stats-directions-sub" class="stats-panel-sub">Полные месяцы за выбранный период.</p>
+                    </div>
+                    <div class="stats-panel-actions">
+                        <label class="stats-inline-select">
+                            <span>Направление</span>
+                            <select id="stats-direction-select" aria-label="Выбрать направление"></select>
+                        </label>
+                        <a class="stats-map-link" href="index.html?directions=1" target="_blank" rel="noopener">Границы на карте</a>
                     </div>
                 </div>
                 <div class="stats-table-wrap">
@@ -102,6 +147,47 @@
                     </table>
                 </div>
                 <p id="stats-directions-note" class="stats-note"></p>
+
+                <div id="stats-direction-detail" class="stats-direction-detail">
+                    <div class="stats-direction-head">
+                        <div>
+                            <h3 id="stats-direction-title"></h3>
+                            <p id="stats-direction-sub" class="stats-panel-sub"></p>
+                        </div>
+                        <div id="stats-direction-totals" class="stats-direction-totals"></div>
+                    </div>
+                    <div class="stats-chart-wrap stats-chart-wrap--small">
+                        <canvas id="direction-chart" aria-label="График выбранного направления" role="img"></canvas>
+                    </div>
+                    <p id="direction-chart-fallback" class="stats-note hidden">График недоступен: не загрузилась библиотека Chart.js.</p>
+                </div>
+            </section>
+
+            <section id="groups" class="stats-panel hidden">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2>По группировкам</h2>
+                        <p id="stats-groups-sub" class="stats-panel-sub">Нетто по группам направлений за выбранный период.</p>
+                    </div>
+                </div>
+                <div class="stats-chart-wrap">
+                    <canvas id="groups-chart" aria-label="График нетто по группировкам" role="img"></canvas>
+                </div>
+                <p id="groups-chart-fallback" class="stats-note hidden">График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает.</p>
+                <div class="stats-table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Группировка</th>
+                                <th class="num">Прирост, км²</th>
+                                <th class="num">Уменьшение, км²</th>
+                                <th class="num">Нетто, км²</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-groups-body"></tbody>
+                    </table>
+                </div>
+                <p id="stats-groups-note" class="stats-note"></p>
             </section>
 
             <section class="stats-panel stats-method">
@@ -112,7 +198,8 @@
                     <li>Площадь считается по сфере, в квадратных километрах. Микрополигоны меньше <span id="stats-threshold">0,5</span> км² не учитываются.</li>
                     <li>Текущий месяц неполный: он считается от последнего месячного среза до последнего доступного обновления.</li>
                     <li>Исключаемые участки (например, дно Каховского водохранилища) пока не применяются.</li>
-                    <li>Каждый компонент относится к одному направлению по центроиду; если центроид вне всех секторов — в «вне направлений». Сумма прироста и уменьшения по строкам сходится с общим итогом полных месяцев.</li>
+                    <li>Каждый компонент относится к одному направлению по центроиду; если центроид вне всех секторов — в «вне направлений».</li>
+                    <li>Группировки — суммы направлений по полю <code>group</code> из KML границ. Период в шапке фильтрует графики и таблицы ниже; карточки текущего и последнего полного месяца всегда показывают актуальные данные.</li>
                 </ul>
                 <p id="stats-source-note" class="stats-note"></p>
             </section>

@@ -1,6 +1,6 @@
 /*
  * Публичная страница статистики.
- * Только читает stats/stats.json и рисует сводку, график и таблицу.
+ * Только читает stats/stats.json и рисует сводку, графики и таблицы.
  * Никакой геометрии здесь нет — она считается отдельно.
  */
 (function () {
@@ -8,7 +8,10 @@
 
     var MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
     var numberFormat = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
-    var chart = null;
+    var charts = { main: null, direction: null, groups: null };
+    var state = { data: null, range: 'all', direction: null };
+    var GROUP_FALLBACK = 'Без группы';
+    var GROUP_COLORS = ['#c81e0f', '#2f63b8', '#1f8a4c', '#b8860b', '#7a4fb3', '#6c757d'];
 
     function escapeHtml(value) {
         return String(value == null ? '' : value)
@@ -81,19 +84,132 @@
             + '</article>';
     }
 
-    function renderCards(data) {
-        var periods = data.periods || [];
-        if (!periods.length) return;
-        var latest = periods[periods.length - 1];
-        var fullPeriods = periods.filter(function (period) { return !period.partial; });
-        var lastFull = fullPeriods.length ? fullPeriods[fullPeriods.length - 1] : latest;
-        var fullDays = fullPeriods.reduce(function (sum, period) { return sum + (Number(period.days) || 0); }, 0);
-        var fullNet = fullPeriods.reduce(function (sum, period) { return sum + (Number(period.net) || 0); }, 0);
-        var fullTotals = data.fullTotals || data.totals || { gain: 0, loss: 0, net: fullNet };
-        var averageRate = fullDays > 0 ? fullNet / fullDays : 0;
+    function findDirection(data, id) {
+        var directions = data && data.directions ? data.directions : [];
+        for (var i = 0; i < directions.length; i++) {
+            if (directions[i].id === id) return directions[i];
+        }
+        return null;
+    }
+
+    function directionGroup(direction) {
+        return direction && direction.group ? direction.group : GROUP_FALLBACK;
+    }
+
+    function isYearRange(range) {
+        return /^\d{4}$/.test(String(range || ''));
+    }
+
+    function isQuarterRange(range) {
+        return /^\d{4}-Q[1-4]$/.test(String(range || ''));
+    }
+
+    function filterPeriods(periods, range) {
+        var list = Array.isArray(periods) ? periods : [];
+        if (!range || range === 'all') return list.slice();
+        if (isYearRange(range)) {
+            return list.filter(function (period) {
+                return String(period.month || '').slice(0, 4) === String(range);
+            });
+        }
+        if (isQuarterRange(range)) {
+            var year = String(range).slice(0, 4);
+            var quarter = Number(String(range).slice(6));
+            return list.filter(function (period) {
+                var month = String(period.month || '');
+                if (month.slice(0, 4) !== year) return false;
+                var number = Number(month.slice(5, 7));
+                return Math.floor((number - 1) / 3) + 1 === quarter;
+            });
+        }
+        var count = Number(range);
+        if (!Number.isFinite(count) || count <= 0 || count >= list.length) return list.slice();
+        return list.slice(-count);
+    }
+
+    function rangeLabel(range) {
+        if (!range || range === 'all') return 'всё время';
+        if (isYearRange(range)) return range + ' год';
+        if (isQuarterRange(range)) return String(range).slice(0, 4) + ', ' + String(range).slice(6) + ' кв.';
+        return 'последние ' + range + ' мес.';
+    }
+
+    function fullPeriods(periods) {
+        return (Array.isArray(periods) ? periods : []).filter(function (period) {
+            return !period.partial;
+        });
+    }
+
+    function emptyTotals() {
+        return { gain: 0, loss: 0, net: 0, days: 0, count: 0 };
+    }
+
+    function summarize(periods) {
+        var totals = emptyTotals();
+        for (var i = 0; i < periods.length; i++) {
+            var period = periods[i];
+            totals.gain += Number(period.gain) || 0;
+            totals.loss += Number(period.loss) || 0;
+            totals.net += Number(period.net) || 0;
+            totals.days += Number(period.days) || 0;
+            totals.count += 1;
+        }
+        return totals;
+    }
+
+    function latestPeriod(data) {
+        var periods = data && data.periods ? data.periods : [];
+        return periods.length ? periods[periods.length - 1] : null;
+    }
+
+    function latestFullPeriod(data) {
+        var full = fullPeriods(data && data.periods ? data.periods : []);
+        return full.length ? full[full.length - 1] : null;
+    }
+
+    function directionTotals(direction, range) {
+        var periods = fullPeriods(filterPeriods(direction && direction.periods ? direction.periods : [], range));
+        return summarize(periods);
+    }
+
+    function unassignedTotals(data, range) {
+        var periods = fullPeriods(filterPeriods(data && data.periods ? data.periods : [], range));
+        var totals = emptyTotals();
+        for (var i = 0; i < periods.length; i++) {
+            var item = periods[i].unassigned;
+            if (!item) continue;
+            totals.gain += Number(item.gain) || 0;
+            totals.loss += Number(item.loss) || 0;
+            totals.net += Number(item.net) || 0;
+            totals.count += 1;
+        }
+        return totals;
+    }
+
+    function currentDirectionValue(period, id) {
+        var list = period && period.directions ? period.directions : [];
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].id === id) return list[i];
+        }
+        return null;
+    }
+
+    function renderCards(data, periods) {
+        var latest = latestPeriod(data);
+        var lastFull = latestFullPeriod(data);
+        if (!latest) return;
+        var full = fullPeriods(periods);
+        var totals = summarize(full);
+        var averageRate = totals.days > 0 ? totals.net / totals.days : 0;
+        var totalLabel = state.range === 'all'
+            ? 'Суммарно за всё время'
+            : isYearRange(state.range)
+                ? 'Суммарно за ' + state.range
+                : isQuarterRange(state.range)
+                    ? 'Суммарно за ' + String(state.range).slice(6) + ' кв. ' + String(state.range).slice(0, 4)
+                    : 'Суммарно за период';
 
         var cards = [];
-
         if (latest.partial) {
             cards.push(card(
                 'Текущий период',
@@ -109,43 +225,35 @@
             ));
         }
 
-        if (latest.partial && lastFull) {
+        if (lastFull) {
             cards.push(card(
                 'Последний полный месяц',
                 lastFull.net,
                 lastFull.label + ' · прирост +' + formatNumber(lastFull.gain)
                     + ' / уменьшение −' + formatNumber(lastFull.loss)
             ));
-        } else {
-            cards.push(card(
-                'Средний темп',
-                averageRate,
-                'км²/день за ' + fullPeriods.length + ' полн. мес.'
-            ));
         }
 
         cards.push(card(
-            'Суммарно за всё время',
-            fullTotals.net,
-            fullPeriods.length + ' полн. мес. · прирост +' + formatNumber(fullTotals.gain)
-                + ' / уменьшение −' + formatNumber(fullTotals.loss)
+            totalLabel,
+            totals.net,
+            full.length + ' полн. мес. · прирост +' + formatNumber(totals.gain)
+                + ' / уменьшение −' + formatNumber(totals.loss)
         ));
 
-        if (latest.partial) {
-            cards.push(card(
-                'Средний темп',
-                averageRate,
-                'км²/день за ' + fullPeriods.length + ' полн. мес.'
-            ));
-        }
+        cards.push(card(
+            'Средний темп',
+            averageRate,
+            'км²/день за ' + full.length + ' полн. мес.'
+        ));
 
         document.getElementById('stats-cards').innerHTML = cards.join('');
     }
 
-    function renderTable(data) {
-        var periods = (data.periods || []).slice().reverse();
+    function renderTable(periods) {
+        var reversed = periods.slice().reverse();
         var body = document.getElementById('stats-table-body');
-        var rows = periods.map(function (period) {
+        var rows = reversed.map(function (period) {
             var gain = Number(period.gain) || 0;
             var loss = Number(period.loss) || 0;
             var net = Number(period.net) || 0;
@@ -172,81 +280,107 @@
         }
         var note = document.getElementById('stats-table-note');
         if (note) {
-            note.textContent = 'Не вошли в таблицу микрополигоны меньше '
-                + formatNumber(data.source ? data.source.thresholdKm2 : 0.5)
-                + ' км²: прирост +' + formatNumber(microGain)
-                + ', уменьшение −' + formatNumber(microLoss) + ' км².';
+            note.textContent = periods.length
+                ? 'Показано ' + periods.length + ' периодов. Не вошли микрополигоны меньше '
+                    + formatNumber(state.data && state.data.source ? state.data.source.thresholdKm2 : 0.5)
+                    + ' км²: прирост +' + formatNumber(microGain)
+                    + ', уменьшение −' + formatNumber(microLoss) + ' км².'
+                : 'За выбранный период данных нет.';
+        }
+        var sub = document.getElementById('stats-table-sub');
+        if (sub) {
+            sub.textContent = 'Фактические даты срезов, между которыми посчитана дельта. Показано '
+                + periods.length + ' периодов.';
         }
     }
 
-    function renderDirections(data) {
-        var section = document.getElementById('stats-directions');
-        var body = document.getElementById('stats-directions-body');
-        var note = document.getElementById('stats-directions-note');
-        var directions = data.directions || [];
-        if (!section || !body) return;
-        if (!directions.length) {
-            section.classList.add('hidden');
+    function renderCurrentDirections(data) {
+        var section = document.getElementById('stats-current');
+        var body = document.getElementById('stats-current-body');
+        var latest = latestPeriod(data);
+        if (!section || !body || !latest || !latest.partial || !latest.directions || !latest.directions.length) {
+            if (section) section.classList.add('hidden');
             return;
         }
 
-        function money(value, sign) {
-            var number = Number(value) || 0;
-            if (number <= 0) return '0';
-            return (sign === 'loss' ? '−' : '+') + formatNumber(number);
-        }
-
-        var rows = directions.map(function (direction) {
-            var totals = direction.fullTotals || direction.totals || {};
-            var net = Number(totals.net) || 0;
-            var netClass = net > 0 ? 'net-pos' : net < 0 ? 'net-neg' : 'muted';
+        var rows = latest.directions.map(function (direction) {
+            var net = Number(direction.net) || 0;
+            var rate = latest.days > 0 ? net / latest.days : 0;
             return '<tr>'
                 + '<td>' + escapeHtml(direction.name) + '</td>'
-                + '<td class="num gain">' + money(totals.gain, 'gain') + '</td>'
-                + '<td class="num loss">' + money(totals.loss, 'loss') + '</td>'
-                + '<td class="num ' + netClass + '">' + escapeHtml(signed(net)) + '</td>'
+                + '<td class="num gain">' + ((Number(direction.gain) || 0) > 0 ? '+' + formatNumber(direction.gain) : '0') + '</td>'
+                + '<td class="num loss">' + ((Number(direction.loss) || 0) > 0 ? '−' + formatNumber(direction.loss) : '0') + '</td>'
+                + '<td class="num ' + (net > 0 ? 'net-pos' : net < 0 ? 'net-neg' : 'muted') + '">' + signed(net) + '</td>'
+                + '<td class="num">' + signed(rate) + '</td>'
                 + '</tr>';
         });
 
-        var unassigned = data.unassigned && (data.unassigned.fullTotals || data.unassigned.totals);
-        if (unassigned) {
-            var unassignedNet = Number(unassigned.net) || 0;
+        if (latest.unassigned) {
             rows.push('<tr class="is-unassigned">'
                 + '<td>Вне направлений</td>'
-                + '<td class="num gain">' + money(unassigned.gain, 'gain') + '</td>'
-                + '<td class="num loss">' + money(unassigned.loss, 'loss') + '</td>'
-                + '<td class="num ' + (unassignedNet > 0 ? 'net-pos' : unassignedNet < 0 ? 'net-neg' : 'muted') + '">'
-                + escapeHtml(signed(unassignedNet)) + '</td>'
+                + '<td class="num gain">' + (latest.unassigned.gain > 0 ? '+' + formatNumber(latest.unassigned.gain) : '0') + '</td>'
+                + '<td class="num loss">' + (latest.unassigned.loss > 0 ? '−' + formatNumber(latest.unassigned.loss) : '0') + '</td>'
+                + '<td class="num">' + signed(latest.unassigned.net) + '</td>'
+                + '<td class="num">' + signed(latest.unassigned.net / Math.max(1, latest.days)) + '</td>'
                 + '</tr>');
         }
 
+        rows.push('<tr class="is-total">'
+            + '<td>Итого</td>'
+            + '<td class="num gain">+' + formatNumber(latest.gain) + '</td>'
+            + '<td class="num loss">−' + formatNumber(latest.loss) + '</td>'
+            + '<td class="num">' + signed(latest.net) + '</td>'
+            + '<td class="num">' + signed(latest.rate) + '</td>'
+            + '</tr>');
+
         body.innerHTML = rows.join('');
+        var sub = document.getElementById('stats-current-sub');
+        if (sub) {
+            sub.textContent = formatDate(latest.from) + ' — ' + formatDate(latest.to)
+                + ' · ' + latest.days + ' дн. · темп ' + signed(latest.rate) + ' км²/день.';
+        }
+        var note = document.getElementById('stats-current-note');
         if (note) {
-            note.innerHTML = 'Границы направлений: области и секторы вокруг опорных пунктов.'
-                + ' Файл: <a href="kml/PermanentObjects/Directions.kml">Directions.kml</a>.'
-                + ' Сумма прироста и уменьшения по строкам сходится с общим итогом полных месяцев.';
+            note.textContent = 'Текущий неполный период показан независимо от фильтра. '
+                + 'Значения по направлениям и «вне направлений» в сумме дают итог периода.';
         }
         section.classList.remove('hidden');
     }
 
-    function renderChart(data) {
+    function destroyChart(key) {
+        if (charts[key]) {
+            charts[key].destroy();
+            charts[key] = null;
+        }
+    }
+
+    function chartUnavailable(wrap, fallback) {
+        if (wrap) wrap.classList.add('hidden');
+        if (fallback) fallback.classList.remove('hidden');
+    }
+
+    function chartAvailable(wrap, fallback) {
+        if (wrap) wrap.classList.remove('hidden');
+        if (fallback) fallback.classList.add('hidden');
+    }
+
+    function renderMainChart(periods) {
         var canvas = document.getElementById('monthly-chart');
-        var wrap = canvas ? canvas.closest('.stats-chart-wrap') : null;
+        if (!canvas) return;
+        var wrap = canvas.closest('.stats-chart-wrap');
         var fallback = document.getElementById('stats-chart-fallback');
         if (typeof Chart === 'undefined') {
-            if (wrap) wrap.classList.add('hidden');
-            if (fallback) fallback.classList.remove('hidden');
+            chartUnavailable(wrap, fallback);
             return;
         }
+        chartAvailable(wrap, fallback);
 
-        var periods = data.periods || [];
         var labels = periods.map(function (period) {
             return shortMonth(period.month) + (period.partial ? '*' : '');
         });
         var gains = periods.map(function (period) { return Number(period.gain) || 0; });
         var losses = periods.map(function (period) { return -(Number(period.loss) || 0); });
         var nets = periods.map(function (period) { return Number(period.net) || 0; });
-
         var gainColors = periods.map(function (period) {
             return period.partial ? 'rgba(224, 27, 11, 0.35)' : 'rgba(224, 27, 11, 0.82)';
         });
@@ -255,14 +389,10 @@
         });
 
         var sub = document.getElementById('stats-chart-sub');
-        if (sub) sub.textContent = 'Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто. * — неполный месяц.';
+        if (sub) sub.textContent = 'Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто. * — неполный месяц. Показано ' + periods.length + ' периодов.';
 
-        if (chart) {
-            chart.destroy();
-            chart = null;
-        }
-
-        chart = new Chart(canvas.getContext('2d'), {
+        destroyChart('main');
+        charts.main = new Chart(canvas.getContext('2d'), {
             type: 'bar',
             data: {
                 labels: labels,
@@ -305,9 +435,7 @@
                 interaction: { mode: 'index', intersect: false },
                 animation: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
                         backgroundColor: 'rgba(31, 35, 40, 0.94)',
                         titleFont: { family: 'Roboto, Arial, sans-serif', size: 13 },
@@ -363,9 +491,580 @@
         });
     }
 
+    function renderDirectionChart(direction, periods) {
+        var canvas = document.getElementById('direction-chart');
+        if (!canvas) return;
+        var wrap = canvas.closest('.stats-chart-wrap');
+        var fallback = document.getElementById('direction-chart-fallback');
+        if (typeof Chart === 'undefined') {
+            chartUnavailable(wrap, fallback);
+            return;
+        }
+        if (!periods.length) {
+            chartUnavailable(wrap, fallback);
+            if (fallback) {
+                fallback.textContent = 'За выбранный период данных по направлению нет.';
+                fallback.classList.remove('hidden');
+            }
+            return;
+        }
+        chartAvailable(wrap, fallback);
+
+        var labels = periods.map(function (period) {
+            return shortMonth(period.month) + (period.partial ? '*' : '');
+        });
+        var net = periods.map(function (period) { return Number(period.net) || 0; });
+
+        destroyChart('direction');
+        charts.direction = new Chart(canvas.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Нетто',
+                    data: net,
+                    borderColor: '#1f2328',
+                    backgroundColor: 'rgba(31, 35, 40, 0.10)',
+                    borderWidth: 2,
+                    pointRadius: 2.5,
+                    pointHoverRadius: 4,
+                    fill: true,
+                    tension: 0.25
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                animation: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(31, 35, 40, 0.94)',
+                        titleFont: { family: 'Roboto, Arial, sans-serif', size: 13 },
+                        bodyFont: { family: 'Roboto, Arial, sans-serif', size: 12 },
+                        padding: 10,
+                        callbacks: {
+                            title: function (items) {
+                                var period = periods[items[0].dataIndex];
+                                return period ? period.label : '';
+                            },
+                            label: function (context) {
+                                return 'Нетто: ' + signed(context.parsed.y) + ' км²';
+                            },
+                            afterBody: function (items) {
+                                var period = periods[items[0].dataIndex];
+                                if (!period) return '';
+                                return [
+                                    'Прирост: +' + formatNumber(period.gain),
+                                    'Уменьшение: −' + formatNumber(period.loss),
+                                    'Дней: ' + period.days
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#6c757d',
+                            maxRotation: 0,
+                            autoSkip: true,
+                            maxTicksLimit: 12,
+                            font: { family: 'Roboto, Arial, sans-serif', size: 11 }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.07)' },
+                        ticks: {
+                            color: '#6c757d',
+                            callback: function (value) { return numberFormat.format(value); },
+                            font: { family: 'Roboto, Arial, sans-serif', size: 11 }
+                        },
+                        title: {
+                            display: true,
+                            text: 'км²',
+                            color: '#6c757d',
+                            font: { family: 'Roboto, Arial, sans-serif', size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function buildGroupModel(data, periods) {
+        var order = [];
+        var map = {};
+        var idToGroup = {};
+        var directions = data.directions || [];
+        for (var i = 0; i < directions.length; i++) {
+            var group = directionGroup(directions[i]);
+            if (!map[group]) {
+                map[group] = { name: group, directionIds: [], totals: emptyTotals() };
+                order.push(group);
+            }
+            map[group].directionIds.push(directions[i].id);
+            idToGroup[directions[i].id] = group;
+        }
+
+        for (var g = 0; g < order.length; g++) {
+            var item = map[order[g]];
+            var totals = emptyTotals();
+            for (var d = 0; d < item.directionIds.length; d++) {
+                var direction = findDirection(data, item.directionIds[d]);
+                if (!direction) continue;
+                var directionSummary = directionTotals(direction, state.range);
+                totals.gain += directionSummary.gain;
+                totals.loss += directionSummary.loss;
+                totals.net += directionSummary.net;
+                totals.days += directionSummary.days;
+                totals.count += directionSummary.count;
+            }
+            item.totals = totals;
+        }
+
+        var periodGroups = periods.map(function (period) {
+            var values = {};
+            for (var k = 0; k < order.length; k++) values[order[k]] = 0;
+            var periodDirections = period.directions || [];
+            for (var j = 0; j < periodDirections.length; j++) {
+                var name = idToGroup[periodDirections[j].id];
+                if (name && values[name] != null) values[name] += Number(periodDirections[j].net) || 0;
+            }
+            return {
+                period: period,
+                values: values,
+                unassigned: period.unassigned ? Number(period.unassigned.net) || 0 : 0
+            };
+        });
+
+        return {
+            order: order,
+            map: map,
+            periodGroups: periodGroups,
+            unassigned: unassignedTotals(data, state.range)
+        };
+    }
+
+    function renderGroupChart(data, periods, model) {
+        var canvas = document.getElementById('groups-chart');
+        if (!canvas) return;
+        var wrap = canvas.closest('.stats-chart-wrap');
+        var fallback = document.getElementById('groups-chart-fallback');
+        if (typeof Chart === 'undefined') {
+            chartUnavailable(wrap, fallback);
+            return;
+        }
+        if (!periods.length || !model.order.length) {
+            chartUnavailable(wrap, fallback);
+            return;
+        }
+        chartAvailable(wrap, fallback);
+
+        var labels = periods.map(function (period) {
+            return shortMonth(period.month) + (period.partial ? '*' : '');
+        });
+        var datasets = model.order.map(function (name, index) {
+            return {
+                label: name,
+                data: model.periodGroups.map(function (item) { return item.values[name] || 0; }),
+                backgroundColor: GROUP_COLORS[index % GROUP_COLORS.length],
+                borderRadius: 2,
+                maxBarThickness: 24,
+                stack: 'net'
+            };
+        });
+        if (data.unassigned) {
+            datasets.push({
+                label: 'Вне направлений',
+                data: model.periodGroups.map(function (item) { return item.unassigned; }),
+                backgroundColor: '#9aa0a6',
+                borderRadius: 2,
+                maxBarThickness: 24,
+                stack: 'net'
+            });
+        }
+
+        destroyChart('groups');
+        charts.groups = new Chart(canvas.getContext('2d'), {
+            type: 'bar',
+            data: { labels: labels, datasets: datasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                animation: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 9,
+                            boxHeight: 9,
+                            padding: 14,
+                            color: '#495057',
+                            font: { family: 'Roboto, Arial, sans-serif', size: 11 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(31, 35, 40, 0.94)',
+                        titleFont: { family: 'Roboto, Arial, sans-serif', size: 13 },
+                        bodyFont: { family: 'Roboto, Arial, sans-serif', size: 12 },
+                        padding: 10,
+                        callbacks: {
+                            title: function (items) {
+                                var period = periods[items[0].dataIndex];
+                                return period ? period.label : '';
+                            },
+                            label: function (context) {
+                                return context.dataset.label + ': ' + signed(context.parsed.y) + ' км²';
+                            },
+                            afterBody: function (items) {
+                                var period = periods[items[0].dataIndex];
+                                if (!period) return '';
+                                return ['Всего: ' + signed(period.net) + ' км²'];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { display: false },
+                        ticks: {
+                            color: '#6c757d',
+                            maxRotation: 0,
+                            autoSkip: true,
+                            maxTicksLimit: 14,
+                            font: { family: 'Roboto, Arial, sans-serif', size: 11 }
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.07)' },
+                        ticks: {
+                            color: '#6c757d',
+                            callback: function (value) { return numberFormat.format(value); },
+                            font: { family: 'Roboto, Arial, sans-serif', size: 11 }
+                        },
+                        title: {
+                            display: true,
+                            text: 'км²',
+                            color: '#6c757d',
+                            font: { family: 'Roboto, Arial, sans-serif', size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderGroups(data, periods) {
+        var section = document.getElementById('groups');
+        if (!section) return;
+        if (!data.directions || !data.directions.length) {
+            section.classList.add('hidden');
+            return;
+        }
+
+        var model = buildGroupModel(data, periods);
+        if (!model.order.length) {
+            section.classList.add('hidden');
+            return;
+        }
+
+        var rows = model.order.map(function (name) {
+            var totals = model.map[name].totals;
+            return '<tr>'
+                + '<td>' + escapeHtml(name) + ' <span class="muted">(' + model.map[name].directionIds.length + ')</span></td>'
+                + '<td class="num gain">' + (totals.gain > 0 ? '+' + formatNumber(totals.gain) : '0') + '</td>'
+                + '<td class="num loss">' + (totals.loss > 0 ? '−' + formatNumber(totals.loss) : '0') + '</td>'
+                + '<td class="num ' + (totals.net > 0 ? 'net-pos' : totals.net < 0 ? 'net-neg' : 'muted') + '">' + signed(totals.net) + '</td>'
+                + '</tr>';
+        });
+
+        if (data.unassigned) {
+            var unassigned = model.unassigned;
+            rows.push('<tr class="is-unassigned">'
+                + '<td>Вне направлений</td>'
+                + '<td class="num gain">' + (unassigned.gain > 0 ? '+' + formatNumber(unassigned.gain) : '0') + '</td>'
+                + '<td class="num loss">' + (unassigned.loss > 0 ? '−' + formatNumber(unassigned.loss) : '0') + '</td>'
+                + '<td class="num">' + signed(unassigned.net) + '</td>'
+                + '</tr>');
+        }
+
+        var total = summarize(fullPeriods(periods));
+        rows.push('<tr class="is-total">'
+            + '<td>Итого</td>'
+            + '<td class="num gain">+' + formatNumber(total.gain) + '</td>'
+            + '<td class="num loss">−' + formatNumber(total.loss) + '</td>'
+            + '<td class="num">' + signed(total.net) + '</td>'
+            + '</tr>');
+        document.getElementById('stats-groups-body').innerHTML = rows.join('');
+
+        var sub = document.getElementById('stats-groups-sub');
+        if (sub) {
+            sub.textContent = 'Нетто по группам; полные месяцы за выбранный период. Показано '
+                + fullPeriods(periods).length + ' полн. мес. * — неполный месяц.';
+        }
+        var note = document.getElementById('stats-groups-note');
+        if (note) {
+            note.textContent = 'Группы заданы в KML границ. В скобках — число направлений в группе. '
+                + '«Вне направлений» — компоненты, не попавшие ни в один сектор.';
+        }
+        section.classList.remove('hidden');
+        renderGroupChart(data, periods, model);
+    }
+
+    function ensureSelectedDirection(data) {
+        var directions = data && data.directions ? data.directions : [];
+        var selected = findDirection(data, state.direction);
+        if (selected) return selected;
+        var best = null;
+        for (var i = 0; i < directions.length; i++) {
+            var net = directions[i].fullTotals ? Number(directions[i].fullTotals.net) || 0 : 0;
+            if (!best || net > best.net) best = { direction: directions[i], net: net };
+        }
+        selected = best ? best.direction : (directions[0] || null);
+        state.direction = selected ? selected.id : null;
+        return selected;
+    }
+
+    function renderDirectionDetail(data, direction, periods) {
+        var title = document.getElementById('stats-direction-title');
+        var sub = document.getElementById('stats-direction-sub');
+        var totalsBox = document.getElementById('stats-direction-totals');
+        if (!direction) {
+            if (title) title.textContent = '';
+            if (sub) sub.textContent = '';
+            if (totalsBox) totalsBox.innerHTML = '';
+            return;
+        }
+        var directionPeriods = filterPeriods(direction.periods, state.range);
+        var totals = directionTotals(direction, state.range);
+        if (title) title.textContent = direction.name;
+        if (sub) {
+            sub.textContent = directionGroup(direction) + ' · ' + totals.count
+                + ' полн. мес. · ' + rangeLabel(state.range) + ' · * — неполный месяц.';
+        }
+        if (totalsBox) {
+            totalsBox.innerHTML = '<span class="gain">+' + formatNumber(totals.gain) + '</span>'
+                + '<span class="loss">−' + formatNumber(totals.loss) + '</span>'
+                + '<span class="net">' + signed(totals.net) + ' км²</span>';
+        }
+        renderDirectionChart(direction, directionPeriods);
+    }
+
+    function renderDirections(data, periods) {
+        var section = document.getElementById('directions');
+        var body = document.getElementById('stats-directions-body');
+        var select = document.getElementById('stats-direction-select');
+        if (!section || !body) return;
+        var directions = data.directions || [];
+        if (!directions.length) {
+            section.classList.add('hidden');
+            return;
+        }
+
+        var selected = ensureSelectedDirection(data);
+        var rows = directions.map(function (direction) {
+            var totals = directionTotals(direction, state.range);
+            var isSelected = selected && direction.id === selected.id;
+            return '<tr class="is-clickable' + (isSelected ? ' is-selected' : '') + '"'
+                + ' data-direction="' + escapeHtml(direction.id) + '" tabindex="0">'
+                + '<td>' + escapeHtml(direction.name) + '</td>'
+                + '<td class="num gain">' + (totals.gain > 0 ? '+' + formatNumber(totals.gain) : '0') + '</td>'
+                + '<td class="num loss">' + (totals.loss > 0 ? '−' + formatNumber(totals.loss) : '0') + '</td>'
+                + '<td class="num ' + (totals.net > 0 ? 'net-pos' : totals.net < 0 ? 'net-neg' : 'muted') + '">' + signed(totals.net) + '</td>'
+                + '</tr>';
+        });
+
+        if (data.unassigned) {
+            var unassigned = unassignedTotals(data, state.range);
+            rows.push('<tr class="is-unassigned">'
+                + '<td>Вне направлений</td>'
+                + '<td class="num gain">' + (unassigned.gain > 0 ? '+' + formatNumber(unassigned.gain) : '0') + '</td>'
+                + '<td class="num loss">' + (unassigned.loss > 0 ? '−' + formatNumber(unassigned.loss) : '0') + '</td>'
+                + '<td class="num">' + signed(unassigned.net) + '</td>'
+                + '</tr>');
+        }
+
+        var total = summarize(fullPeriods(periods));
+        rows.push('<tr class="is-total">'
+            + '<td>Итого</td>'
+            + '<td class="num gain">+' + formatNumber(total.gain) + '</td>'
+            + '<td class="num loss">−' + formatNumber(total.loss) + '</td>'
+            + '<td class="num">' + signed(total.net) + '</td>'
+            + '</tr>');
+        body.innerHTML = rows.join('');
+
+        if (select) {
+            select.innerHTML = directions.map(function (direction) {
+                return '<option value="' + escapeHtml(direction.id) + '">' + escapeHtml(direction.name) + '</option>';
+            }).join('');
+            select.value = selected ? selected.id : '';
+        }
+
+        var sub = document.getElementById('stats-directions-sub');
+        if (sub) {
+            sub.textContent = 'Полные месяцы за выбранный период. Показано '
+                + fullPeriods(periods).length + ' полн. мес.';
+        }
+        var note = document.getElementById('stats-directions-note');
+        if (note) {
+            note.textContent = 'Нажмите на направление, чтобы открыть его график. '
+                + 'Сумма строк и «вне направлений» сходится с итогом полных месяцев.';
+        }
+        section.classList.remove('hidden');
+        renderDirectionDetail(data, selected, periods);
+    }
+
+    function updateRangeLabel(data, periods) {
+        var label = document.getElementById('stats-range-label');
+        if (label) {
+            label.textContent = periods.length + ' из ' + data.periods.length
+                + ' периодов · ' + rangeLabel(state.range);
+        }
+    }
+
+    function renderRangeOptions(data) {
+        var select = document.getElementById('stats-range-select');
+        if (!select) return;
+        var presets = [
+            { value: 'all', label: 'Всё время' },
+            { value: '24', label: 'Последние 24 мес.' },
+            { value: '12', label: 'Последние 12 мес.' },
+            { value: '6', label: 'Последние 6 мес.' }
+        ];
+        var years = {};
+        var quarters = {};
+        (data.periods || []).forEach(function (period) {
+            var month = String(period.month || '');
+            if (!month) return;
+            var year = month.slice(0, 4);
+            years[year] = true;
+            // Квартал предлагаем только если в нём есть хотя бы один полный месяц:
+            // иначе карточки и таблицы направлений показывали бы нули.
+            var number = Number(month.slice(5, 7));
+            if (!period.partial && number >= 1 && number <= 12) {
+                quarters[year + '-Q' + (Math.floor((number - 1) / 3) + 1)] = true;
+            }
+        });
+        var yearOptions = Object.keys(years).sort().reverse().map(function (year) {
+            return { value: year, label: year + ' год' };
+        });
+        var quarterOptions = Object.keys(quarters).sort().reverse().map(function (quarter) {
+            return { value: quarter, label: quarter.replace('-Q', ' Q') };
+        });
+        var groups = [
+            { label: 'Периоды', options: presets },
+            { label: 'Годы', options: yearOptions },
+            { label: 'Кварталы', options: quarterOptions }
+        ];
+        var allOptions = presets.concat(yearOptions, quarterOptions);
+        var valid = false;
+        for (var i = 0; i < allOptions.length; i++) {
+            if (allOptions[i].value === state.range) valid = true;
+        }
+        if (!valid) state.range = 'all';
+        select.innerHTML = groups.filter(function (group) { return group.options.length; }).map(function (group) {
+            return '<optgroup label="' + escapeHtml(group.label) + '">'
+                + group.options.map(function (option) {
+                    return '<option value="' + escapeHtml(option.value) + '">' + escapeHtml(option.label) + '</option>';
+                }).join('')
+                + '</optgroup>';
+        }).join('');
+        select.value = state.range;
+    }
+
+    function renderAll() {
+        var data = state.data;
+        if (!data) return;
+        var periods = filterPeriods(data.periods, state.range);
+        renderCards(data, periods);
+        renderCurrentDirections(data);
+        renderTable(periods);
+        renderMainChart(periods);
+        renderDirections(data, periods);
+        renderGroups(data, periods);
+        updateRangeLabel(data, periods);
+    }
+
+    function syncUrl() {
+        if (!window.history || typeof window.history.replaceState !== 'function') return;
+        var params = new URLSearchParams(window.location.search);
+        if (state.range === 'all') params.delete('range');
+        else params.set('range', state.range);
+        if (state.direction) params.set('direction', state.direction);
+        else params.delete('direction');
+        var query = params.toString();
+        var next = window.location.pathname + (query ? '?' + query : '');
+        window.history.replaceState(null, '', next);
+    }
+
+    function readUrlState() {
+        var params = new URLSearchParams(window.location.search);
+        state.range = params.get('range') || 'all';
+        state.direction = params.get('direction') || null;
+    }
+
+    function selectDirection(id) {
+        if (!state.data) return;
+        state.direction = id;
+        renderDirections(state.data, filterPeriods(state.data.periods, state.range));
+        syncUrl();
+        var detail = document.getElementById('stats-direction-detail');
+        if (detail && typeof detail.scrollIntoView === 'function') {
+            detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    function bindEvents() {
+        var rangeSelect = document.getElementById('stats-range-select');
+        if (rangeSelect) {
+            rangeSelect.addEventListener('change', function () {
+                state.range = rangeSelect.value;
+                renderAll();
+                syncUrl();
+            });
+        }
+
+        var directionSelect = document.getElementById('stats-direction-select');
+        if (directionSelect) {
+            directionSelect.addEventListener('change', function () {
+                selectDirection(directionSelect.value);
+            });
+        }
+
+        var directionBody = document.getElementById('stats-directions-body');
+        if (directionBody) {
+            directionBody.addEventListener('click', function (event) {
+                var row = event.target.closest ? event.target.closest('tr[data-direction]') : null;
+                if (row) selectDirection(row.getAttribute('data-direction'));
+            });
+            directionBody.addEventListener('keydown', function (event) {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                var row = event.target.closest ? event.target.closest('tr[data-direction]') : null;
+                if (!row) return;
+                event.preventDefault();
+                selectDirection(row.getAttribute('data-direction'));
+            });
+        }
+    }
+
     function render(data) {
         var periods = data.periods || [];
         if (!periods.length) throw new Error('В stats.json нет периодов');
+
+        state.data = data;
+        readUrlState();
+        renderRangeOptions(data);
 
         var updated = document.getElementById('stats-updated');
         if (updated) {
@@ -386,10 +1085,7 @@
                 + '. Пересчёт выполняется отдельно, страница только читает готовый JSON.';
         }
 
-        renderCards(data);
-        renderTable(data);
-        renderDirections(data);
-        renderChart(data);
+        renderAll();
 
         var content = document.getElementById('stats-content');
         var empty = document.getElementById('stats-empty');
@@ -418,6 +1114,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        bindEvents();
         loadStats()
             .then(function (data) { render(data); })
             .catch(function (error) {
