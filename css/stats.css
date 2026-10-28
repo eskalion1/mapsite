@@ -513,22 +513,6 @@ code {
     margin-top: 8px;
 }
 
-/* ---------- Методика ---------- */
-
-.stats-method ul {
-    margin: 12px 0 0;
-    padding-left: 20px;
-    color: var(--text-secondary);
-}
-
-.stats-method li {
-    margin-bottom: 7px;
-}
-
-.stats-method li::marker {
-    color: var(--stats-gain);
-}
-
 /* ---------- Пустое состояние ---------- */
 
 .stats-empty {

@@ -7,6 +7,8 @@
     'use strict';
 
     var MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+    var MONTHS_FULL = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     var numberFormat = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
     var charts = { main: null, direction: null, groups: null };
     var state = { data: null, range: 'all', direction: null };
@@ -100,8 +102,15 @@
         return /^\d{4}$/.test(String(range || ''));
     }
 
-    function isQuarterRange(range) {
-        return /^\d{4}-Q[1-4]$/.test(String(range || ''));
+    function isMonthRange(range) {
+        return /^\d{4}-\d{2}$/.test(String(range || ''));
+    }
+
+    function fullMonthLabel(month) {
+        var parts = String(month || '').split('-');
+        var index = Number(parts[1]) - 1;
+        if (!MONTHS_FULL[index]) return String(month || '');
+        return MONTHS_FULL[index] + ' ' + parts[0];
     }
 
     function filterPeriods(periods, range) {
@@ -112,14 +121,9 @@
                 return String(period.month || '').slice(0, 4) === String(range);
             });
         }
-        if (isQuarterRange(range)) {
-            var year = String(range).slice(0, 4);
-            var quarter = Number(String(range).slice(6));
+        if (isMonthRange(range)) {
             return list.filter(function (period) {
-                var month = String(period.month || '');
-                if (month.slice(0, 4) !== year) return false;
-                var number = Number(month.slice(5, 7));
-                return Math.floor((number - 1) / 3) + 1 === quarter;
+                return String(period.month || '') === String(range);
             });
         }
         var count = Number(range);
@@ -130,7 +134,7 @@
     function rangeLabel(range) {
         if (!range || range === 'all') return 'всё время';
         if (isYearRange(range)) return range + ' год';
-        if (isQuarterRange(range)) return String(range).slice(0, 4) + ', ' + String(range).slice(6) + ' кв.';
+        if (isMonthRange(range)) return fullMonthLabel(range);
         return 'последние ' + range + ' мес.';
     }
 
@@ -138,6 +142,20 @@
         return (Array.isArray(periods) ? periods : []).filter(function (period) {
             return !period.partial;
         });
+    }
+
+    function totalsPeriods(periods, range) {
+        var filtered = filterPeriods(periods, range);
+        return isMonthRange(range) ? filtered : fullPeriods(filtered);
+    }
+
+    function periodsCaption(periods) {
+        var total = Array.isArray(periods) ? periods.length : 0;
+        var full = fullPeriods(periods).length;
+        var partial = total - full;
+        if (!partial) return full + ' полн. мес.';
+        if (!full) return partial + ' неполн. мес.';
+        return full + ' полн. + ' + partial + ' неполн.';
     }
 
     function emptyTotals() {
@@ -168,12 +186,12 @@
     }
 
     function directionTotals(direction, range) {
-        var periods = fullPeriods(filterPeriods(direction && direction.periods ? direction.periods : [], range));
+        var periods = totalsPeriods(direction && direction.periods ? direction.periods : [], range);
         return summarize(periods);
     }
 
     function unassignedTotals(data, range) {
-        var periods = fullPeriods(filterPeriods(data && data.periods ? data.periods : [], range));
+        var periods = totalsPeriods(data && data.periods ? data.periods : [], range);
         var totals = emptyTotals();
         for (var i = 0; i < periods.length; i++) {
             var item = periods[i].unassigned;
@@ -186,27 +204,19 @@
         return totals;
     }
 
-    function currentDirectionValue(period, id) {
-        var list = period && period.directions ? period.directions : [];
-        for (var i = 0; i < list.length; i++) {
-            if (list[i].id === id) return list[i];
-        }
-        return null;
-    }
-
     function renderCards(data, periods) {
         var latest = latestPeriod(data);
         var lastFull = latestFullPeriod(data);
         if (!latest) return;
-        var full = fullPeriods(periods);
-        var totals = summarize(full);
+        var counted = totalsPeriods(periods, state.range);
+        var totals = summarize(counted);
         var averageRate = totals.days > 0 ? totals.net / totals.days : 0;
         var totalLabel = state.range === 'all'
             ? 'Суммарно за всё время'
             : isYearRange(state.range)
                 ? 'Суммарно за ' + state.range
-                : isQuarterRange(state.range)
-                    ? 'Суммарно за ' + String(state.range).slice(6) + ' кв. ' + String(state.range).slice(0, 4)
+                : isMonthRange(state.range)
+                    ? 'Суммарно за ' + fullMonthLabel(state.range)
                     : 'Суммарно за период';
 
         var cards = [];
@@ -237,14 +247,14 @@
         cards.push(card(
             totalLabel,
             totals.net,
-            full.length + ' полн. мес. · прирост +' + formatNumber(totals.gain)
+            periodsCaption(counted) + ' · прирост +' + formatNumber(totals.gain)
                 + ' / уменьшение −' + formatNumber(totals.loss)
         ));
 
         cards.push(card(
             'Средний темп',
             averageRate,
-            'км²/день за ' + full.length + ' полн. мес.'
+            'км²/день за ' + periodsCaption(counted)
         ));
 
         document.getElementById('stats-cards').innerHTML = cards.join('');
@@ -259,7 +269,10 @@
             var net = Number(period.net) || 0;
             var badge = period.partial ? '<span class="stats-badge">текущий</span>' : '';
             var netClass = net > 0 ? 'net-pos' : net < 0 ? 'net-neg' : 'muted';
-            return '<tr class="' + (period.partial ? 'is-partial' : '') + '">'
+            var selected = state.range === period.month;
+            return '<tr class="is-clickable' + (period.partial ? ' is-partial' : '')
+                + (selected ? ' is-selected' : '') + '" data-month="' + escapeHtml(period.month)
+                + '" tabindex="0">'
                 + '<td class="month-cell">' + escapeHtml(period.label) + badge + '</td>'
                 + '<td class="muted">' + formatDate(period.from) + ' — ' + formatDate(period.to) + '</td>'
                 + '<td class="num">' + escapeHtml(String(period.days)) + '</td>'
@@ -290,7 +303,7 @@
         var sub = document.getElementById('stats-table-sub');
         if (sub) {
             sub.textContent = 'Фактические даты срезов, между которыми посчитана дельта. Показано '
-                + periods.length + ' периодов.';
+                + periods.length + ' периодов. Нажмите на строку, чтобы показать только этот месяц.';
         }
     }
 
@@ -799,7 +812,7 @@
                 + '</tr>');
         }
 
-        var total = summarize(fullPeriods(periods));
+        var total = summarize(totalsPeriods(periods, state.range));
         rows.push('<tr class="is-total">'
             + '<td>Итого</td>'
             + '<td class="num gain">+' + formatNumber(total.gain) + '</td>'
@@ -810,8 +823,8 @@
 
         var sub = document.getElementById('stats-groups-sub');
         if (sub) {
-            sub.textContent = 'Нетто по группам; полные месяцы за выбранный период. Показано '
-                + fullPeriods(periods).length + ' полн. мес. * — неполный месяц.';
+            sub.textContent = 'Нетто по группам; показано '
+                + periodsCaption(totalsPeriods(periods, state.range)) + '. * — неполный месяц.';
         }
         var note = document.getElementById('stats-groups-note');
         if (note) {
@@ -895,7 +908,7 @@
                 + '</tr>');
         }
 
-        var total = summarize(fullPeriods(periods));
+        var total = summarize(totalsPeriods(periods, state.range));
         rows.push('<tr class="is-total">'
             + '<td>Итого</td>'
             + '<td class="num gain">+' + formatNumber(total.gain) + '</td>'
@@ -913,8 +926,8 @@
 
         var sub = document.getElementById('stats-directions-sub');
         if (sub) {
-            sub.textContent = 'Полные месяцы за выбранный период. Показано '
-                + fullPeriods(periods).length + ' полн. мес.';
+            sub.textContent = 'Показано ' + periodsCaption(totalsPeriods(periods, state.range))
+                + ' за выбранный период.';
         }
         var note = document.getElementById('stats-directions-note');
         if (note) {
@@ -943,31 +956,30 @@
             { value: '6', label: 'Последние 6 мес.' }
         ];
         var years = {};
-        var quarters = {};
+        var months = {};
         (data.periods || []).forEach(function (period) {
             var month = String(period.month || '');
             if (!month) return;
-            var year = month.slice(0, 4);
-            years[year] = true;
-            // Квартал предлагаем только если в нём есть хотя бы один полный месяц:
-            // иначе карточки и таблицы направлений показывали бы нули.
-            var number = Number(month.slice(5, 7));
-            if (!period.partial && number >= 1 && number <= 12) {
-                quarters[year + '-Q' + (Math.floor((number - 1) / 3) + 1)] = true;
+            years[month.slice(0, 4)] = true;
+            if (!months[month]) {
+                months[month] = {
+                    value: month,
+                    label: (period.label || fullMonthLabel(month)) + (period.partial ? ' (текущий)' : '')
+                };
             }
+        });
+        var monthOptions = Object.keys(months).sort().reverse().map(function (month) {
+            return months[month];
         });
         var yearOptions = Object.keys(years).sort().reverse().map(function (year) {
             return { value: year, label: year + ' год' };
         });
-        var quarterOptions = Object.keys(quarters).sort().reverse().map(function (quarter) {
-            return { value: quarter, label: quarter.replace('-Q', ' Q') };
-        });
         var groups = [
             { label: 'Периоды', options: presets },
-            { label: 'Годы', options: yearOptions },
-            { label: 'Кварталы', options: quarterOptions }
+            { label: 'Месяцы', options: monthOptions },
+            { label: 'Годы', options: yearOptions }
         ];
-        var allOptions = presets.concat(yearOptions, quarterOptions);
+        var allOptions = presets.concat(monthOptions, yearOptions);
         var valid = false;
         for (var i = 0; i < allOptions.length; i++) {
             if (allOptions[i].value === state.range) valid = true;
@@ -1014,6 +1026,13 @@
         state.direction = params.get('direction') || null;
     }
 
+    function selectMonth(month) {
+        if (!state.data) return;
+        state.range = month;
+        renderAll();
+        syncUrl();
+    }
+
     function selectDirection(id) {
         if (!state.data) return;
         state.direction = id;
@@ -1039,6 +1058,21 @@
         if (directionSelect) {
             directionSelect.addEventListener('change', function () {
                 selectDirection(directionSelect.value);
+            });
+        }
+
+        var tableBody = document.getElementById('stats-table-body');
+        if (tableBody) {
+            tableBody.addEventListener('click', function (event) {
+                var row = event.target.closest ? event.target.closest('tr[data-month]') : null;
+                if (row) selectMonth(row.getAttribute('data-month'));
+            });
+            tableBody.addEventListener('keydown', function (event) {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                var row = event.target.closest ? event.target.closest('tr[data-month]') : null;
+                if (!row) return;
+                event.preventDefault();
+                selectMonth(row.getAttribute('data-month'));
             });
         }
 
@@ -1070,19 +1104,6 @@
         if (updated) {
             updated.textContent = 'Данные на ' + formatDate(data.lastSnapshot)
                 + ' · рассчитано ' + formatDateTime(data.generatedAt);
-        }
-
-        var threshold = document.getElementById('stats-threshold');
-        if (threshold) {
-            var value = data.source && data.source.thresholdKm2 != null ? data.source.thresholdKm2 : 0.5;
-            threshold.textContent = formatNumber(value);
-        }
-
-        var sourceNote = document.getElementById('stats-source-note');
-        if (sourceNote) {
-            sourceNote.textContent = 'Срезов: ' + data.snapshotCount
-                + ' · ' + formatDate(data.firstSnapshot) + ' — ' + formatDate(data.lastSnapshot)
-                + '. Пересчёт выполняется отдельно, страница только читает готовый JSON.';
         }
 
         renderAll();
