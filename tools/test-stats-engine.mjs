@@ -124,12 +124,8 @@ test('KML направлений: 11 полигонов с id', () => {
     assert.ok(directions.some(direction => direction.id === 'chernihiv'));
     assert.ok(!directions.some(direction => direction.id === 'krasny_liman'));
     assert.ok(directions.every(direction => direction.polygon.length >= 5));
-
-    const fragments = StatsEngine.parseKmlPolygons(
-        fs.readFileSync(path.join(ROOT, 'kml/PermanentObjects/Directions_fragments.kml'), 'utf8')
-    );
-    assert.equal(fragments.length, 2);
-    assert.deepEqual(fragments.map(direction => direction.id), ['fragment_12', 'fragment_13']);
+    assert.ok(directions.find(direction => direction.id === 'dnipropetrovsk').polygon.length > 1000);
+    assert.ok(!fs.existsSync(path.join(ROOT, 'kml/PermanentObjects/Directions_fragments.kml')));
 });
 
 test('LineString не считается полигоном направления', () => {
