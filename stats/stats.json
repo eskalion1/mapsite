@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-28T17:33:51.261Z",
+  "generatedAt": "2026-10-29T11:49:38.486Z",
   "generator": "tools/build-stats.mjs",
   "source": {
     "dataset": "ControlZones",
     "plusSide": "RU",
     "minusSide": "UA",
     "method": "difference of consecutive monthly snapshots",
-    "thresholdKm2": 0.5,
+    "thresholdKm2": 0,
     "excludedAreas": [],
     "minDate": "2023-09-01",
-    "note": "Плюс — продвижение ВС РФ. Компоненты меньше порога не учитываются; их сумма приведена в micro.",
+    "note": "Плюс — продвижение ВС РФ. Порог отключён: учитываются все компоненты разности.",
     "directions": {
       "version": "1",
       "note": "Границы направлений: области и секторы; компонент относится к направлению по центроиду.",
@@ -33,19 +33,19 @@
       "days": 33,
       "daysCount": 33,
       "partial": false,
-      "rate": -0.84,
-      "gain": 31.33,
-      "loss": 59.13,
-      "net": -27.8,
+      "rate": -0.79,
+      "gain": 34.93,
+      "loss": 61.01,
+      "net": -26.08,
       "micro": {
-        "gain": 3.6,
-        "loss": 1.88,
-        "gainCount": 50,
-        "lossCount": 48
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 10,
-        "loss": 17
+        "gain": 60,
+        "loss": 65
       },
       "raw": {
         "gain": 34.93,
@@ -64,56 +64,56 @@
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 6.63,
-          "loss": 0,
-          "net": 6.63
+          "loss": 0.2,
+          "net": 6.43
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 8.49,
-          "loss": 0,
-          "net": 8.49
+          "gain": 8.79,
+          "loss": 0.37,
+          "net": 8.42
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 1.1,
-          "loss": 0,
-          "net": 1.1
+          "gain": 1.69,
+          "loss": 0.13,
+          "net": 1.56
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 0.63,
-          "loss": 14.91,
-          "net": -14.28
+          "gain": 1.2,
+          "loss": 15.28,
+          "net": -14.08
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 1.15,
-          "loss": 2.68,
-          "net": -1.53
+          "gain": 1.65,
+          "loss": 2.88,
+          "net": -1.23
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 4.52,
-          "loss": 10.93,
-          "net": -6.41
+          "gain": 5.48,
+          "loss": 11.13,
+          "net": -5.65
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 1.46,
-          "loss": 26.16,
-          "net": -24.7
+          "gain": 1.8,
+          "loss": 26.23,
+          "net": -24.43
         }
       ],
       "unassigned": {
-        "gain": 7.35,
-        "loss": 4.44,
-        "net": 2.91
+        "gain": 7.69,
+        "loss": 4.79,
+        "net": 2.9
       }
     },
     {
@@ -127,19 +127,19 @@
       "days": 26,
       "daysCount": 26,
       "partial": false,
-      "rate": -1.04,
-      "gain": 84.56,
-      "loss": 111.48,
-      "net": -26.92,
+      "rate": -1.03,
+      "gain": 89.97,
+      "loss": 116.73,
+      "net": -26.76,
       "micro": {
-        "gain": 5.41,
-        "loss": 5.25,
-        "gainCount": 66,
-        "lossCount": 78
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 19,
-        "loss": 13
+        "gain": 85,
+        "loss": 91
       },
       "raw": {
         "gain": 89.97,
@@ -158,8 +158,8 @@
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 17.33,
-          "loss": 1.18,
-          "net": 16.15
+          "loss": 1.31,
+          "net": 16.02
         },
         {
           "id": "borovaya",
@@ -171,43 +171,43 @@
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 0.51,
-          "loss": 0,
-          "net": 0.51
+          "gain": 0.69,
+          "loss": 0.1,
+          "net": 0.59
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 0,
-          "loss": 2.3,
-          "net": -2.3
+          "gain": 0.53,
+          "loss": 2.7,
+          "net": -2.17
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 26.73,
-          "loss": 0,
-          "net": 26.73
+          "gain": 27.23,
+          "loss": 0.65,
+          "net": 26.58
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 0.97,
-          "loss": 4,
-          "net": -3.03
+          "gain": 2.11,
+          "loss": 4.38,
+          "net": -2.27
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 0,
-          "loss": 8.35,
-          "net": -8.35
+          "gain": 0.87,
+          "loss": 9.29,
+          "net": -8.42
         }
       ],
       "unassigned": {
-        "gain": 39.03,
-        "loss": 95.65,
-        "net": -56.62
+        "gain": 41.2,
+        "loss": 98.3,
+        "net": -57.1
       }
     },
     {
@@ -221,19 +221,19 @@
       "days": 30,
       "daysCount": 30,
       "partial": false,
-      "rate": 0.45,
-      "gain": 34.58,
-      "loss": 21.11,
-      "net": 13.47,
+      "rate": 0.43,
+      "gain": 36.81,
+      "loss": 23.86,
+      "net": 12.95,
       "micro": {
-        "gain": 2.23,
-        "loss": 2.74,
-        "gainCount": 42,
-        "lossCount": 48
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 12,
-        "loss": 9
+        "gain": 54,
+        "loss": 57
       },
       "raw": {
         "gain": 36.81,
@@ -251,9 +251,9 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 13.03,
-          "loss": 0,
-          "net": 13.03
+          "gain": 13.04,
+          "loss": 0.33,
+          "net": 12.71
         },
         {
           "id": "borovaya",
@@ -265,43 +265,43 @@
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 0,
+          "gain": 0.05,
           "loss": 0,
-          "net": 0
+          "net": 0.05
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 0.81,
-          "loss": 1.35,
-          "net": -0.54
+          "gain": 1.23,
+          "loss": 1.71,
+          "net": -0.48
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 9.32,
-          "loss": 0,
-          "net": 9.32
+          "gain": 9.72,
+          "loss": 0.86,
+          "net": 8.86
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 4.64,
-          "loss": 5.71,
-          "net": -1.07
+          "gain": 5.69,
+          "loss": 6.58,
+          "net": -0.89
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 0.62,
-          "loss": 9.88,
-          "net": -9.26
+          "gain": 0.77,
+          "loss": 10.17,
+          "net": -9.4
         }
       ],
       "unassigned": {
-        "gain": 6.16,
-        "loss": 4.17,
-        "net": 1.99
+        "gain": 6.31,
+        "loss": 4.2,
+        "net": 2.11
       }
     },
     {
@@ -315,19 +315,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 1.29,
-      "gain": 50.38,
-      "loss": 10.49,
-      "net": 39.88,
+      "rate": 1.28,
+      "gain": 53.4,
+      "loss": 13.61,
+      "net": 39.79,
       "micro": {
-        "gain": 3.02,
-        "loss": 3.12,
-        "gainCount": 44,
-        "lossCount": 62
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 22,
-        "loss": 10
+        "gain": 66,
+        "loss": 72
       },
       "raw": {
         "gain": 53.4,
@@ -345,57 +345,57 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 1.18,
-          "loss": 0,
-          "net": 1.18
+          "gain": 1.64,
+          "loss": 0.13,
+          "net": 1.51
         },
         {
           "id": "borovaya",
           "name": "Боровая",
           "gain": 1.34,
-          "loss": 0,
-          "net": 1.34
+          "loss": 0.33,
+          "net": 1.01
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 9.72,
-          "loss": 0,
-          "net": 9.72
+          "gain": 9.81,
+          "loss": 0.68,
+          "net": 9.13
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 16.32,
-          "loss": 2.46,
-          "net": 13.86
+          "gain": 16.99,
+          "loss": 2.95,
+          "net": 14.04
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 15.61,
-          "loss": 2.29,
-          "net": 13.32
+          "gain": 16.36,
+          "loss": 3.07,
+          "net": 13.29
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 1.92,
-          "loss": 1.27,
-          "net": 0.65
+          "gain": 2.58,
+          "loss": 1.65,
+          "net": 0.93
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 3.7,
-          "loss": 2.23,
-          "net": 1.47
+          "gain": 4.06,
+          "loss": 2.45,
+          "net": 1.61
         }
       ],
       "unassigned": {
-        "gain": 0.58,
-        "loss": 2.24,
-        "net": -1.66
+        "gain": 0.62,
+        "loss": 2.36,
+        "net": -1.74
       }
     },
     {
@@ -410,18 +410,18 @@
       "daysCount": 31,
       "partial": false,
       "rate": 0.97,
-      "gain": 29.95,
-      "loss": 0,
-      "net": 29.95,
+      "gain": 33.27,
+      "loss": 3.13,
+      "net": 30.14,
       "micro": {
-        "gain": 3.33,
-        "loss": 3.13,
-        "gainCount": 38,
-        "lossCount": 76
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 19,
-        "loss": 0
+        "gain": 57,
+        "loss": 76
       },
       "raw": {
         "gain": 33.27,
@@ -439,51 +439,51 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 1.95,
-          "loss": 0,
-          "net": 1.95
+          "gain": 2.44,
+          "loss": 0.09,
+          "net": 2.35
         },
         {
           "id": "borovaya",
           "name": "Боровая",
           "gain": 4.5,
-          "loss": 0,
-          "net": 4.5
+          "loss": 0.39,
+          "net": 4.11
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 7.51,
-          "loss": 0,
-          "net": 7.51
+          "gain": 7.79,
+          "loss": 1.07,
+          "net": 6.72
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 3.09,
-          "loss": 0,
-          "net": 3.09
+          "gain": 3.64,
+          "loss": 0.29,
+          "net": 3.35
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 6.43,
-          "loss": 0,
-          "net": 6.43
+          "gain": 8.08,
+          "loss": 1.01,
+          "net": 7.07
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 5.16,
-          "loss": 0,
-          "net": 5.16
+          "gain": 5.51,
+          "loss": 0.18,
+          "net": 5.33
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 1.32,
-          "loss": 0,
-          "net": 1.32
+          "loss": 0.1,
+          "net": 1.22
         }
       ],
       "unassigned": {
@@ -503,19 +503,19 @@
       "days": 29,
       "daysCount": 29,
       "partial": false,
-      "rate": 4.91,
-      "gain": 143.62,
-      "loss": 1.23,
-      "net": 142.39,
+      "rate": 4.86,
+      "gain": 145.32,
+      "loss": 4.31,
+      "net": 141.01,
       "micro": {
-        "gain": 1.7,
-        "loss": 3.08,
-        "gainCount": 32,
-        "lossCount": 66
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 20,
-        "loss": 2
+        "gain": 52,
+        "loss": 68
       },
       "raw": {
         "gain": 145.32,
@@ -533,57 +533,57 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 11.41,
-          "loss": 0,
-          "net": 11.41
+          "gain": 11.56,
+          "loss": 0.27,
+          "net": 11.29
         },
         {
           "id": "borovaya",
           "name": "Боровая",
           "gain": 2.65,
-          "loss": 0,
-          "net": 2.65
+          "loss": 0.61,
+          "net": 2.04
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 4.01,
-          "loss": 0,
-          "net": 4.01
+          "gain": 4.13,
+          "loss": 0.23,
+          "net": 3.9
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 17.39,
-          "loss": 0,
-          "net": 17.39
+          "gain": 17.45,
+          "loss": 0.46,
+          "net": 16.99
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 100.09,
-          "loss": 0,
-          "net": 100.09
+          "gain": 100.57,
+          "loss": 0.92,
+          "net": 99.65
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 3.63,
-          "loss": 0,
-          "net": 3.63
+          "gain": 3.96,
+          "loss": 0.4,
+          "net": 3.56
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 4.45,
-          "loss": 0,
-          "net": 4.45
+          "gain": 4.81,
+          "loss": 0.18,
+          "net": 4.63
         }
       ],
       "unassigned": {
-        "gain": 0,
+        "gain": 0.19,
         "loss": 1.23,
-        "net": -1.23
+        "net": -1.04
       }
     },
     {
@@ -597,19 +597,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 2.69,
-      "gain": 84.43,
-      "loss": 1.14,
-      "net": 83.29,
+      "rate": 2.66,
+      "gain": 84.7,
+      "loss": 2.21,
+      "net": 82.49,
       "micro": {
-        "gain": 0.27,
-        "loss": 1.07,
-        "gainCount": 11,
-        "lossCount": 36
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 16,
-        "loss": 2
+        "gain": 27,
+        "loss": 38
       },
       "raw": {
         "gain": 84.7,
@@ -628,8 +628,8 @@
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 1.05,
-          "loss": 0,
-          "net": 1.05
+          "loss": 0.12,
+          "net": 0.93
         },
         {
           "id": "borovaya",
@@ -641,37 +641,37 @@
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 5.14,
-          "loss": 0,
-          "net": 5.14
+          "gain": 5.2,
+          "loss": 0.07,
+          "net": 5.13
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 8.38,
-          "loss": 0,
-          "net": 8.38
+          "gain": 8.44,
+          "loss": 0.1,
+          "net": 8.34
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 50.75,
-          "loss": 1.14,
-          "net": 49.61
+          "gain": 50.9,
+          "loss": 1.35,
+          "net": 49.55
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 4.39,
-          "loss": 0,
-          "net": 4.39
+          "loss": 0.47,
+          "net": 3.92
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 14.71,
-          "loss": 0,
-          "net": 14.71
+          "gain": 14.72,
+          "loss": 0.1,
+          "net": 14.62
         }
       ],
       "unassigned": {
@@ -691,19 +691,19 @@
       "days": 30,
       "daysCount": 30,
       "partial": false,
-      "rate": 2.94,
-      "gain": 93.9,
-      "loss": 5.8,
-      "net": 88.1,
+      "rate": 2.86,
+      "gain": 95.41,
+      "loss": 9.73,
+      "net": 85.68,
       "micro": {
-        "gain": 1.52,
-        "loss": 3.93,
-        "gainCount": 24,
-        "lossCount": 53
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 17,
-        "loss": 1
+        "gain": 41,
+        "loss": 54
       },
       "raw": {
         "gain": 95.41,
@@ -722,8 +722,8 @@
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 1.02,
-          "loss": 0,
-          "net": 1.02
+          "loss": 0.07,
+          "net": 0.95
         },
         {
           "id": "borovaya",
@@ -735,43 +735,43 @@
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 2.64,
-          "loss": 0,
-          "net": 2.64
+          "gain": 2.92,
+          "loss": 0.56,
+          "net": 2.36
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 20.92,
-          "loss": 0,
-          "net": 20.92
+          "gain": 21.29,
+          "loss": 1.36,
+          "net": 19.93
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 56.9,
-          "loss": 0,
-          "net": 56.9
+          "gain": 57.26,
+          "loss": 1.37,
+          "net": 55.89
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 0,
-          "loss": 0,
-          "net": 0
+          "gain": 0.24,
+          "loss": 0.04,
+          "net": 0.2
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 6.73,
-          "loss": 0,
-          "net": 6.73
+          "gain": 6.75,
+          "loss": 0.39,
+          "net": 6.36
         }
       ],
       "unassigned": {
-        "gain": 5.69,
-        "loss": 5.8,
-        "net": -0.11
+        "gain": 5.94,
+        "loss": 5.93,
+        "net": 0.01
       }
     },
     {
@@ -785,19 +785,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 10.17,
-      "gain": 318.08,
-      "loss": 2.84,
-      "net": 315.23,
+      "rate": 10.09,
+      "gain": 319.35,
+      "loss": 6.44,
+      "net": 312.91,
       "micro": {
-        "gain": 1.27,
-        "loss": 3.59,
-        "gainCount": 21,
-        "lossCount": 55
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 28,
-        "loss": 2
+        "gain": 49,
+        "loss": 57
       },
       "raw": {
         "gain": 319.35,
@@ -815,57 +815,57 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 15.54,
-          "loss": 0.85,
-          "net": 14.69
+          "gain": 15.55,
+          "loss": 1.21,
+          "net": 14.34
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 11.28,
-          "loss": 0,
-          "net": 11.28
+          "gain": 11.66,
+          "loss": 0.62,
+          "net": 11.04
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 0.82,
-          "loss": 1.99,
-          "net": -1.17
+          "gain": 1.36,
+          "loss": 2.33,
+          "net": -0.97
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 13.52,
-          "loss": 0,
-          "net": 13.52
+          "gain": 13.78,
+          "loss": 0.44,
+          "net": 13.34
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 84.38,
-          "loss": 0,
-          "net": 84.38
+          "gain": 84.39,
+          "loss": 1.19,
+          "net": 83.2
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 8.19,
-          "loss": 0,
-          "net": 8.19
+          "gain": 8.21,
+          "loss": 0.38,
+          "net": 7.83
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 1.41,
-          "loss": 0,
-          "net": 1.41
+          "gain": 1.42,
+          "loss": 0.19,
+          "net": 1.23
         }
       ],
       "unassigned": {
-        "gain": 182.94,
-        "loss": 0,
-        "net": 182.94
+        "gain": 182.97,
+        "loss": 0.07,
+        "net": 182.9
       }
     },
     {
@@ -879,19 +879,19 @@
       "days": 30,
       "daysCount": 30,
       "partial": false,
-      "rate": 3.28,
-      "gain": 105.06,
-      "loss": 6.69,
-      "net": 98.37,
+      "rate": 3.32,
+      "gain": 109.67,
+      "loss": 10.22,
+      "net": 99.45,
       "micro": {
-        "gain": 4.61,
-        "loss": 3.53,
-        "gainCount": 44,
-        "lossCount": 74
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 25,
-        "loss": 5
+        "gain": 69,
+        "loss": 79
       },
       "raw": {
         "gain": 109.67,
@@ -909,57 +909,57 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 18.72,
-          "loss": 0,
-          "net": 18.72
+          "gain": 18.78,
+          "loss": 0.71,
+          "net": 18.07
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 0.98,
-          "loss": 0,
-          "net": 0.98
+          "gain": 1.06,
+          "loss": 0.31,
+          "net": 0.75
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 0.69,
-          "loss": 1.34,
-          "net": -0.65
+          "gain": 0.86,
+          "loss": 1.86,
+          "net": -1
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 12.35,
-          "loss": 4.07,
-          "net": 8.28
+          "gain": 14.17,
+          "loss": 4.44,
+          "net": 9.73
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 57.98,
-          "loss": 0,
-          "net": 57.98
+          "gain": 59.08,
+          "loss": 0.46,
+          "net": 58.62
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 1.1,
-          "loss": 0.61,
-          "net": 0.49
+          "gain": 1.53,
+          "loss": 0.69,
+          "net": 0.84
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 0,
-          "loss": 0,
-          "net": 0
+          "gain": 0.72,
+          "loss": 0.21,
+          "net": 0.51
         }
       ],
       "unassigned": {
-        "gain": 13.23,
-        "loss": 0.67,
-        "net": 12.56
+        "gain": 13.45,
+        "loss": 1.53,
+        "net": 11.92
       }
     },
     {
@@ -973,19 +973,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 5.17,
-      "gain": 165.1,
-      "loss": 4.92,
-      "net": 160.18,
+      "rate": 5.1,
+      "gain": 169.98,
+      "loss": 11.91,
+      "net": 158.07,
       "micro": {
-        "gain": 4.88,
-        "loss": 6.98,
-        "gainCount": 648,
-        "lossCount": 676
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 30,
-        "loss": 3
+        "gain": 678,
+        "loss": 679
       },
       "raw": {
         "gain": 169.98,
@@ -1003,57 +1003,57 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 6.24,
-          "loss": 0,
-          "net": 6.24
+          "gain": 7.21,
+          "loss": 0.29,
+          "net": 6.92
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 6.83,
-          "loss": 0,
-          "net": 6.83
+          "gain": 6.84,
+          "loss": 0.32,
+          "net": 6.52
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 2.32,
-          "loss": 1.36,
-          "net": 0.96
+          "gain": 2.46,
+          "loss": 1.62,
+          "net": 0.84
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 18.33,
-          "loss": 0,
-          "net": 18.33
+          "gain": 18.83,
+          "loss": 1.04,
+          "net": 17.79
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 88.84,
-          "loss": 0.57,
-          "net": 88.27
+          "gain": 89.72,
+          "loss": 2.01,
+          "net": 87.71
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 32.86,
-          "loss": 0,
-          "net": 32.86
+          "gain": 32.87,
+          "loss": 0.68,
+          "net": 32.19
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 4.94,
-          "loss": 0,
-          "net": 4.94
+          "gain": 4.95,
+          "loss": 0.32,
+          "net": 4.63
         }
       ],
       "unassigned": {
-        "gain": 4.73,
-        "loss": 3,
-        "net": 1.73
+        "gain": 7.1,
+        "loss": 5.63,
+        "net": 1.47
       }
     },
     {
@@ -1067,19 +1067,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": -18.77,
-      "gain": 373.67,
-      "loss": 955.61,
-      "net": -581.94,
+      "rate": -18.85,
+      "gain": 374.77,
+      "loss": 959.13,
+      "net": -584.35,
       "micro": {
-        "gain": 1.1,
-        "loss": 3.52,
-        "gainCount": 19,
-        "lossCount": 60
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 28,
-        "loss": 2
+        "gain": 47,
+        "loss": 62
       },
       "raw": {
         "gain": 374.77,
@@ -1098,56 +1098,56 @@
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 38.89,
-          "loss": 0,
-          "net": 38.89
+          "loss": 0.44,
+          "net": 38.45
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 2.81,
-          "loss": 1.74,
-          "net": 1.07
+          "gain": 3.01,
+          "loss": 1.97,
+          "net": 1.04
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 0,
-          "loss": 0,
-          "net": 0
+          "gain": 0.21,
+          "loss": 0.07,
+          "net": 0.14
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 13.67,
-          "loss": 0,
-          "net": 13.67
+          "gain": 13.97,
+          "loss": 0.62,
+          "net": 13.35
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 280.64,
-          "loss": 0,
-          "net": 280.64
+          "gain": 281.03,
+          "loss": 1.1,
+          "net": 279.93
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 13.56,
-          "loss": 0,
-          "net": 13.56
+          "loss": 0.43,
+          "net": 13.13
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 10.86,
-          "loss": 0,
-          "net": 10.86
+          "loss": 0.13,
+          "net": 10.73
         }
       ],
       "unassigned": {
         "gain": 13.25,
-        "loss": 953.87,
-        "net": -940.62
+        "loss": 954.36,
+        "net": -941.11
       }
     },
     {
@@ -1161,19 +1161,19 @@
       "days": 30,
       "daysCount": 30,
       "partial": false,
-      "rate": 17.33,
-      "gain": 628.55,
-      "loss": 108.66,
-      "net": 519.89,
+      "rate": 17.3,
+      "gain": 631.43,
+      "loss": 112.35,
+      "net": 519.08,
       "micro": {
-        "gain": 2.89,
-        "loss": 3.69,
-        "gainCount": 24,
-        "lossCount": 55
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 36,
-        "loss": 15
+        "gain": 60,
+        "loss": 70
       },
       "raw": {
         "gain": 631.43,
@@ -1192,43 +1192,43 @@
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 40.11,
-          "loss": 2.62,
-          "net": 37.49
+          "loss": 2.85,
+          "net": 37.26
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 5.19,
-          "loss": 0,
-          "net": 5.19
+          "gain": 5.2,
+          "loss": 0.09,
+          "net": 5.11
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 21.91,
-          "loss": 0,
-          "net": 21.91
+          "gain": 22.16,
+          "loss": 0.1,
+          "net": 22.06
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 35.74,
-          "loss": 0,
-          "net": 35.74
+          "gain": 36.26,
+          "loss": 0.73,
+          "net": 35.53
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 189.72,
-          "loss": 3.01,
-          "net": 186.71
+          "gain": 190.72,
+          "loss": 4.75,
+          "net": 185.97
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 100.92,
-          "loss": 0.91,
-          "net": 100.01
+          "loss": 1.15,
+          "net": 99.77
         },
         {
           "id": "orekhiv",
@@ -1239,9 +1239,9 @@
         }
       ],
       "unassigned": {
-        "gain": 234.96,
-        "loss": 102.12,
-        "net": 132.84
+        "gain": 236.07,
+        "loss": 102.7,
+        "net": 133.37
       }
     },
     {
@@ -1255,19 +1255,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 26.3,
-      "gain": 1022.84,
-      "loss": 207.45,
-      "net": 815.39,
+      "rate": 26.23,
+      "gain": 1025.18,
+      "loss": 211.91,
+      "net": 813.27,
       "micro": {
-        "gain": 2.34,
-        "loss": 4.46,
-        "gainCount": 24,
-        "lossCount": 58
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 39,
-        "loss": 11
+        "gain": 63,
+        "loss": 69
       },
       "raw": {
         "gain": 1025.18,
@@ -1285,57 +1285,57 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 42.49,
-          "loss": 1.04,
-          "net": 41.45
+          "gain": 42.8,
+          "loss": 1.88,
+          "net": 40.92
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 10.64,
-          "loss": 0,
-          "net": 10.64
+          "gain": 10.91,
+          "loss": 0.32,
+          "net": 10.59
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
           "gain": 52.87,
-          "loss": 0,
-          "net": 52.87
+          "loss": 0.31,
+          "net": 52.56
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 11.72,
-          "loss": 0,
-          "net": 11.72
+          "gain": 12.48,
+          "loss": 0.6,
+          "net": 11.88
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 439.76,
-          "loss": 1.04,
-          "net": 438.72
+          "gain": 440.02,
+          "loss": 1.88,
+          "net": 438.14
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 1.32,
-          "loss": 0.95,
-          "net": 0.37
+          "loss": 1.68,
+          "net": -0.36
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 104.84,
-          "loss": 0,
-          "net": 104.84
+          "gain": 104.86,
+          "loss": 0.28,
+          "net": 104.58
         }
       ],
       "unassigned": {
-        "gain": 359.21,
-        "loss": 204.43,
-        "net": 154.78
+        "gain": 359.91,
+        "loss": 204.96,
+        "net": 154.95
       }
     },
     {
@@ -1349,19 +1349,19 @@
       "days": 30,
       "daysCount": 30,
       "partial": false,
-      "rate": 22.56,
-      "gain": 697.1,
-      "loss": 20.17,
-      "net": 676.93,
+      "rate": 22.47,
+      "gain": 699.02,
+      "loss": 25.05,
+      "net": 673.98,
       "micro": {
-        "gain": 1.92,
-        "loss": 4.88,
-        "gainCount": 25,
-        "lossCount": 51
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 26,
-        "loss": 11
+        "gain": 51,
+        "loss": 62
       },
       "raw": {
         "gain": 699.02,
@@ -1380,55 +1380,55 @@
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 25.92,
-          "loss": 0,
-          "net": 25.92
+          "loss": 0.82,
+          "net": 25.1
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 55.9,
-          "loss": 0.55,
-          "net": 55.35
+          "gain": 56,
+          "loss": 1.03,
+          "net": 54.97
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 10.6,
-          "loss": 4.38,
-          "net": 6.22
+          "gain": 10.97,
+          "loss": 4.87,
+          "net": 6.1
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 31.18,
-          "loss": 0,
-          "net": 31.18
+          "gain": 31.95,
+          "loss": 1.15,
+          "net": 30.8
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 449.59,
-          "loss": 0,
-          "net": 449.59
+          "gain": 449.65,
+          "loss": 0.46,
+          "net": 449.19
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 34.39,
-          "loss": 2.01,
-          "net": 32.38
+          "loss": 2.37,
+          "net": 32.02
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 7.79,
-          "loss": 0.75,
-          "net": 7.04
+          "loss": 1.25,
+          "net": 6.54
         }
       ],
       "unassigned": {
-        "gain": 81.73,
-        "loss": 12.48,
+        "gain": 82.35,
+        "loss": 13.1,
         "net": 69.25
       }
     },
@@ -1443,19 +1443,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 17.16,
-      "gain": 554.35,
-      "loss": 22.48,
-      "net": 531.87,
+      "rate": 17.09,
+      "gain": 555.31,
+      "loss": 25.67,
+      "net": 529.64,
       "micro": {
-        "gain": 0.97,
-        "loss": 3.19,
-        "gainCount": 19,
-        "lossCount": 37
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 25,
-        "loss": 9
+        "gain": 44,
+        "loss": 46
       },
       "raw": {
         "gain": 555.31,
@@ -1473,57 +1473,57 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 35.11,
-          "loss": 1.31,
-          "net": 33.8
+          "gain": 35.24,
+          "loss": 1.73,
+          "net": 33.51
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 12.23,
-          "loss": 0,
-          "net": 12.23
+          "gain": 12.24,
+          "loss": 0.13,
+          "net": 12.11
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 3.48,
-          "loss": 0,
-          "net": 3.48
+          "gain": 3.5,
+          "loss": 0.17,
+          "net": 3.33
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 9.17,
-          "loss": 3.92,
-          "net": 5.25
+          "gain": 9.49,
+          "loss": 4.65,
+          "net": 4.84
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 349.99,
-          "loss": 2.63,
-          "net": 347.36
+          "gain": 350.09,
+          "loss": 3.4,
+          "net": 346.69
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 111.29,
-          "loss": 0,
-          "net": 111.29
+          "loss": 0.13,
+          "net": 111.16
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 3.69,
-          "loss": 0.95,
-          "net": 2.74
+          "gain": 3.7,
+          "loss": 1.34,
+          "net": 2.36
         }
       ],
       "unassigned": {
-        "gain": 29.38,
-        "loss": 13.66,
-        "net": 15.72
+        "gain": 29.76,
+        "loss": 14.12,
+        "net": 15.64
       }
     },
     {
@@ -1537,19 +1537,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 14.27,
-      "gain": 463.96,
-      "loss": 21.52,
-      "net": 442.45,
+      "rate": 14.22,
+      "gain": 465.96,
+      "loss": 25.27,
+      "net": 440.7,
       "micro": {
-        "gain": 2,
-        "loss": 3.75,
-        "gainCount": 21,
-        "lossCount": 57
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 33,
-        "loss": 8
+        "gain": 54,
+        "loss": 65
       },
       "raw": {
         "gain": 465.96,
@@ -1567,57 +1567,57 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 67.78,
-          "loss": 2.32,
-          "net": 65.46
+          "gain": 67.97,
+          "loss": 2.82,
+          "net": 65.15
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 35.16,
-          "loss": 0,
-          "net": 35.16
+          "gain": 35.48,
+          "loss": 0.2,
+          "net": 35.28
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 14.22,
-          "loss": 0,
-          "net": 14.22
+          "gain": 14.58,
+          "loss": 0.07,
+          "net": 14.51
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 19.75,
-          "loss": 0.71,
-          "net": 19.04
+          "gain": 19.83,
+          "loss": 1.21,
+          "net": 18.62
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 269.62,
-          "loss": 0.66,
-          "net": 268.96
+          "gain": 270.41,
+          "loss": 2.07,
+          "net": 268.34
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 6.43,
-          "loss": 0,
-          "net": 6.43
+          "gain": 6.46,
+          "loss": 0.18,
+          "net": 6.28
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 0,
-          "loss": 0,
-          "net": 0
+          "loss": 0.04,
+          "net": -0.04
         }
       ],
       "unassigned": {
-        "gain": 51,
-        "loss": 17.82,
-        "net": 33.18
+        "gain": 51.23,
+        "loss": 18.66,
+        "net": 32.57
       }
     },
     {
@@ -1631,19 +1631,19 @@
       "days": 28,
       "daysCount": 28,
       "partial": false,
-      "rate": 8.25,
-      "gain": 251.23,
-      "loss": 20.16,
-      "net": 231.07,
+      "rate": 8.23,
+      "gain": 253.66,
+      "loss": 23.31,
+      "net": 230.34,
       "micro": {
-        "gain": 2.42,
-        "loss": 3.15,
-        "gainCount": 30,
-        "lossCount": 63
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 33,
-        "loss": 11
+        "gain": 63,
+        "loss": 74
       },
       "raw": {
         "gain": 253.66,
@@ -1661,37 +1661,37 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 22.53,
-          "loss": 0,
-          "net": 22.53
+          "gain": 22.57,
+          "loss": 0.77,
+          "net": 21.8
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 9.99,
-          "loss": 0,
-          "net": 9.99
+          "gain": 10.67,
+          "loss": 0.24,
+          "net": 10.43
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 9.7,
-          "loss": 0,
-          "net": 9.7
+          "gain": 9.9,
+          "loss": 0.16,
+          "net": 9.74
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 8.61,
-          "loss": 0,
-          "net": 8.61
+          "gain": 9.23,
+          "loss": 0.41,
+          "net": 8.82
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 177.53,
-          "loss": 2.86,
-          "net": 174.67
+          "gain": 178.23,
+          "loss": 4.08,
+          "net": 174.15
         },
         {
           "id": "donetsk_zaporizhzhia",
@@ -1703,15 +1703,15 @@
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 0.81,
-          "loss": 3.14,
-          "net": -2.33
+          "gain": 0.83,
+          "loss": 3.18,
+          "net": -2.35
         }
       ],
       "unassigned": {
-        "gain": 22.08,
-        "loss": 13.62,
-        "net": 8.46
+        "gain": 22.22,
+        "loss": 13.93,
+        "net": 8.29
       }
     },
     {
@@ -1725,19 +1725,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 22.93,
-      "gain": 722.2,
-      "loss": 11.3,
-      "net": 710.9,
+      "rate": 22.82,
+      "gain": 723.9,
+      "loss": 16.62,
+      "net": 707.28,
       "micro": {
-        "gain": 1.7,
-        "loss": 5.32,
-        "gainCount": 26,
-        "lossCount": 70
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 35,
-        "loss": 8
+        "gain": 61,
+        "loss": 78
       },
       "raw": {
         "gain": 723.9,
@@ -1755,37 +1755,37 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 26.15,
-          "loss": 0,
-          "net": 26.15
+          "gain": 26.54,
+          "loss": 0.91,
+          "net": 25.63
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 15.98,
-          "loss": 0,
-          "net": 15.98
+          "gain": 16.35,
+          "loss": 0.59,
+          "net": 15.76
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 23.01,
-          "loss": 0,
-          "net": 23.01
+          "gain": 23.08,
+          "loss": 0.47,
+          "net": 22.61
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 17.22,
-          "loss": 0,
-          "net": 17.22
+          "gain": 17.34,
+          "loss": 0.41,
+          "net": 16.93
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 148.82,
-          "loss": 11.3,
-          "net": 137.52
+          "gain": 149.56,
+          "loss": 12.96,
+          "net": 136.6
         },
         {
           "id": "donetsk_zaporizhzhia",
@@ -1798,14 +1798,14 @@
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 36.35,
-          "loss": 0,
-          "net": 36.35
+          "loss": 0.86,
+          "net": 35.49
         }
       ],
       "unassigned": {
         "gain": 454.66,
-        "loss": 0,
-        "net": 454.66
+        "loss": 0.43,
+        "net": 454.23
       }
     },
     {
@@ -1819,19 +1819,19 @@
       "days": 30,
       "daysCount": 30,
       "partial": false,
-      "rate": 11.16,
-      "gain": 337.66,
-      "loss": 2.73,
-      "net": 334.93,
+      "rate": 11.04,
+      "gain": 339.22,
+      "loss": 8.17,
+      "net": 331.05,
       "micro": {
-        "gain": 1.56,
-        "loss": 5.44,
-        "gainCount": 24,
-        "lossCount": 64
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 34,
-        "loss": 3
+        "gain": 58,
+        "loss": 67
       },
       "raw": {
         "gain": 339.22,
@@ -1849,37 +1849,37 @@
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 10.83,
-          "loss": 0.54,
-          "net": 10.29
+          "gain": 10.84,
+          "loss": 0.84,
+          "net": 10
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 1.9,
-          "loss": 0,
-          "net": 1.9
+          "gain": 2.77,
+          "loss": 0.24,
+          "net": 2.53
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
           "gain": 57.18,
-          "loss": 0,
-          "net": 57.18
+          "loss": 0.58,
+          "net": 56.6
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 15.81,
-          "loss": 0,
-          "net": 15.81
+          "gain": 16.42,
+          "loss": 0.45,
+          "net": 15.97
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 147.22,
-          "loss": 0.88,
-          "net": 146.34
+          "gain": 147.25,
+          "loss": 3.43,
+          "net": 143.82
         },
         {
           "id": "donetsk_zaporizhzhia",
@@ -1891,15 +1891,15 @@
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 16.39,
-          "loss": 0,
-          "net": 16.39
+          "gain": 16.42,
+          "loss": 1.27,
+          "net": 15.15
         }
       ],
       "unassigned": {
-        "gain": 71.66,
-        "loss": 1.31,
-        "net": 70.35
+        "gain": 71.69,
+        "loss": 1.36,
+        "net": 70.33
       }
     },
     {
@@ -1913,19 +1913,19 @@
       "days": 31,
       "daysCount": 31,
       "partial": false,
-      "rate": 18.39,
-      "gain": 577.23,
-      "loss": 7.28,
-      "net": 569.95,
+      "rate": 18.3,
+      "gain": 579.34,
+      "loss": 12.02,
+      "net": 567.32,
       "micro": {
-        "gain": 2.11,
-        "loss": 4.74,
-        "gainCount": 29,
-        "lossCount": 55
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 30,
-        "loss": 6
+        "gain": 59,
+        "loss": 61
       },
       "raw": {
         "gain": 579.34,
@@ -1937,63 +1937,63 @@
           "id": "sumy",
           "name": "Сумская область",
           "gain": 39.11,
-          "loss": 0,
-          "net": 39.11
+          "loss": 0.15,
+          "net": 38.96
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 4.48,
-          "loss": 0,
-          "net": 4.48
+          "gain": 4.64,
+          "loss": 0.27,
+          "net": 4.37
         },
         {
           "id": "borovaya",
           "name": "Боровая",
           "gain": 23.38,
-          "loss": 0,
-          "net": 23.38
+          "loss": 0.43,
+          "net": 22.95
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 29.79,
-          "loss": 2.75,
-          "net": 27.04
+          "gain": 29.86,
+          "loss": 3.41,
+          "net": 26.45
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 24.61,
-          "loss": 0.73,
-          "net": 23.88
+          "gain": 25.16,
+          "loss": 1.58,
+          "net": 23.58
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 439.51,
-          "loss": 0,
-          "net": 439.51
+          "gain": 439.96,
+          "loss": 1.64,
+          "net": 438.32
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 0,
-          "loss": 0,
-          "net": 0
+          "gain": 0.01,
+          "loss": 0.24,
+          "net": -0.23
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 4.15,
-          "loss": 3.8,
-          "net": 0.35
+          "gain": 4.74,
+          "loss": 3.83,
+          "net": 0.91
         }
       ],
       "unassigned": {
-        "gain": 12.2,
-        "loss": 0,
-        "net": 12.2
+        "gain": 12.49,
+        "loss": 0.47,
+        "net": 12.02
       }
     },
     {
@@ -2007,19 +2007,19 @@
       "days": 30,
       "daysCount": 30,
       "partial": false,
-      "rate": 15.12,
-      "gain": 471.13,
-      "loss": 17.48,
-      "net": 453.65,
+      "rate": 15.06,
+      "gain": 473.77,
+      "loss": 21.97,
+      "net": 451.81,
       "micro": {
-        "gain": 2.65,
-        "loss": 4.49,
-        "gainCount": 23,
-        "lossCount": 59
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 34,
-        "loss": 8
+        "gain": 57,
+        "loss": 67
       },
       "raw": {
         "gain": 473.77,
@@ -2031,63 +2031,63 @@
           "id": "sumy",
           "name": "Сумская область",
           "gain": 86.31,
-          "loss": 0,
-          "net": 86.31
+          "loss": 0.21,
+          "net": 86.1
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 22.95,
-          "loss": 0,
-          "net": 22.95
+          "gain": 24.25,
+          "loss": 0.47,
+          "net": 23.78
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 5.1,
-          "loss": 9.7,
-          "net": -4.6
+          "gain": 5.16,
+          "loss": 10.1,
+          "net": -4.94
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 29.7,
-          "loss": 2.08,
-          "net": 27.62
+          "gain": 29.72,
+          "loss": 2.4,
+          "net": 27.32
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 35.61,
-          "loss": 1.94,
-          "net": 33.67
+          "gain": 36.42,
+          "loss": 2.84,
+          "net": 33.58
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 257.35,
-          "loss": 2.34,
-          "net": 255.01
+          "gain": 257.4,
+          "loss": 4.02,
+          "net": 253.38
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 11.83,
-          "loss": 0,
-          "net": 11.83
+          "loss": 0.35,
+          "net": 11.48
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 11.9,
-          "loss": 0.87,
-          "net": 11.03
+          "loss": 0.99,
+          "net": 10.91
         }
       ],
       "unassigned": {
-        "gain": 10.38,
-        "loss": 0.56,
-        "net": 9.82
+        "gain": 10.78,
+        "loss": 0.59,
+        "net": 10.19
       }
     },
     {
@@ -2101,19 +2101,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 13.87,
-      "gain": 478.49,
-      "loss": 34.71,
-      "net": 443.77,
+      "rate": 13.74,
+      "gain": 480.06,
+      "loss": 40.31,
+      "net": 439.75,
       "micro": {
-        "gain": 1.57,
-        "loss": 5.6,
-        "gainCount": 22,
-        "lossCount": 57
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 37,
-        "loss": 10
+        "gain": 59,
+        "loss": 67
       },
       "raw": {
         "gain": 480.06,
@@ -2124,64 +2124,64 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 29.73,
-          "loss": 11.94,
-          "net": 17.79
+          "gain": 29.74,
+          "loss": 12.1,
+          "net": 17.64
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 48.91,
-          "loss": 5.13,
-          "net": 43.78
+          "gain": 49.62,
+          "loss": 6.31,
+          "net": 43.31
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 13.06,
-          "loss": 13.17,
-          "net": -0.11
+          "gain": 13.31,
+          "loss": 14.1,
+          "net": -0.79
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 65.51,
-          "loss": 0,
-          "net": 65.51
+          "gain": 65.54,
+          "loss": 0.28,
+          "net": 65.26
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 41.4,
-          "loss": 0,
-          "net": 41.4
+          "gain": 41.64,
+          "loss": 1.59,
+          "net": 40.05
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 248.03,
-          "loss": 4.47,
-          "net": 243.56
+          "gain": 248.1,
+          "loss": 5.34,
+          "net": 242.76
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 3.4,
-          "loss": 0,
-          "net": 3.4
+          "loss": 0.07,
+          "net": 3.33
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 23.01,
-          "loss": 0,
-          "net": 23.01
+          "loss": 0.16,
+          "net": 22.85
         }
       ],
       "unassigned": {
-        "gain": 5.44,
-        "loss": 0,
-        "net": 5.44
+        "gain": 5.71,
+        "loss": 0.37,
+        "net": 5.34
       }
     },
     {
@@ -2195,19 +2195,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 14.41,
-      "gain": 504.23,
-      "loss": 43.24,
-      "net": 460.98,
+      "rate": 14.26,
+      "gain": 506.31,
+      "loss": 50.04,
+      "net": 456.27,
       "micro": {
-        "gain": 2.08,
-        "loss": 6.8,
-        "gainCount": 22,
-        "lossCount": 63
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 40,
-        "loss": 16
+        "gain": 62,
+        "loss": 79
       },
       "raw": {
         "gain": 506.31,
@@ -2218,44 +2218,44 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 3.17,
-          "loss": 1.54,
-          "net": 1.63
+          "gain": 3.66,
+          "loss": 1.59,
+          "net": 2.07
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 19.71,
-          "loss": 2.8,
-          "net": 16.91
+          "loss": 2.9,
+          "net": 16.81
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 7.55,
-          "loss": 1.35,
-          "net": 6.2
+          "gain": 7.87,
+          "loss": 2.5,
+          "net": 5.37
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 33.78,
-          "loss": 6.1,
-          "net": 27.68
+          "gain": 34.19,
+          "loss": 7.36,
+          "net": 26.83
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 89.5,
-          "loss": 0.58,
-          "net": 88.92
+          "gain": 90,
+          "loss": 2.21,
+          "net": 87.79
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 241.8,
-          "loss": 2.31,
-          "net": 239.49
+          "gain": 242.09,
+          "loss": 4.33,
+          "net": 237.76
         },
         {
           "id": "donetsk_zaporizhzhia",
@@ -2267,15 +2267,15 @@
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 54.89,
-          "loss": 0.9,
-          "net": 53.99
+          "gain": 54.94,
+          "loss": 1.38,
+          "net": 53.56
         }
       ],
       "unassigned": {
         "gain": 53.83,
-        "loss": 27.66,
-        "net": 26.17
+        "loss": 27.76,
+        "net": 26.07
       }
     },
     {
@@ -2289,19 +2289,19 @@
       "days": 28,
       "daysCount": 28,
       "partial": false,
-      "rate": 17.71,
-      "gain": 510.93,
-      "loss": 15.04,
-      "net": 495.89,
+      "rate": 17.58,
+      "gain": 513.32,
+      "loss": 21.06,
+      "net": 492.26,
       "micro": {
-        "gain": 2.39,
-        "loss": 6.02,
-        "gainCount": 30,
-        "lossCount": 63
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 35,
-        "loss": 9
+        "gain": 65,
+        "loss": 72
       },
       "raw": {
         "gain": 513.32,
@@ -2312,64 +2312,64 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 0,
-          "loss": 7.89,
-          "net": -7.89
+          "gain": 0.38,
+          "loss": 8.14,
+          "net": -7.76
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 16.42,
-          "loss": 0.53,
-          "net": 15.89
+          "gain": 17.03,
+          "loss": 1.36,
+          "net": 15.67
         },
         {
           "id": "borovaya",
           "name": "Боровая",
           "gain": 17.51,
-          "loss": 0,
-          "net": 17.51
+          "loss": 0.47,
+          "net": 17.04
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 158.62,
-          "loss": 1.15,
-          "net": 157.47
+          "gain": 158.78,
+          "loss": 1.77,
+          "net": 157.01
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 116.83,
-          "loss": 1.17,
-          "net": 115.66
+          "gain": 117.4,
+          "loss": 2.5,
+          "net": 114.9
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 197.12,
-          "loss": 3.62,
-          "net": 193.5
+          "gain": 197.69,
+          "loss": 6.02,
+          "net": 191.67
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 0,
+          "gain": 0.01,
           "loss": 0.67,
-          "net": -0.67
+          "net": -0.66
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 4.43,
-          "loss": 0,
-          "net": 4.43
+          "loss": 0.11,
+          "net": 4.32
         }
       ],
       "unassigned": {
-        "gain": 0,
-        "loss": 0,
-        "net": 0
+        "gain": 0.09,
+        "loss": 0.01,
+        "net": 0.08
       }
     },
     {
@@ -2383,19 +2383,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 19.51,
-      "gain": 646.99,
-      "loss": 22.83,
-      "net": 624.17,
+      "rate": 19.37,
+      "gain": 650.33,
+      "loss": 30.59,
+      "net": 619.74,
       "micro": {
-        "gain": 3.34,
-        "loss": 7.77,
-        "gainCount": 27,
-        "lossCount": 73
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 47,
-        "loss": 12
+        "gain": 74,
+        "loss": 85
       },
       "raw": {
         "gain": 650.33,
@@ -2406,44 +2406,44 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 0,
-          "loss": 8.56,
-          "net": -8.56
+          "gain": 0.74,
+          "loss": 8.58,
+          "net": -7.84
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 53.33,
-          "loss": 4.07,
-          "net": 49.26
+          "gain": 54.48,
+          "loss": 5.1,
+          "net": 49.38
         },
         {
           "id": "borovaya",
           "name": "Боровая",
           "gain": 0,
-          "loss": 0,
-          "net": 0
+          "loss": 0.09,
+          "net": -0.09
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 60.68,
-          "loss": 1.14,
-          "net": 59.54
+          "gain": 60.71,
+          "loss": 2,
+          "net": 58.71
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 110.8,
-          "loss": 1.81,
-          "net": 108.99
+          "gain": 110.84,
+          "loss": 4.39,
+          "net": 106.45
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 296.01,
-          "loss": 2.66,
-          "net": 293.35
+          "gain": 297.25,
+          "loss": 4.85,
+          "net": 292.4
         },
         {
           "id": "donetsk_zaporizhzhia",
@@ -2455,15 +2455,15 @@
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 70.15,
-          "loss": 0.63,
-          "net": 69.52
+          "gain": 70.28,
+          "loss": 1.62,
+          "net": 68.66
         }
       ],
       "unassigned": {
         "gain": 10.04,
-        "loss": 0,
-        "net": 10.04
+        "loss": 0.01,
+        "net": 10.03
       }
     },
     {
@@ -2477,19 +2477,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 17.56,
-      "gain": 614.93,
-      "loss": 53.12,
-      "net": 561.81,
+      "rate": 17.41,
+      "gain": 616.35,
+      "loss": 59.33,
+      "net": 557.02,
       "micro": {
-        "gain": 1.42,
-        "loss": 6.21,
-        "gainCount": 27,
-        "lossCount": 65
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 42,
-        "loss": 13
+        "gain": 69,
+        "loss": 78
       },
       "raw": {
         "gain": 616.35,
@@ -2500,64 +2500,64 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 1.74,
-          "loss": 0.65,
-          "net": 1.09
+          "gain": 2,
+          "loss": 0.67,
+          "net": 1.33
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 55.25,
-          "loss": 0,
-          "net": 55.25
+          "loss": 0.91,
+          "net": 54.34
         },
         {
           "id": "borovaya",
           "name": "Боровая",
           "gain": 15.78,
-          "loss": 0,
-          "net": 15.78
+          "loss": 0.29,
+          "net": 15.49
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 48.21,
-          "loss": 2.1,
-          "net": 46.11
+          "gain": 48.23,
+          "loss": 3.17,
+          "net": 45.06
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 56.74,
-          "loss": 9.67,
-          "net": 47.07
+          "gain": 57.84,
+          "loss": 11.38,
+          "net": 46.46
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 213.85,
-          "loss": 6.45,
-          "net": 207.4
+          "gain": 213.89,
+          "loss": 7.81,
+          "net": 206.08
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 197.68,
-          "loss": 0,
-          "net": 197.68
+          "loss": 0.02,
+          "net": 197.66
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 15.47,
-          "loss": 34.25,
-          "net": -18.78
+          "loss": 34.9,
+          "net": -19.43
         }
       ],
       "unassigned": {
         "gain": 10.21,
-        "loss": 0,
-        "net": 10.21
+        "loss": 0.17,
+        "net": 10.04
       }
     },
     {
@@ -2571,19 +2571,19 @@
       "days": 28,
       "daysCount": 28,
       "partial": false,
-      "rate": 16.9,
-      "gain": 490.78,
-      "loss": 17.45,
-      "net": 473.33,
+      "rate": 16.86,
+      "gain": 493.42,
+      "loss": 21.41,
+      "net": 472.01,
       "micro": {
-        "gain": 2.64,
-        "loss": 3.96,
-        "gainCount": 35,
-        "lossCount": 59
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 26,
-        "loss": 13
+        "gain": 61,
+        "loss": 72
       },
       "raw": {
         "gain": 493.42,
@@ -2595,63 +2595,63 @@
           "id": "sumy",
           "name": "Сумская область",
           "gain": 1.19,
-          "loss": 0,
-          "net": 1.19
+          "loss": 0.15,
+          "net": 1.04
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 53.52,
-          "loss": 9.93,
-          "net": 43.59
+          "gain": 53.96,
+          "loss": 9.98,
+          "net": 43.98
         },
         {
           "id": "borovaya",
           "name": "Боровая",
           "gain": 6.48,
-          "loss": 0,
-          "net": 6.48
+          "loss": 0.39,
+          "net": 6.09
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 96.95,
-          "loss": 1.49,
-          "net": 95.46
+          "gain": 97.01,
+          "loss": 1.76,
+          "net": 95.25
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 49.66,
-          "loss": 0.53,
-          "net": 49.13
+          "gain": 49.93,
+          "loss": 1.18,
+          "net": 48.75
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 93.7,
-          "loss": 2.96,
-          "net": 90.74
+          "gain": 95.36,
+          "loss": 4.54,
+          "net": 90.82
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 167.56,
-          "loss": 0.89,
-          "net": 166.67
+          "loss": 1.36,
+          "net": 166.2
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 12.05,
-          "loss": 1.65,
-          "net": 10.4
+          "gain": 12.26,
+          "loss": 2.01,
+          "net": 10.25
         }
       ],
       "unassigned": {
         "gain": 9.68,
-        "loss": 0,
-        "net": 9.68
+        "loss": 0.03,
+        "net": 9.65
       }
     },
     {
@@ -2665,19 +2665,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 17.68,
-      "gain": 584.44,
-      "loss": 18.57,
-      "net": 565.86,
+      "rate": 17.48,
+      "gain": 585.54,
+      "loss": 26.14,
+      "net": 559.4,
       "micro": {
-        "gain": 1.1,
-        "loss": 7.57,
-        "gainCount": 24,
-        "lossCount": 71
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 44,
-        "loss": 12
+        "gain": 68,
+        "loss": 83
       },
       "raw": {
         "gain": 585.54,
@@ -2688,64 +2688,64 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 20.17,
-          "loss": 0,
-          "net": 20.17
+          "gain": 20.2,
+          "loss": 0.57,
+          "net": 19.63
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 94.43,
-          "loss": 7.59,
-          "net": 86.84
+          "gain": 94.65,
+          "loss": 8.29,
+          "net": 86.36
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 19.2,
-          "loss": 0,
-          "net": 19.2
+          "gain": 19.31,
+          "loss": 0.27,
+          "net": 19.04
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 80.87,
-          "loss": 1.37,
-          "net": 79.5
+          "gain": 80.89,
+          "loss": 2.08,
+          "net": 78.81
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 125.81,
-          "loss": 1.93,
-          "net": 123.88
+          "gain": 125.94,
+          "loss": 3.47,
+          "net": 122.47
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 55.8,
-          "loss": 1.23,
-          "net": 54.57
+          "gain": 56.24,
+          "loss": 2.33,
+          "net": 53.91
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 40.69,
-          "loss": 3.15,
-          "net": 37.54
+          "gain": 40.77,
+          "loss": 3.95,
+          "net": 36.82
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 106.93,
-          "loss": 3.3,
-          "net": 103.63
+          "gain": 107,
+          "loss": 4.42,
+          "net": 102.58
         }
       ],
       "unassigned": {
         "gain": 40.54,
-        "loss": 0,
-        "net": 40.54
+        "loss": 0.76,
+        "net": 39.78
       }
     },
     {
@@ -2759,19 +2759,19 @@
       "days": 28,
       "daysCount": 28,
       "partial": false,
-      "rate": 9.16,
-      "gain": 319.26,
-      "loss": 62.69,
-      "net": 256.58,
+      "rate": 9.03,
+      "gain": 320.69,
+      "loss": 67.8,
+      "net": 252.89,
       "micro": {
-        "gain": 1.42,
-        "loss": 5.11,
-        "gainCount": 26,
-        "lossCount": 47
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 29,
-        "loss": 12
+        "gain": 55,
+        "loss": 59
       },
       "raw": {
         "gain": 320.69,
@@ -2782,64 +2782,64 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 11.33,
-          "loss": 0,
+          "gain": 11.37,
+          "loss": 0.04,
           "net": 11.33
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 17.82,
-          "loss": 9.42,
-          "net": 8.4
+          "gain": 18.08,
+          "loss": 10.03,
+          "net": 8.05
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 2.15,
-          "loss": 0,
-          "net": 2.15
+          "gain": 2.16,
+          "loss": 0.65,
+          "net": 1.51
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
           "gain": 32.46,
-          "loss": 0.79,
-          "net": 31.67
+          "loss": 1.16,
+          "net": 31.3
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 137.94,
-          "loss": 4.63,
-          "net": 133.31
+          "gain": 137.97,
+          "loss": 5.88,
+          "net": 132.09
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 35.44,
-          "loss": 46.07,
-          "net": -10.63
+          "gain": 36.49,
+          "loss": 46.48,
+          "net": -9.99
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 74.33,
-          "loss": 1.03,
-          "net": 73.3
+          "gain": 74.34,
+          "loss": 1.83,
+          "net": 72.51
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
           "gain": 4.73,
-          "loss": 0,
-          "net": 4.73
+          "loss": 0.95,
+          "net": 3.78
         }
       ],
       "unassigned": {
-        "gain": 3.07,
-        "loss": 0.74,
-        "net": 2.33
+        "gain": 3.1,
+        "loss": 0.76,
+        "net": 2.34
       }
     },
     {
@@ -2853,19 +2853,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 5.38,
-      "gain": 276.99,
-      "loss": 104.89,
-      "net": 172.1,
+      "rate": 5.23,
+      "gain": 278.33,
+      "loss": 110.98,
+      "net": 167.35,
       "micro": {
-        "gain": 1.34,
-        "loss": 6.09,
-        "gainCount": 21,
-        "lossCount": 54
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 30,
-        "loss": 10
+        "gain": 51,
+        "loss": 64
       },
       "raw": {
         "gain": 278.33,
@@ -2877,8 +2877,8 @@
           "id": "sumy",
           "name": "Сумская область",
           "gain": 2.29,
-          "loss": 0,
-          "net": 2.29
+          "loss": 0.24,
+          "net": 2.05
         },
         {
           "id": "kupyansk",
@@ -2890,50 +2890,50 @@
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 2.65,
-          "loss": 0,
-          "net": 2.65
+          "gain": 2.67,
+          "loss": 0.11,
+          "net": 2.56
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 8.46,
-          "loss": 0.69,
-          "net": 7.77
+          "gain": 8.73,
+          "loss": 0.89,
+          "net": 7.84
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 121.72,
-          "loss": 1.27,
-          "net": 120.45
+          "gain": 121.77,
+          "loss": 2.4,
+          "net": 119.37
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 70.97,
-          "loss": 92.77,
-          "net": -21.8
+          "gain": 71.02,
+          "loss": 95.18,
+          "net": -24.16
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 32.65,
-          "loss": 0,
-          "net": 32.65
+          "gain": 32.84,
+          "loss": 1.15,
+          "net": 31.69
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 27.31,
-          "loss": 10.16,
-          "net": 17.15
+          "gain": 27.58,
+          "loss": 10.97,
+          "net": 16.61
         }
       ],
       "unassigned": {
-        "gain": 10.94,
-        "loss": 0,
-        "net": 10.94
+        "gain": 11.43,
+        "loss": 0.04,
+        "net": 11.39
       }
     },
     {
@@ -2947,19 +2947,19 @@
       "days": 28,
       "daysCount": 28,
       "partial": false,
-      "rate": 11.32,
-      "gain": 342.13,
-      "loss": 25.1,
-      "net": 317.03,
+      "rate": 11.27,
+      "gain": 344.8,
+      "loss": 29.12,
+      "net": 315.69,
       "micro": {
-        "gain": 2.68,
-        "loss": 4.02,
-        "gainCount": 27,
-        "lossCount": 59
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 34,
-        "loss": 7
+        "gain": 61,
+        "loss": 66
       },
       "raw": {
         "gain": 344.8,
@@ -2970,64 +2970,64 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 64.22,
-          "loss": 0,
-          "net": 64.22
+          "gain": 64.24,
+          "loss": 0.43,
+          "net": 63.81
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
           "gain": 23.86,
-          "loss": 0,
-          "net": 23.86
+          "loss": 0.2,
+          "net": 23.66
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 3.39,
-          "loss": 0,
-          "net": 3.39
+          "gain": 3.57,
+          "loss": 0.09,
+          "net": 3.48
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 2.47,
-          "loss": 1.72,
-          "net": 0.75
+          "gain": 2.78,
+          "loss": 1.78,
+          "net": 1
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 77.69,
-          "loss": 0,
-          "net": 77.69
+          "gain": 77.74,
+          "loss": 1.29,
+          "net": 76.45
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 51.67,
-          "loss": 12.79,
-          "net": 38.88
+          "gain": 52.54,
+          "loss": 14.18,
+          "net": 38.36
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 59.06,
-          "loss": 0.63,
-          "net": 58.43
+          "gain": 59.52,
+          "loss": 1.02,
+          "net": 58.5
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 5.49,
-          "loss": 9.96,
-          "net": -4.47
+          "gain": 6.26,
+          "loss": 9.97,
+          "net": -3.71
         }
       ],
       "unassigned": {
         "gain": 54.28,
-        "loss": 0,
-        "net": 54.28
+        "loss": 0.16,
+        "net": 54.12
       }
     },
     {
@@ -3041,19 +3041,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 6.95,
-      "gain": 260.83,
-      "loss": 38.53,
-      "net": 222.29,
+      "rate": 6.83,
+      "gain": 264.77,
+      "loss": 46.25,
+      "net": 218.52,
       "micro": {
-        "gain": 3.95,
-        "loss": 7.72,
-        "gainCount": 38,
-        "lossCount": 72
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 40,
-        "loss": 15
+        "gain": 78,
+        "loss": 87
       },
       "raw": {
         "gain": 264.77,
@@ -3064,64 +3064,64 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 40.44,
-          "loss": 0,
-          "net": 40.44
+          "gain": 40.51,
+          "loss": 0.83,
+          "net": 39.68
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 4.64,
-          "loss": 0.79,
-          "net": 3.85
+          "gain": 4.99,
+          "loss": 1.28,
+          "net": 3.71
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 6.3,
-          "loss": 0,
-          "net": 6.3
+          "gain": 6.69,
+          "loss": 0.84,
+          "net": 5.85
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 11.08,
-          "loss": 2.32,
-          "net": 8.76
+          "gain": 12.22,
+          "loss": 3.04,
+          "net": 9.18
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 39.97,
-          "loss": 0,
-          "net": 39.97
+          "gain": 40.29,
+          "loss": 1.26,
+          "net": 39.03
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 73.96,
-          "loss": 19.66,
-          "net": 54.3
+          "gain": 74.42,
+          "loss": 21.1,
+          "net": 53.32
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 59.94,
-          "loss": 4.01,
-          "net": 55.93
+          "gain": 60.02,
+          "loss": 4.55,
+          "net": 55.47
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 0,
-          "loss": 8.18,
-          "net": -8.18
+          "gain": 0.95,
+          "loss": 8.56,
+          "net": -7.61
         }
       ],
       "unassigned": {
-        "gain": 24.48,
-        "loss": 3.57,
-        "net": 20.91
+        "gain": 24.68,
+        "loss": 4.79,
+        "net": 19.89
       }
     },
     {
@@ -3135,19 +3135,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 3.28,
-      "gain": 256.21,
-      "loss": 151.4,
-      "net": 104.81,
+      "rate": 3.11,
+      "gain": 260.55,
+      "loss": 161.02,
+      "net": 99.52,
       "micro": {
-        "gain": 4.34,
-        "loss": 9.62,
-        "gainCount": 41,
-        "lossCount": 80
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 43,
-        "loss": 15
+        "gain": 84,
+        "loss": 95
       },
       "raw": {
         "gain": 260.55,
@@ -3158,64 +3158,64 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 5.31,
-          "loss": 0,
-          "net": 5.31
+          "gain": 5.34,
+          "loss": 0.6,
+          "net": 4.74
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 17.54,
-          "loss": 0,
-          "net": 17.54
+          "gain": 18.31,
+          "loss": 1.6,
+          "net": 16.71
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 41.83,
-          "loss": 8.32,
-          "net": 33.51
+          "gain": 41.88,
+          "loss": 9.03,
+          "net": 32.85
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 11.37,
-          "loss": 6.92,
-          "net": 4.45
+          "gain": 12.34,
+          "loss": 7.23,
+          "net": 5.11
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 67.65,
-          "loss": 10.77,
-          "net": 56.88
+          "gain": 68.23,
+          "loss": 12.24,
+          "net": 55.99
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 47.74,
-          "loss": 56.77,
-          "net": -9.03
+          "gain": 48.77,
+          "loss": 58.78,
+          "net": -10.01
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 46.4,
-          "loss": 0,
-          "net": 46.4
+          "gain": 46.45,
+          "loss": 1.39,
+          "net": 45.06
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 8.68,
-          "loss": 64.33,
-          "net": -55.65
+          "gain": 9.33,
+          "loss": 65.17,
+          "net": -55.84
         }
       ],
       "unassigned": {
-        "gain": 9.68,
-        "loss": 4.29,
-        "net": 5.39
+        "gain": 9.9,
+        "loss": 5,
+        "net": 4.9
       }
     },
     {
@@ -3229,19 +3229,19 @@
       "days": 28,
       "daysCount": 28,
       "partial": false,
-      "rate": 5.17,
-      "gain": 194.33,
-      "loss": 49.62,
-      "net": 144.71,
+      "rate": 5.19,
+      "gain": 198.2,
+      "loss": 52.81,
+      "net": 145.39,
       "micro": {
-        "gain": 3.87,
-        "loss": 3.19,
-        "gainCount": 39,
-        "lossCount": 54
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 23,
-        "loss": 13
+        "gain": 62,
+        "loss": 67
       },
       "raw": {
         "gain": 198.2,
@@ -3252,9 +3252,9 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 43.05,
-          "loss": 6.99,
-          "net": 36.06
+          "gain": 43.51,
+          "loss": 7.4,
+          "net": 36.11
         },
         {
           "id": "kupyansk",
@@ -3266,9 +3266,9 @@
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 0,
+          "gain": 0.24,
           "loss": 1.43,
-          "net": -1.43
+          "net": -1.19
         },
         {
           "id": "krasny_liman",
@@ -3280,36 +3280,36 @@
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 49.73,
-          "loss": 3.79,
-          "net": 45.94
+          "gain": 50.75,
+          "loss": 4.9,
+          "net": 45.85
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 59.51,
-          "loss": 32.54,
-          "net": 26.97
+          "gain": 60.76,
+          "loss": 32.91,
+          "net": 27.85
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 9.84,
-          "loss": 0,
-          "net": 9.84
+          "gain": 9.85,
+          "loss": 0.47,
+          "net": 9.38
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 1.28,
-          "loss": 4.06,
-          "net": -2.78
+          "gain": 1.56,
+          "loss": 4.07,
+          "net": -2.51
         }
       ],
       "unassigned": {
-        "gain": 30.92,
-        "loss": 0.82,
-        "net": 30.1
+        "gain": 31.52,
+        "loss": 1.61,
+        "net": 29.91
       }
     },
     {
@@ -3323,19 +3323,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 7.01,
-      "gain": 327.87,
-      "loss": 103.43,
-      "net": 224.44,
+      "rate": 6.91,
+      "gain": 331.02,
+      "loss": 109.87,
+      "net": 221.15,
       "micro": {
-        "gain": 3.15,
-        "loss": 6.44,
-        "gainCount": 31,
-        "lossCount": 58
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 37,
-        "loss": 17
+        "gain": 68,
+        "loss": 75
       },
       "raw": {
         "gain": 331.02,
@@ -3347,63 +3347,63 @@
           "id": "sumy",
           "name": "Сумская область",
           "gain": 17.74,
-          "loss": 0,
-          "net": 17.74
+          "loss": 0.71,
+          "net": 17.03
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 0.66,
-          "loss": 0,
-          "net": 0.66
+          "gain": 1.49,
+          "loss": 0.33,
+          "net": 1.16
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 6.67,
-          "loss": 1.29,
-          "net": 5.38
+          "gain": 6.83,
+          "loss": 1.34,
+          "net": 5.49
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 0,
-          "loss": 10.08,
-          "net": -10.08
+          "gain": 0.1,
+          "loss": 10.11,
+          "net": -10.01
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 132.67,
-          "loss": 3.46,
-          "net": 129.21
+          "gain": 133.19,
+          "loss": 5.93,
+          "net": 127.26
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 18.5,
-          "loss": 76.43,
-          "net": -57.93
+          "gain": 19.35,
+          "loss": 77.6,
+          "net": -58.25
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
           "gain": 43.43,
-          "loss": 2.79,
-          "net": 40.64
+          "loss": 2.97,
+          "net": 40.46
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 19.66,
-          "loss": 9.38,
-          "net": 10.28
+          "gain": 20.33,
+          "loss": 9.4,
+          "net": 10.93
         }
       ],
       "unassigned": {
         "gain": 88.55,
-        "loss": 0,
-        "net": 88.55
+        "loss": 1.48,
+        "net": 87.07
       }
     },
     {
@@ -3417,19 +3417,19 @@
       "days": 32,
       "daysCount": 32,
       "partial": false,
-      "rate": 5.77,
-      "gain": 343.1,
-      "loss": 158.37,
-      "net": 184.73,
+      "rate": 5.78,
+      "gain": 348.36,
+      "loss": 163.47,
+      "net": 184.9,
       "micro": {
-        "gain": 5.27,
-        "loss": 5.1,
-        "gainCount": 53,
-        "lossCount": 74
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 38,
-        "loss": 17
+        "gain": 91,
+        "loss": 91
       },
       "raw": {
         "gain": 348.36,
@@ -3440,16 +3440,16 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 12.31,
-          "loss": 0,
-          "net": 12.31
+          "gain": 12.73,
+          "loss": 0.53,
+          "net": 12.2
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 3.11,
-          "loss": 5.17,
-          "net": -2.06
+          "gain": 4.88,
+          "loss": 5.7,
+          "net": -0.82
         },
         {
           "id": "borovaya",
@@ -3461,43 +3461,43 @@
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 2.11,
-          "loss": 118.37,
-          "net": -116.26
+          "gain": 3.7,
+          "loss": 118.89,
+          "net": -115.19
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 115.33,
-          "loss": 5.32,
-          "net": 110.01
+          "gain": 115.47,
+          "loss": 6.77,
+          "net": 108.7
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 79.76,
-          "loss": 29,
-          "net": 50.76
+          "gain": 80.41,
+          "loss": 29.43,
+          "net": 50.98
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 1.83,
-          "loss": 0.52,
-          "net": 1.31
+          "gain": 1.94,
+          "loss": 0.82,
+          "net": 1.12
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 68.3,
-          "loss": 0,
-          "net": 68.3
+          "gain": 68.31,
+          "loss": 0.54,
+          "net": 67.77
         }
       ],
       "unassigned": {
-        "gain": 60.35,
-        "loss": 0,
-        "net": 60.35
+        "gain": 60.94,
+        "loss": 0.79,
+        "net": 60.15
       }
     },
     {
@@ -3511,19 +3511,19 @@
       "days": 20,
       "daysCount": 20,
       "partial": true,
-      "rate": -1.22,
-      "gain": 212.72,
-      "loss": 237.05,
-      "net": -24.34,
+      "rate": -1.19,
+      "gain": 216.36,
+      "loss": 240.24,
+      "net": -23.88,
       "micro": {
-        "gain": 3.65,
-        "loss": 3.19,
-        "gainCount": 42,
-        "lossCount": 54
+        "gain": 0,
+        "loss": 0,
+        "gainCount": 0,
+        "lossCount": 0
       },
       "components": {
-        "gain": 24,
-        "loss": 11
+        "gain": 66,
+        "loss": 65
       },
       "raw": {
         "gain": 216.36,
@@ -3534,76 +3534,76 @@
         {
           "id": "sumy",
           "name": "Сумская область",
-          "gain": 3.88,
-          "loss": 0,
-          "net": 3.88
+          "gain": 3.93,
+          "loss": 0.18,
+          "net": 3.75
         },
         {
           "id": "kupyansk",
           "name": "Купянское направление",
-          "gain": 1.8,
-          "loss": 0,
-          "net": 1.8
+          "gain": 2.17,
+          "loss": 0.38,
+          "net": 1.79
         },
         {
           "id": "borovaya",
           "name": "Боровая",
-          "gain": 0,
+          "gain": 0.01,
           "loss": 0,
-          "net": 0
+          "net": 0.01
         },
         {
           "id": "krasny_liman",
           "name": "Красный Лиман",
-          "gain": 0.53,
-          "loss": 147.44,
-          "net": -146.91
+          "gain": 1.22,
+          "loss": 147.6,
+          "net": -146.38
         },
         {
           "id": "slavyansk",
           "name": "Славянское (Северск - Славянск - Краматорск)",
-          "gain": 51.72,
-          "loss": 5.4,
-          "net": 46.32
+          "gain": 52.01,
+          "loss": 6.24,
+          "net": 45.77
         },
         {
           "id": "krasnoarmeysk",
           "name": "Красноармейское (Авдеевка - Красноармейск)",
-          "gain": 23.07,
-          "loss": 6.52,
-          "net": 16.55
+          "gain": 24.2,
+          "loss": 6.94,
+          "net": 17.26
         },
         {
           "id": "donetsk_zaporizhzhia",
           "name": "Донецко-Запорожское (Угледар - Великая Новосёлка - Гуляйполе)",
-          "gain": 18.85,
-          "loss": 27.64,
-          "net": -8.79
+          "gain": 19.02,
+          "loss": 28.2,
+          "net": -9.18
         },
         {
           "id": "orekhiv",
           "name": "Днепровско-Запорожское (Орехов - Степногорск)",
-          "gain": 12.37,
-          "loss": 2.61,
-          "net": 9.76
+          "gain": 12.63,
+          "loss": 2.89,
+          "net": 9.74
         }
       ],
       "unassigned": {
-        "gain": 100.49,
-        "loss": 47.44,
-        "net": 53.05
+        "gain": 101.17,
+        "loss": 47.8,
+        "net": 53.37
       }
     }
   ],
   "totals": {
-    "gain": 13605.14,
-    "loss": 2755.71,
-    "net": 10849.39
+    "gain": 13702.78,
+    "loss": 2935.07,
+    "net": 10767.75
   },
   "fullTotals": {
-    "gain": 13392.42,
-    "loss": 2518.66,
-    "net": 10873.73
+    "gain": 13486.42,
+    "loss": 2694.83,
+    "net": 10791.63
   },
   "directions": [
     {
@@ -3859,8 +3859,8 @@
           "days": 31,
           "partial": false,
           "gain": 39.11,
-          "loss": 0,
-          "net": 39.11,
+          "loss": 0.15,
+          "net": 38.96,
           "rate": 1.26
         },
         {
@@ -3871,9 +3871,9 @@
           "days": 30,
           "partial": false,
           "gain": 86.31,
-          "loss": 0,
-          "net": 86.31,
-          "rate": 2.88
+          "loss": 0.21,
+          "net": 86.1,
+          "rate": 2.87
         },
         {
           "month": "2025-07",
@@ -3882,10 +3882,10 @@
           "to": "2025-08-02",
           "days": 32,
           "partial": false,
-          "gain": 29.73,
-          "loss": 11.94,
-          "net": 17.79,
-          "rate": 0.56
+          "gain": 29.74,
+          "loss": 12.1,
+          "net": 17.64,
+          "rate": 0.55
         },
         {
           "month": "2025-08",
@@ -3894,10 +3894,10 @@
           "to": "2025-09-03",
           "days": 32,
           "partial": false,
-          "gain": 3.17,
-          "loss": 1.54,
-          "net": 1.63,
-          "rate": 0.05
+          "gain": 3.66,
+          "loss": 1.59,
+          "net": 2.07,
+          "rate": 0.06
         },
         {
           "month": "2025-09",
@@ -3906,9 +3906,9 @@
           "to": "2025-10-01",
           "days": 28,
           "partial": false,
-          "gain": 0,
-          "loss": 7.89,
-          "net": -7.89,
+          "gain": 0.38,
+          "loss": 8.14,
+          "net": -7.76,
           "rate": -0.28
         },
         {
@@ -3918,10 +3918,10 @@
           "to": "2025-11-02",
           "days": 32,
           "partial": false,
-          "gain": 0,
-          "loss": 8.56,
-          "net": -8.56,
-          "rate": -0.27
+          "gain": 0.74,
+          "loss": 8.58,
+          "net": -7.84,
+          "rate": -0.24
         },
         {
           "month": "2025-11",
@@ -3930,10 +3930,10 @@
           "to": "2025-12-04",
           "days": 32,
           "partial": false,
-          "gain": 1.74,
-          "loss": 0.65,
-          "net": 1.09,
-          "rate": 0.03
+          "gain": 2,
+          "loss": 0.67,
+          "net": 1.33,
+          "rate": 0.04
         },
         {
           "month": "2025-12",
@@ -3943,8 +3943,8 @@
           "days": 28,
           "partial": false,
           "gain": 1.19,
-          "loss": 0,
-          "net": 1.19,
+          "loss": 0.15,
+          "net": 1.04,
           "rate": 0.04
         },
         {
@@ -3954,10 +3954,10 @@
           "to": "2026-02-02",
           "days": 32,
           "partial": false,
-          "gain": 20.17,
-          "loss": 0,
-          "net": 20.17,
-          "rate": 0.63
+          "gain": 20.2,
+          "loss": 0.57,
+          "net": 19.63,
+          "rate": 0.61
         },
         {
           "month": "2026-02",
@@ -3966,8 +3966,8 @@
           "to": "2026-03-02",
           "days": 28,
           "partial": false,
-          "gain": 11.33,
-          "loss": 0,
+          "gain": 11.37,
+          "loss": 0.04,
           "net": 11.33,
           "rate": 0.4
         },
@@ -3979,9 +3979,9 @@
           "days": 32,
           "partial": false,
           "gain": 2.29,
-          "loss": 0,
-          "net": 2.29,
-          "rate": 0.07
+          "loss": 0.24,
+          "net": 2.05,
+          "rate": 0.06
         },
         {
           "month": "2026-04",
@@ -3990,10 +3990,10 @@
           "to": "2026-05-01",
           "days": 28,
           "partial": false,
-          "gain": 64.22,
-          "loss": 0,
-          "net": 64.22,
-          "rate": 2.29
+          "gain": 64.24,
+          "loss": 0.43,
+          "net": 63.81,
+          "rate": 2.28
         },
         {
           "month": "2026-05",
@@ -4002,10 +4002,10 @@
           "to": "2026-06-02",
           "days": 32,
           "partial": false,
-          "gain": 40.44,
-          "loss": 0,
-          "net": 40.44,
-          "rate": 1.26
+          "gain": 40.51,
+          "loss": 0.83,
+          "net": 39.68,
+          "rate": 1.24
         },
         {
           "month": "2026-06",
@@ -4014,10 +4014,10 @@
           "to": "2026-07-04",
           "days": 32,
           "partial": false,
-          "gain": 5.31,
-          "loss": 0,
-          "net": 5.31,
-          "rate": 0.17
+          "gain": 5.34,
+          "loss": 0.6,
+          "net": 4.74,
+          "rate": 0.15
         },
         {
           "month": "2026-07",
@@ -4026,9 +4026,9 @@
           "to": "2026-08-01",
           "days": 28,
           "partial": false,
-          "gain": 43.05,
-          "loss": 6.99,
-          "net": 36.06,
+          "gain": 43.51,
+          "loss": 7.4,
+          "net": 36.11,
           "rate": 1.29
         },
         {
@@ -4039,9 +4039,9 @@
           "days": 32,
           "partial": false,
           "gain": 17.74,
-          "loss": 0,
-          "net": 17.74,
-          "rate": 0.55
+          "loss": 0.71,
+          "net": 17.03,
+          "rate": 0.53
         },
         {
           "month": "2026-09",
@@ -4050,9 +4050,9 @@
           "to": "2026-10-04",
           "days": 32,
           "partial": false,
-          "gain": 12.31,
-          "loss": 0,
-          "net": 12.31,
+          "gain": 12.73,
+          "loss": 0.53,
+          "net": 12.2,
           "rate": 0.38
         },
         {
@@ -4062,21 +4062,21 @@
           "to": "2026-10-24",
           "days": 20,
           "partial": true,
-          "gain": 3.88,
-          "loss": 0,
-          "net": 3.88,
+          "gain": 3.93,
+          "loss": 0.18,
+          "net": 3.75,
           "rate": 0.19
         }
       ],
       "totals": {
-        "gain": 398.66,
-        "loss": 37.57,
-        "net": 361.09
+        "gain": 401.66,
+        "loss": 43.12,
+        "net": 358.54
       },
       "fullTotals": {
-        "gain": 394.78,
-        "loss": 37.57,
-        "net": 357.21
+        "gain": 397.73,
+        "loss": 42.94,
+        "net": 354.79
       }
     },
     {
@@ -4092,9 +4092,9 @@
           "days": 33,
           "partial": false,
           "gain": 6.63,
-          "loss": 0,
-          "net": 6.63,
-          "rate": 0.2
+          "loss": 0.2,
+          "net": 6.43,
+          "rate": 0.19
         },
         {
           "month": "2023-10",
@@ -4104,8 +4104,8 @@
           "days": 26,
           "partial": false,
           "gain": 17.33,
-          "loss": 1.18,
-          "net": 16.15,
+          "loss": 1.31,
+          "net": 16.02,
           "rate": 0.62
         },
         {
@@ -4115,10 +4115,10 @@
           "to": "2023-12-01",
           "days": 30,
           "partial": false,
-          "gain": 13.03,
-          "loss": 0,
-          "net": 13.03,
-          "rate": 0.43
+          "gain": 13.04,
+          "loss": 0.33,
+          "net": 12.71,
+          "rate": 0.42
         },
         {
           "month": "2023-12",
@@ -4127,10 +4127,10 @@
           "to": "2024-01-01",
           "days": 31,
           "partial": false,
-          "gain": 1.18,
-          "loss": 0,
-          "net": 1.18,
-          "rate": 0.04
+          "gain": 1.64,
+          "loss": 0.13,
+          "net": 1.51,
+          "rate": 0.05
         },
         {
           "month": "2024-01",
@@ -4139,10 +4139,10 @@
           "to": "2024-02-01",
           "days": 31,
           "partial": false,
-          "gain": 1.95,
-          "loss": 0,
-          "net": 1.95,
-          "rate": 0.06
+          "gain": 2.44,
+          "loss": 0.09,
+          "net": 2.35,
+          "rate": 0.08
         },
         {
           "month": "2024-02",
@@ -4151,9 +4151,9 @@
           "to": "2024-03-01",
           "days": 29,
           "partial": false,
-          "gain": 11.41,
-          "loss": 0,
-          "net": 11.41,
+          "gain": 11.56,
+          "loss": 0.27,
+          "net": 11.29,
           "rate": 0.39
         },
         {
@@ -4164,8 +4164,8 @@
           "days": 31,
           "partial": false,
           "gain": 1.05,
-          "loss": 0,
-          "net": 1.05,
+          "loss": 0.12,
+          "net": 0.93,
           "rate": 0.03
         },
         {
@@ -4176,8 +4176,8 @@
           "days": 30,
           "partial": false,
           "gain": 1.02,
-          "loss": 0,
-          "net": 1.02,
+          "loss": 0.07,
+          "net": 0.95,
           "rate": 0.03
         },
         {
@@ -4187,10 +4187,10 @@
           "to": "2024-06-01",
           "days": 31,
           "partial": false,
-          "gain": 15.54,
-          "loss": 0.85,
-          "net": 14.69,
-          "rate": 0.47
+          "gain": 15.55,
+          "loss": 1.21,
+          "net": 14.34,
+          "rate": 0.46
         },
         {
           "month": "2024-06",
@@ -4199,10 +4199,10 @@
           "to": "2024-07-01",
           "days": 30,
           "partial": false,
-          "gain": 18.72,
-          "loss": 0,
-          "net": 18.72,
-          "rate": 0.62
+          "gain": 18.78,
+          "loss": 0.71,
+          "net": 18.07,
+          "rate": 0.6
         },
         {
           "month": "2024-07",
@@ -4211,10 +4211,10 @@
           "to": "2024-08-01",
           "days": 31,
           "partial": false,
-          "gain": 6.24,
-          "loss": 0,
-          "net": 6.24,
-          "rate": 0.2
+          "gain": 7.21,
+          "loss": 0.29,
+          "net": 6.92,
+          "rate": 0.22
         },
         {
           "month": "2024-08",
@@ -4224,9 +4224,9 @@
           "days": 31,
           "partial": false,
           "gain": 38.89,
-          "loss": 0,
-          "net": 38.89,
-          "rate": 1.25
+          "loss": 0.44,
+          "net": 38.45,
+          "rate": 1.24
         },
         {
           "month": "2024-09",
@@ -4236,9 +4236,9 @@
           "days": 30,
           "partial": false,
           "gain": 40.11,
-          "loss": 2.62,
-          "net": 37.49,
-          "rate": 1.25
+          "loss": 2.85,
+          "net": 37.26,
+          "rate": 1.24
         },
         {
           "month": "2024-10",
@@ -4247,10 +4247,10 @@
           "to": "2024-11-01",
           "days": 31,
           "partial": false,
-          "gain": 42.49,
-          "loss": 1.04,
-          "net": 41.45,
-          "rate": 1.34
+          "gain": 42.8,
+          "loss": 1.88,
+          "net": 40.92,
+          "rate": 1.32
         },
         {
           "month": "2024-11",
@@ -4260,9 +4260,9 @@
           "days": 30,
           "partial": false,
           "gain": 25.92,
-          "loss": 0,
-          "net": 25.92,
-          "rate": 0.86
+          "loss": 0.82,
+          "net": 25.1,
+          "rate": 0.84
         },
         {
           "month": "2024-12",
@@ -4271,10 +4271,10 @@
           "to": "2025-01-01",
           "days": 31,
           "partial": false,
-          "gain": 35.11,
-          "loss": 1.31,
-          "net": 33.8,
-          "rate": 1.09
+          "gain": 35.24,
+          "loss": 1.73,
+          "net": 33.51,
+          "rate": 1.08
         },
         {
           "month": "2025-01",
@@ -4283,10 +4283,10 @@
           "to": "2025-02-01",
           "days": 31,
           "partial": false,
-          "gain": 67.78,
-          "loss": 2.32,
-          "net": 65.46,
-          "rate": 2.11
+          "gain": 67.97,
+          "loss": 2.82,
+          "net": 65.15,
+          "rate": 2.1
         },
         {
           "month": "2025-02",
@@ -4295,10 +4295,10 @@
           "to": "2025-03-01",
           "days": 28,
           "partial": false,
-          "gain": 22.53,
-          "loss": 0,
-          "net": 22.53,
-          "rate": 0.8
+          "gain": 22.57,
+          "loss": 0.77,
+          "net": 21.8,
+          "rate": 0.78
         },
         {
           "month": "2025-03",
@@ -4307,10 +4307,10 @@
           "to": "2025-04-01",
           "days": 31,
           "partial": false,
-          "gain": 26.15,
-          "loss": 0,
-          "net": 26.15,
-          "rate": 0.84
+          "gain": 26.54,
+          "loss": 0.91,
+          "net": 25.63,
+          "rate": 0.83
         },
         {
           "month": "2025-04",
@@ -4319,10 +4319,10 @@
           "to": "2025-05-01",
           "days": 30,
           "partial": false,
-          "gain": 10.83,
-          "loss": 0.54,
-          "net": 10.29,
-          "rate": 0.34
+          "gain": 10.84,
+          "loss": 0.84,
+          "net": 10,
+          "rate": 0.33
         },
         {
           "month": "2025-05",
@@ -4331,9 +4331,9 @@
           "to": "2025-06-01",
           "days": 31,
           "partial": false,
-          "gain": 4.48,
-          "loss": 0,
-          "net": 4.48,
+          "gain": 4.64,
+          "loss": 0.27,
+          "net": 4.37,
           "rate": 0.14
         },
         {
@@ -4343,10 +4343,10 @@
           "to": "2025-07-01",
           "days": 30,
           "partial": false,
-          "gain": 22.95,
-          "loss": 0,
-          "net": 22.95,
-          "rate": 0.77
+          "gain": 24.25,
+          "loss": 0.47,
+          "net": 23.78,
+          "rate": 0.79
         },
         {
           "month": "2025-07",
@@ -4355,10 +4355,10 @@
           "to": "2025-08-02",
           "days": 32,
           "partial": false,
-          "gain": 48.91,
-          "loss": 5.13,
-          "net": 43.78,
-          "rate": 1.37
+          "gain": 49.62,
+          "loss": 6.31,
+          "net": 43.31,
+          "rate": 1.35
         },
         {
           "month": "2025-08",
@@ -4368,8 +4368,8 @@
           "days": 32,
           "partial": false,
           "gain": 19.71,
-          "loss": 2.8,
-          "net": 16.91,
+          "loss": 2.9,
+          "net": 16.81,
           "rate": 0.53
         },
         {
@@ -4379,10 +4379,10 @@
           "to": "2025-10-01",
           "days": 28,
           "partial": false,
-          "gain": 16.42,
-          "loss": 0.53,
-          "net": 15.89,
-          "rate": 0.57
+          "gain": 17.03,
+          "loss": 1.36,
+          "net": 15.67,
+          "rate": 0.56
         },
         {
           "month": "2025-10",
@@ -4391,9 +4391,9 @@
           "to": "2025-11-02",
           "days": 32,
           "partial": false,
-          "gain": 53.33,
-          "loss": 4.07,
-          "net": 49.26,
+          "gain": 54.48,
+          "loss": 5.1,
+          "net": 49.38,
           "rate": 1.54
         },
         {
@@ -4404,9 +4404,9 @@
           "days": 32,
           "partial": false,
           "gain": 55.25,
-          "loss": 0,
-          "net": 55.25,
-          "rate": 1.73
+          "loss": 0.91,
+          "net": 54.34,
+          "rate": 1.7
         },
         {
           "month": "2025-12",
@@ -4415,10 +4415,10 @@
           "to": "2026-01-01",
           "days": 28,
           "partial": false,
-          "gain": 53.52,
-          "loss": 9.93,
-          "net": 43.59,
-          "rate": 1.56
+          "gain": 53.96,
+          "loss": 9.98,
+          "net": 43.98,
+          "rate": 1.57
         },
         {
           "month": "2026-01",
@@ -4427,10 +4427,10 @@
           "to": "2026-02-02",
           "days": 32,
           "partial": false,
-          "gain": 94.43,
-          "loss": 7.59,
-          "net": 86.84,
-          "rate": 2.71
+          "gain": 94.65,
+          "loss": 8.29,
+          "net": 86.36,
+          "rate": 2.7
         },
         {
           "month": "2026-02",
@@ -4439,10 +4439,10 @@
           "to": "2026-03-02",
           "days": 28,
           "partial": false,
-          "gain": 17.82,
-          "loss": 9.42,
-          "net": 8.4,
-          "rate": 0.3
+          "gain": 18.08,
+          "loss": 10.03,
+          "net": 8.05,
+          "rate": 0.29
         },
         {
           "month": "2026-03",
@@ -4464,8 +4464,8 @@
           "days": 28,
           "partial": false,
           "gain": 23.86,
-          "loss": 0,
-          "net": 23.86,
+          "loss": 0.2,
+          "net": 23.66,
           "rate": 0.85
         },
         {
@@ -4475,9 +4475,9 @@
           "to": "2026-06-02",
           "days": 32,
           "partial": false,
-          "gain": 4.64,
-          "loss": 0.79,
-          "net": 3.85,
+          "gain": 4.99,
+          "loss": 1.28,
+          "net": 3.71,
           "rate": 0.12
         },
         {
@@ -4487,10 +4487,10 @@
           "to": "2026-07-04",
           "days": 32,
           "partial": false,
-          "gain": 17.54,
-          "loss": 0,
-          "net": 17.54,
-          "rate": 0.55
+          "gain": 18.31,
+          "loss": 1.6,
+          "net": 16.71,
+          "rate": 0.52
         },
         {
           "month": "2026-07",
@@ -4511,10 +4511,10 @@
           "to": "2026-09-02",
           "days": 32,
           "partial": false,
-          "gain": 0.66,
-          "loss": 0,
-          "net": 0.66,
-          "rate": 0.02
+          "gain": 1.49,
+          "loss": 0.33,
+          "net": 1.16,
+          "rate": 0.04
         },
         {
           "month": "2026-09",
@@ -4523,10 +4523,10 @@
           "to": "2026-10-04",
           "days": 32,
           "partial": false,
-          "gain": 3.11,
-          "loss": 5.17,
-          "net": -2.06,
-          "rate": -0.06
+          "gain": 4.88,
+          "loss": 5.7,
+          "net": -0.82,
+          "rate": -0.03
         },
         {
           "month": "2026-10",
@@ -4535,21 +4535,21 @@
           "to": "2026-10-24",
           "days": 20,
           "partial": true,
-          "gain": 1.8,
-          "loss": 0,
-          "net": 1.8,
+          "gain": 2.17,
+          "loss": 0.38,
+          "net": 1.79,
           "rate": 0.09
         }
       ],
       "totals": {
-        "gain": 842.34,
-        "loss": 55.29,
-        "net": 787.05
+        "gain": 854.5,
+        "loss": 72.9,
+        "net": 781.6
       },
       "fullTotals": {
-        "gain": 840.54,
-        "loss": 55.29,
-        "net": 785.25
+        "gain": 852.33,
+        "loss": 72.52,
+        "net": 779.81
       }
     },
     {
@@ -4564,9 +4564,9 @@
           "to": "2023-10-06",
           "days": 33,
           "partial": false,
-          "gain": 8.49,
-          "loss": 0,
-          "net": 8.49,
+          "gain": 8.79,
+          "loss": 0.37,
+          "net": 8.42,
           "rate": 0.26
         },
         {
@@ -4601,9 +4601,9 @@
           "days": 31,
           "partial": false,
           "gain": 1.34,
-          "loss": 0,
-          "net": 1.34,
-          "rate": 0.04
+          "loss": 0.33,
+          "net": 1.01,
+          "rate": 0.03
         },
         {
           "month": "2024-01",
@@ -4613,9 +4613,9 @@
           "days": 31,
           "partial": false,
           "gain": 4.5,
-          "loss": 0,
-          "net": 4.5,
-          "rate": 0.15
+          "loss": 0.39,
+          "net": 4.11,
+          "rate": 0.13
         },
         {
           "month": "2024-02",
@@ -4625,9 +4625,9 @@
           "days": 29,
           "partial": false,
           "gain": 2.65,
-          "loss": 0,
-          "net": 2.65,
-          "rate": 0.09
+          "loss": 0.61,
+          "net": 2.04,
+          "rate": 0.07
         },
         {
           "month": "2024-03",
@@ -4660,9 +4660,9 @@
           "to": "2024-06-01",
           "days": 31,
           "partial": false,
-          "gain": 11.28,
-          "loss": 0,
-          "net": 11.28,
+          "gain": 11.66,
+          "loss": 0.62,
+          "net": 11.04,
           "rate": 0.36
         },
         {
@@ -4672,9 +4672,9 @@
           "to": "2024-07-01",
           "days": 30,
           "partial": false,
-          "gain": 0.98,
-          "loss": 0,
-          "net": 0.98,
+          "gain": 1.06,
+          "loss": 0.31,
+          "net": 0.75,
           "rate": 0.03
         },
         {
@@ -4684,10 +4684,10 @@
           "to": "2024-08-01",
           "days": 31,
           "partial": false,
-          "gain": 6.83,
-          "loss": 0,
-          "net": 6.83,
-          "rate": 0.22
+          "gain": 6.84,
+          "loss": 0.32,
+          "net": 6.52,
+          "rate": 0.21
         },
         {
           "month": "2024-08",
@@ -4696,9 +4696,9 @@
           "to": "2024-09-01",
           "days": 31,
           "partial": false,
-          "gain": 2.81,
-          "loss": 1.74,
-          "net": 1.07,
+          "gain": 3.01,
+          "loss": 1.97,
+          "net": 1.04,
           "rate": 0.03
         },
         {
@@ -4708,9 +4708,9 @@
           "to": "2024-10-01",
           "days": 30,
           "partial": false,
-          "gain": 5.19,
-          "loss": 0,
-          "net": 5.19,
+          "gain": 5.2,
+          "loss": 0.09,
+          "net": 5.11,
           "rate": 0.17
         },
         {
@@ -4720,9 +4720,9 @@
           "to": "2024-11-01",
           "days": 31,
           "partial": false,
-          "gain": 10.64,
-          "loss": 0,
-          "net": 10.64,
+          "gain": 10.91,
+          "loss": 0.32,
+          "net": 10.59,
           "rate": 0.34
         },
         {
@@ -4732,10 +4732,10 @@
           "to": "2024-12-01",
           "days": 30,
           "partial": false,
-          "gain": 55.9,
-          "loss": 0.55,
-          "net": 55.35,
-          "rate": 1.85
+          "gain": 56,
+          "loss": 1.03,
+          "net": 54.97,
+          "rate": 1.83
         },
         {
           "month": "2024-12",
@@ -4744,9 +4744,9 @@
           "to": "2025-01-01",
           "days": 31,
           "partial": false,
-          "gain": 12.23,
-          "loss": 0,
-          "net": 12.23,
+          "gain": 12.24,
+          "loss": 0.13,
+          "net": 12.11,
           "rate": 0.39
         },
         {
@@ -4756,10 +4756,10 @@
           "to": "2025-02-01",
           "days": 31,
           "partial": false,
-          "gain": 35.16,
-          "loss": 0,
-          "net": 35.16,
-          "rate": 1.13
+          "gain": 35.48,
+          "loss": 0.2,
+          "net": 35.28,
+          "rate": 1.14
         },
         {
           "month": "2025-02",
@@ -4768,10 +4768,10 @@
           "to": "2025-03-01",
           "days": 28,
           "partial": false,
-          "gain": 9.99,
-          "loss": 0,
-          "net": 9.99,
-          "rate": 0.36
+          "gain": 10.67,
+          "loss": 0.24,
+          "net": 10.43,
+          "rate": 0.37
         },
         {
           "month": "2025-03",
@@ -4780,10 +4780,10 @@
           "to": "2025-04-01",
           "days": 31,
           "partial": false,
-          "gain": 15.98,
-          "loss": 0,
-          "net": 15.98,
-          "rate": 0.52
+          "gain": 16.35,
+          "loss": 0.59,
+          "net": 15.76,
+          "rate": 0.51
         },
         {
           "month": "2025-04",
@@ -4792,10 +4792,10 @@
           "to": "2025-05-01",
           "days": 30,
           "partial": false,
-          "gain": 1.9,
-          "loss": 0,
-          "net": 1.9,
-          "rate": 0.06
+          "gain": 2.77,
+          "loss": 0.24,
+          "net": 2.53,
+          "rate": 0.08
         },
         {
           "month": "2025-05",
@@ -4805,9 +4805,9 @@
           "days": 31,
           "partial": false,
           "gain": 23.38,
-          "loss": 0,
-          "net": 23.38,
-          "rate": 0.75
+          "loss": 0.43,
+          "net": 22.95,
+          "rate": 0.74
         },
         {
           "month": "2025-06",
@@ -4816,10 +4816,10 @@
           "to": "2025-07-01",
           "days": 30,
           "partial": false,
-          "gain": 5.1,
-          "loss": 9.7,
-          "net": -4.6,
-          "rate": -0.15
+          "gain": 5.16,
+          "loss": 10.1,
+          "net": -4.94,
+          "rate": -0.16
         },
         {
           "month": "2025-07",
@@ -4828,10 +4828,10 @@
           "to": "2025-08-02",
           "days": 32,
           "partial": false,
-          "gain": 13.06,
-          "loss": 13.17,
-          "net": -0.11,
-          "rate": 0
+          "gain": 13.31,
+          "loss": 14.1,
+          "net": -0.79,
+          "rate": -0.02
         },
         {
           "month": "2025-08",
@@ -4840,10 +4840,10 @@
           "to": "2025-09-03",
           "days": 32,
           "partial": false,
-          "gain": 7.55,
-          "loss": 1.35,
-          "net": 6.2,
-          "rate": 0.19
+          "gain": 7.87,
+          "loss": 2.5,
+          "net": 5.37,
+          "rate": 0.17
         },
         {
           "month": "2025-09",
@@ -4853,9 +4853,9 @@
           "days": 28,
           "partial": false,
           "gain": 17.51,
-          "loss": 0,
-          "net": 17.51,
-          "rate": 0.63
+          "loss": 0.47,
+          "net": 17.04,
+          "rate": 0.61
         },
         {
           "month": "2025-10",
@@ -4865,8 +4865,8 @@
           "days": 32,
           "partial": false,
           "gain": 0,
-          "loss": 0,
-          "net": 0,
+          "loss": 0.09,
+          "net": -0.09,
           "rate": 0
         },
         {
@@ -4877,9 +4877,9 @@
           "days": 32,
           "partial": false,
           "gain": 15.78,
-          "loss": 0,
-          "net": 15.78,
-          "rate": 0.49
+          "loss": 0.29,
+          "net": 15.49,
+          "rate": 0.48
         },
         {
           "month": "2025-12",
@@ -4889,9 +4889,9 @@
           "days": 28,
           "partial": false,
           "gain": 6.48,
-          "loss": 0,
-          "net": 6.48,
-          "rate": 0.23
+          "loss": 0.39,
+          "net": 6.09,
+          "rate": 0.22
         },
         {
           "month": "2026-01",
@@ -4900,9 +4900,9 @@
           "to": "2026-02-02",
           "days": 32,
           "partial": false,
-          "gain": 19.2,
-          "loss": 0,
-          "net": 19.2,
+          "gain": 19.31,
+          "loss": 0.27,
+          "net": 19.04,
           "rate": 0.6
         },
         {
@@ -4912,10 +4912,10 @@
           "to": "2026-03-02",
           "days": 28,
           "partial": false,
-          "gain": 2.15,
-          "loss": 0,
-          "net": 2.15,
-          "rate": 0.08
+          "gain": 2.16,
+          "loss": 0.65,
+          "net": 1.51,
+          "rate": 0.05
         },
         {
           "month": "2026-03",
@@ -4924,9 +4924,9 @@
           "to": "2026-04-03",
           "days": 32,
           "partial": false,
-          "gain": 2.65,
-          "loss": 0,
-          "net": 2.65,
+          "gain": 2.67,
+          "loss": 0.11,
+          "net": 2.56,
           "rate": 0.08
         },
         {
@@ -4936,9 +4936,9 @@
           "to": "2026-05-01",
           "days": 28,
           "partial": false,
-          "gain": 3.39,
-          "loss": 0,
-          "net": 3.39,
+          "gain": 3.57,
+          "loss": 0.09,
+          "net": 3.48,
           "rate": 0.12
         },
         {
@@ -4948,10 +4948,10 @@
           "to": "2026-06-02",
           "days": 32,
           "partial": false,
-          "gain": 6.3,
-          "loss": 0,
-          "net": 6.3,
-          "rate": 0.2
+          "gain": 6.69,
+          "loss": 0.84,
+          "net": 5.85,
+          "rate": 0.18
         },
         {
           "month": "2026-06",
@@ -4960,10 +4960,10 @@
           "to": "2026-07-04",
           "days": 32,
           "partial": false,
-          "gain": 41.83,
-          "loss": 8.32,
-          "net": 33.51,
-          "rate": 1.05
+          "gain": 41.88,
+          "loss": 9.03,
+          "net": 32.85,
+          "rate": 1.03
         },
         {
           "month": "2026-07",
@@ -4972,10 +4972,10 @@
           "to": "2026-08-01",
           "days": 28,
           "partial": false,
-          "gain": 0,
+          "gain": 0.24,
           "loss": 1.43,
-          "net": -1.43,
-          "rate": -0.05
+          "net": -1.19,
+          "rate": -0.04
         },
         {
           "month": "2026-08",
@@ -4984,9 +4984,9 @@
           "to": "2026-09-02",
           "days": 32,
           "partial": false,
-          "gain": 6.67,
-          "loss": 1.29,
-          "net": 5.38,
+          "gain": 6.83,
+          "loss": 1.34,
+          "net": 5.49,
           "rate": 0.17
         },
         {
@@ -5008,21 +5008,21 @@
           "to": "2026-10-24",
           "days": 20,
           "partial": true,
-          "gain": 0,
+          "gain": 0.01,
           "loss": 0,
-          "net": 0,
+          "net": 0.01,
           "rate": 0
         }
       ],
       "totals": {
-        "gain": 356.92,
-        "loss": 37.55,
-        "net": 319.37
+        "gain": 362.32,
+        "loss": 49.89,
+        "net": 312.43
       },
       "fullTotals": {
-        "gain": 356.92,
-        "loss": 37.55,
-        "net": 319.37
+        "gain": 362.31,
+        "loss": 49.89,
+        "net": 312.42
       }
     },
     {
@@ -5037,10 +5037,10 @@
           "to": "2023-10-06",
           "days": 33,
           "partial": false,
-          "gain": 1.1,
-          "loss": 0,
-          "net": 1.1,
-          "rate": 0.03
+          "gain": 1.69,
+          "loss": 0.13,
+          "net": 1.56,
+          "rate": 0.05
         },
         {
           "month": "2023-10",
@@ -5049,9 +5049,9 @@
           "to": "2023-11-01",
           "days": 26,
           "partial": false,
-          "gain": 0.51,
-          "loss": 0,
-          "net": 0.51,
+          "gain": 0.69,
+          "loss": 0.1,
+          "net": 0.59,
           "rate": 0.02
         },
         {
@@ -5061,9 +5061,9 @@
           "to": "2023-12-01",
           "days": 30,
           "partial": false,
-          "gain": 0,
+          "gain": 0.05,
           "loss": 0,
-          "net": 0,
+          "net": 0.05,
           "rate": 0
         },
         {
@@ -5073,10 +5073,10 @@
           "to": "2024-01-01",
           "days": 31,
           "partial": false,
-          "gain": 9.72,
-          "loss": 0,
-          "net": 9.72,
-          "rate": 0.31
+          "gain": 9.81,
+          "loss": 0.68,
+          "net": 9.13,
+          "rate": 0.29
         },
         {
           "month": "2024-01",
@@ -5085,10 +5085,10 @@
           "to": "2024-02-01",
           "days": 31,
           "partial": false,
-          "gain": 7.51,
-          "loss": 0,
-          "net": 7.51,
-          "rate": 0.24
+          "gain": 7.79,
+          "loss": 1.07,
+          "net": 6.72,
+          "rate": 0.22
         },
         {
           "month": "2024-02",
@@ -5097,10 +5097,10 @@
           "to": "2024-03-01",
           "days": 29,
           "partial": false,
-          "gain": 4.01,
-          "loss": 0,
-          "net": 4.01,
-          "rate": 0.14
+          "gain": 4.13,
+          "loss": 0.23,
+          "net": 3.9,
+          "rate": 0.13
         },
         {
           "month": "2024-03",
@@ -5109,9 +5109,9 @@
           "to": "2024-04-01",
           "days": 31,
           "partial": false,
-          "gain": 5.14,
-          "loss": 0,
-          "net": 5.14,
+          "gain": 5.2,
+          "loss": 0.07,
+          "net": 5.13,
           "rate": 0.17
         },
         {
@@ -5121,10 +5121,10 @@
           "to": "2024-05-01",
           "days": 30,
           "partial": false,
-          "gain": 2.64,
-          "loss": 0,
-          "net": 2.64,
-          "rate": 0.09
+          "gain": 2.92,
+          "loss": 0.56,
+          "net": 2.36,
+          "rate": 0.08
         },
         {
           "month": "2024-05",
@@ -5133,10 +5133,10 @@
           "to": "2024-06-01",
           "days": 31,
           "partial": false,
-          "gain": 0.82,
-          "loss": 1.99,
-          "net": -1.17,
-          "rate": -0.04
+          "gain": 1.36,
+          "loss": 2.33,
+          "net": -0.97,
+          "rate": -0.03
         },
         {
           "month": "2024-06",
@@ -5145,10 +5145,10 @@
           "to": "2024-07-01",
           "days": 30,
           "partial": false,
-          "gain": 0.69,
-          "loss": 1.34,
-          "net": -0.65,
-          "rate": -0.02
+          "gain": 0.86,
+          "loss": 1.86,
+          "net": -1,
+          "rate": -0.03
         },
         {
           "month": "2024-07",
@@ -5157,9 +5157,9 @@
           "to": "2024-08-01",
           "days": 31,
           "partial": false,
-          "gain": 2.32,
-          "loss": 1.36,
-          "net": 0.96,
+          "gain": 2.46,
+          "loss": 1.62,
+          "net": 0.84,
           "rate": 0.03
         },
         {
@@ -5169,9 +5169,9 @@
           "to": "2024-09-01",
           "days": 31,
           "partial": false,
-          "gain": 0,
-          "loss": 0,
-          "net": 0,
+          "gain": 0.21,
+          "loss": 0.07,
+          "net": 0.14,
           "rate": 0
         },
         {
@@ -5181,10 +5181,10 @@
           "to": "2024-10-01",
           "days": 30,
           "partial": false,
-          "gain": 21.91,
-          "loss": 0,
-          "net": 21.91,
-          "rate": 0.73
+          "gain": 22.16,
+          "loss": 0.1,
+          "net": 22.06,
+          "rate": 0.74
         },
         {
           "month": "2024-10",
@@ -5194,9 +5194,9 @@
           "days": 31,
           "partial": false,
           "gain": 52.87,
-          "loss": 0,
-          "net": 52.87,
-          "rate": 1.71
+          "loss": 0.31,
+          "net": 52.56,
+          "rate": 1.7
         },
         {
           "month": "2024-11",
@@ -5205,10 +5205,10 @@
           "to": "2024-12-01",
           "days": 30,
           "partial": false,
-          "gain": 10.6,
-          "loss": 4.38,
-          "net": 6.22,
-          "rate": 0.21
+          "gain": 10.97,
+          "loss": 4.87,
+          "net": 6.1,
+          "rate": 0.2
         },
         {
           "month": "2024-12",
@@ -5217,9 +5217,9 @@
           "to": "2025-01-01",
           "days": 31,
           "partial": false,
-          "gain": 3.48,
-          "loss": 0,
-          "net": 3.48,
+          "gain": 3.5,
+          "loss": 0.17,
+          "net": 3.33,
           "rate": 0.11
         },
         {
@@ -5229,10 +5229,10 @@
           "to": "2025-02-01",
           "days": 31,
           "partial": false,
-          "gain": 14.22,
-          "loss": 0,
-          "net": 14.22,
-          "rate": 0.46
+          "gain": 14.58,
+          "loss": 0.07,
+          "net": 14.51,
+          "rate": 0.47
         },
         {
           "month": "2025-02",
@@ -5241,9 +5241,9 @@
           "to": "2025-03-01",
           "days": 28,
           "partial": false,
-          "gain": 9.7,
-          "loss": 0,
-          "net": 9.7,
+          "gain": 9.9,
+          "loss": 0.16,
+          "net": 9.74,
           "rate": 0.35
         },
         {
@@ -5253,10 +5253,10 @@
           "to": "2025-04-01",
           "days": 31,
           "partial": false,
-          "gain": 23.01,
-          "loss": 0,
-          "net": 23.01,
-          "rate": 0.74
+          "gain": 23.08,
+          "loss": 0.47,
+          "net": 22.61,
+          "rate": 0.73
         },
         {
           "month": "2025-04",
@@ -5266,9 +5266,9 @@
           "days": 30,
           "partial": false,
           "gain": 57.18,
-          "loss": 0,
-          "net": 57.18,
-          "rate": 1.91
+          "loss": 0.58,
+          "net": 56.6,
+          "rate": 1.89
         },
         {
           "month": "2025-05",
@@ -5277,10 +5277,10 @@
           "to": "2025-06-01",
           "days": 31,
           "partial": false,
-          "gain": 29.79,
-          "loss": 2.75,
-          "net": 27.04,
-          "rate": 0.87
+          "gain": 29.86,
+          "loss": 3.41,
+          "net": 26.45,
+          "rate": 0.85
         },
         {
           "month": "2025-06",
@@ -5289,10 +5289,10 @@
           "to": "2025-07-01",
           "days": 30,
           "partial": false,
-          "gain": 29.7,
-          "loss": 2.08,
-          "net": 27.62,
-          "rate": 0.92
+          "gain": 29.72,
+          "loss": 2.4,
+          "net": 27.32,
+          "rate": 0.91
         },
         {
           "month": "2025-07",
@@ -5301,10 +5301,10 @@
           "to": "2025-08-02",
           "days": 32,
           "partial": false,
-          "gain": 65.51,
-          "loss": 0,
-          "net": 65.51,
-          "rate": 2.05
+          "gain": 65.54,
+          "loss": 0.28,
+          "net": 65.26,
+          "rate": 2.04
         },
         {
           "month": "2025-08",
@@ -5313,10 +5313,10 @@
           "to": "2025-09-03",
           "days": 32,
           "partial": false,
-          "gain": 33.78,
-          "loss": 6.1,
-          "net": 27.68,
-          "rate": 0.87
+          "gain": 34.19,
+          "loss": 7.36,
+          "net": 26.83,
+          "rate": 0.84
         },
         {
           "month": "2025-09",
@@ -5325,10 +5325,10 @@
           "to": "2025-10-01",
           "days": 28,
           "partial": false,
-          "gain": 158.62,
-          "loss": 1.15,
-          "net": 157.47,
-          "rate": 5.62
+          "gain": 158.78,
+          "loss": 1.77,
+          "net": 157.01,
+          "rate": 5.61
         },
         {
           "month": "2025-10",
@@ -5337,10 +5337,10 @@
           "to": "2025-11-02",
           "days": 32,
           "partial": false,
-          "gain": 60.68,
-          "loss": 1.14,
-          "net": 59.54,
-          "rate": 1.86
+          "gain": 60.71,
+          "loss": 2,
+          "net": 58.71,
+          "rate": 1.83
         },
         {
           "month": "2025-11",
@@ -5349,10 +5349,10 @@
           "to": "2025-12-04",
           "days": 32,
           "partial": false,
-          "gain": 48.21,
-          "loss": 2.1,
-          "net": 46.11,
-          "rate": 1.44
+          "gain": 48.23,
+          "loss": 3.17,
+          "net": 45.06,
+          "rate": 1.41
         },
         {
           "month": "2025-12",
@@ -5361,10 +5361,10 @@
           "to": "2026-01-01",
           "days": 28,
           "partial": false,
-          "gain": 96.95,
-          "loss": 1.49,
-          "net": 95.46,
-          "rate": 3.41
+          "gain": 97.01,
+          "loss": 1.76,
+          "net": 95.25,
+          "rate": 3.4
         },
         {
           "month": "2026-01",
@@ -5373,10 +5373,10 @@
           "to": "2026-02-02",
           "days": 32,
           "partial": false,
-          "gain": 80.87,
-          "loss": 1.37,
-          "net": 79.5,
-          "rate": 2.48
+          "gain": 80.89,
+          "loss": 2.08,
+          "net": 78.81,
+          "rate": 2.46
         },
         {
           "month": "2026-02",
@@ -5386,9 +5386,9 @@
           "days": 28,
           "partial": false,
           "gain": 32.46,
-          "loss": 0.79,
-          "net": 31.67,
-          "rate": 1.13
+          "loss": 1.16,
+          "net": 31.3,
+          "rate": 1.12
         },
         {
           "month": "2026-03",
@@ -5397,10 +5397,10 @@
           "to": "2026-04-03",
           "days": 32,
           "partial": false,
-          "gain": 8.46,
-          "loss": 0.69,
-          "net": 7.77,
-          "rate": 0.24
+          "gain": 8.73,
+          "loss": 0.89,
+          "net": 7.84,
+          "rate": 0.25
         },
         {
           "month": "2026-04",
@@ -5409,10 +5409,10 @@
           "to": "2026-05-01",
           "days": 28,
           "partial": false,
-          "gain": 2.47,
-          "loss": 1.72,
-          "net": 0.75,
-          "rate": 0.03
+          "gain": 2.78,
+          "loss": 1.78,
+          "net": 1,
+          "rate": 0.04
         },
         {
           "month": "2026-05",
@@ -5421,10 +5421,10 @@
           "to": "2026-06-02",
           "days": 32,
           "partial": false,
-          "gain": 11.08,
-          "loss": 2.32,
-          "net": 8.76,
-          "rate": 0.27
+          "gain": 12.22,
+          "loss": 3.04,
+          "net": 9.18,
+          "rate": 0.29
         },
         {
           "month": "2026-06",
@@ -5433,10 +5433,10 @@
           "to": "2026-07-04",
           "days": 32,
           "partial": false,
-          "gain": 11.37,
-          "loss": 6.92,
-          "net": 4.45,
-          "rate": 0.14
+          "gain": 12.34,
+          "loss": 7.23,
+          "net": 5.11,
+          "rate": 0.16
         },
         {
           "month": "2026-07",
@@ -5457,9 +5457,9 @@
           "to": "2026-09-02",
           "days": 32,
           "partial": false,
-          "gain": 0,
-          "loss": 10.08,
-          "net": -10.08,
+          "gain": 0.1,
+          "loss": 10.11,
+          "net": -10.01,
           "rate": -0.31
         },
         {
@@ -5469,10 +5469,10 @@
           "to": "2026-10-04",
           "days": 32,
           "partial": false,
-          "gain": 2.11,
-          "loss": 118.37,
-          "net": -116.26,
-          "rate": -3.63
+          "gain": 3.7,
+          "loss": 118.89,
+          "net": -115.19,
+          "rate": -3.6
         },
         {
           "month": "2026-10",
@@ -5481,21 +5481,21 @@
           "to": "2026-10-24",
           "days": 20,
           "partial": true,
-          "gain": 0.53,
-          "loss": 147.44,
-          "net": -146.91,
-          "rate": -7.35
+          "gain": 1.22,
+          "loss": 147.6,
+          "net": -146.38,
+          "rate": -7.32
         }
       ],
       "totals": {
-        "gain": 900.02,
-        "loss": 315.58,
-        "net": 584.44
+        "gain": 909.89,
+        "loss": 330.38,
+        "net": 579.51
       },
       "fullTotals": {
-        "gain": 899.49,
-        "loss": 168.14,
-        "net": 731.35
+        "gain": 908.67,
+        "loss": 182.78,
+        "net": 725.89
       }
     },
     {
@@ -5510,9 +5510,9 @@
           "to": "2023-10-06",
           "days": 33,
           "partial": false,
-          "gain": 0.63,
-          "loss": 14.91,
-          "net": -14.28,
+          "gain": 1.2,
+          "loss": 15.28,
+          "net": -14.08,
           "rate": -0.43
         },
         {
@@ -5522,10 +5522,10 @@
           "to": "2023-11-01",
           "days": 26,
           "partial": false,
-          "gain": 0,
-          "loss": 2.3,
-          "net": -2.3,
-          "rate": -0.09
+          "gain": 0.53,
+          "loss": 2.7,
+          "net": -2.17,
+          "rate": -0.08
         },
         {
           "month": "2023-11",
@@ -5534,9 +5534,9 @@
           "to": "2023-12-01",
           "days": 30,
           "partial": false,
-          "gain": 0.81,
-          "loss": 1.35,
-          "net": -0.54,
+          "gain": 1.23,
+          "loss": 1.71,
+          "net": -0.48,
           "rate": -0.02
         },
         {
@@ -5546,9 +5546,9 @@
           "to": "2024-01-01",
           "days": 31,
           "partial": false,
-          "gain": 16.32,
-          "loss": 2.46,
-          "net": 13.86,
+          "gain": 16.99,
+          "loss": 2.95,
+          "net": 14.04,
           "rate": 0.45
         },
         {
@@ -5558,10 +5558,10 @@
           "to": "2024-02-01",
           "days": 31,
           "partial": false,
-          "gain": 3.09,
-          "loss": 0,
-          "net": 3.09,
-          "rate": 0.1
+          "gain": 3.64,
+          "loss": 0.29,
+          "net": 3.35,
+          "rate": 0.11
         },
         {
           "month": "2024-02",
@@ -5570,10 +5570,10 @@
           "to": "2024-03-01",
           "days": 29,
           "partial": false,
-          "gain": 17.39,
-          "loss": 0,
-          "net": 17.39,
-          "rate": 0.6
+          "gain": 17.45,
+          "loss": 0.46,
+          "net": 16.99,
+          "rate": 0.59
         },
         {
           "month": "2024-03",
@@ -5582,9 +5582,9 @@
           "to": "2024-04-01",
           "days": 31,
           "partial": false,
-          "gain": 8.38,
-          "loss": 0,
-          "net": 8.38,
+          "gain": 8.44,
+          "loss": 0.1,
+          "net": 8.34,
           "rate": 0.27
         },
         {
@@ -5594,10 +5594,10 @@
           "to": "2024-05-01",
           "days": 30,
           "partial": false,
-          "gain": 20.92,
-          "loss": 0,
-          "net": 20.92,
-          "rate": 0.7
+          "gain": 21.29,
+          "loss": 1.36,
+          "net": 19.93,
+          "rate": 0.66
         },
         {
           "month": "2024-05",
@@ -5606,10 +5606,10 @@
           "to": "2024-06-01",
           "days": 31,
           "partial": false,
-          "gain": 13.52,
-          "loss": 0,
-          "net": 13.52,
-          "rate": 0.44
+          "gain": 13.78,
+          "loss": 0.44,
+          "net": 13.34,
+          "rate": 0.43
         },
         {
           "month": "2024-06",
@@ -5618,10 +5618,10 @@
           "to": "2024-07-01",
           "days": 30,
           "partial": false,
-          "gain": 12.35,
-          "loss": 4.07,
-          "net": 8.28,
-          "rate": 0.28
+          "gain": 14.17,
+          "loss": 4.44,
+          "net": 9.73,
+          "rate": 0.32
         },
         {
           "month": "2024-07",
@@ -5630,10 +5630,10 @@
           "to": "2024-08-01",
           "days": 31,
           "partial": false,
-          "gain": 18.33,
-          "loss": 0,
-          "net": 18.33,
-          "rate": 0.59
+          "gain": 18.83,
+          "loss": 1.04,
+          "net": 17.79,
+          "rate": 0.57
         },
         {
           "month": "2024-08",
@@ -5642,10 +5642,10 @@
           "to": "2024-09-01",
           "days": 31,
           "partial": false,
-          "gain": 13.67,
-          "loss": 0,
-          "net": 13.67,
-          "rate": 0.44
+          "gain": 13.97,
+          "loss": 0.62,
+          "net": 13.35,
+          "rate": 0.43
         },
         {
           "month": "2024-09",
@@ -5654,10 +5654,10 @@
           "to": "2024-10-01",
           "days": 30,
           "partial": false,
-          "gain": 35.74,
-          "loss": 0,
-          "net": 35.74,
-          "rate": 1.19
+          "gain": 36.26,
+          "loss": 0.73,
+          "net": 35.53,
+          "rate": 1.18
         },
         {
           "month": "2024-10",
@@ -5666,9 +5666,9 @@
           "to": "2024-11-01",
           "days": 31,
           "partial": false,
-          "gain": 11.72,
-          "loss": 0,
-          "net": 11.72,
+          "gain": 12.48,
+          "loss": 0.6,
+          "net": 11.88,
           "rate": 0.38
         },
         {
@@ -5678,10 +5678,10 @@
           "to": "2024-12-01",
           "days": 30,
           "partial": false,
-          "gain": 31.18,
-          "loss": 0,
-          "net": 31.18,
-          "rate": 1.04
+          "gain": 31.95,
+          "loss": 1.15,
+          "net": 30.8,
+          "rate": 1.03
         },
         {
           "month": "2024-12",
@@ -5690,10 +5690,10 @@
           "to": "2025-01-01",
           "days": 31,
           "partial": false,
-          "gain": 9.17,
-          "loss": 3.92,
-          "net": 5.25,
-          "rate": 0.17
+          "gain": 9.49,
+          "loss": 4.65,
+          "net": 4.84,
+          "rate": 0.16
         },
         {
           "month": "2025-01",
@@ -5702,10 +5702,10 @@
           "to": "2025-02-01",
           "days": 31,
           "partial": false,
-          "gain": 19.75,
-          "loss": 0.71,
-          "net": 19.04,
-          "rate": 0.61
+          "gain": 19.83,
+          "loss": 1.21,
+          "net": 18.62,
+          "rate": 0.6
         },
         {
           "month": "2025-02",
@@ -5714,10 +5714,10 @@
           "to": "2025-03-01",
           "days": 28,
           "partial": false,
-          "gain": 8.61,
-          "loss": 0,
-          "net": 8.61,
-          "rate": 0.31
+          "gain": 9.23,
+          "loss": 0.41,
+          "net": 8.82,
+          "rate": 0.32
         },
         {
           "month": "2025-03",
@@ -5726,10 +5726,10 @@
           "to": "2025-04-01",
           "days": 31,
           "partial": false,
-          "gain": 17.22,
-          "loss": 0,
-          "net": 17.22,
-          "rate": 0.56
+          "gain": 17.34,
+          "loss": 0.41,
+          "net": 16.93,
+          "rate": 0.55
         },
         {
           "month": "2025-04",
@@ -5738,9 +5738,9 @@
           "to": "2025-05-01",
           "days": 30,
           "partial": false,
-          "gain": 15.81,
-          "loss": 0,
-          "net": 15.81,
+          "gain": 16.42,
+          "loss": 0.45,
+          "net": 15.97,
           "rate": 0.53
         },
         {
@@ -5750,10 +5750,10 @@
           "to": "2025-06-01",
           "days": 31,
           "partial": false,
-          "gain": 24.61,
-          "loss": 0.73,
-          "net": 23.88,
-          "rate": 0.77
+          "gain": 25.16,
+          "loss": 1.58,
+          "net": 23.58,
+          "rate": 0.76
         },
         {
           "month": "2025-06",
@@ -5762,9 +5762,9 @@
           "to": "2025-07-01",
           "days": 30,
           "partial": false,
-          "gain": 35.61,
-          "loss": 1.94,
-          "net": 33.67,
+          "gain": 36.42,
+          "loss": 2.84,
+          "net": 33.58,
           "rate": 1.12
         },
         {
@@ -5774,10 +5774,10 @@
           "to": "2025-08-02",
           "days": 32,
           "partial": false,
-          "gain": 41.4,
-          "loss": 0,
-          "net": 41.4,
-          "rate": 1.29
+          "gain": 41.64,
+          "loss": 1.59,
+          "net": 40.05,
+          "rate": 1.25
         },
         {
           "month": "2025-08",
@@ -5786,10 +5786,10 @@
           "to": "2025-09-03",
           "days": 32,
           "partial": false,
-          "gain": 89.5,
-          "loss": 0.58,
-          "net": 88.92,
-          "rate": 2.78
+          "gain": 90,
+          "loss": 2.21,
+          "net": 87.79,
+          "rate": 2.74
         },
         {
           "month": "2025-09",
@@ -5798,10 +5798,10 @@
           "to": "2025-10-01",
           "days": 28,
           "partial": false,
-          "gain": 116.83,
-          "loss": 1.17,
-          "net": 115.66,
-          "rate": 4.13
+          "gain": 117.4,
+          "loss": 2.5,
+          "net": 114.9,
+          "rate": 4.1
         },
         {
           "month": "2025-10",
@@ -5810,10 +5810,10 @@
           "to": "2025-11-02",
           "days": 32,
           "partial": false,
-          "gain": 110.8,
-          "loss": 1.81,
-          "net": 108.99,
-          "rate": 3.41
+          "gain": 110.84,
+          "loss": 4.39,
+          "net": 106.45,
+          "rate": 3.33
         },
         {
           "month": "2025-11",
@@ -5822,10 +5822,10 @@
           "to": "2025-12-04",
           "days": 32,
           "partial": false,
-          "gain": 56.74,
-          "loss": 9.67,
-          "net": 47.07,
-          "rate": 1.47
+          "gain": 57.84,
+          "loss": 11.38,
+          "net": 46.46,
+          "rate": 1.45
         },
         {
           "month": "2025-12",
@@ -5834,10 +5834,10 @@
           "to": "2026-01-01",
           "days": 28,
           "partial": false,
-          "gain": 49.66,
-          "loss": 0.53,
-          "net": 49.13,
-          "rate": 1.75
+          "gain": 49.93,
+          "loss": 1.18,
+          "net": 48.75,
+          "rate": 1.74
         },
         {
           "month": "2026-01",
@@ -5846,10 +5846,10 @@
           "to": "2026-02-02",
           "days": 32,
           "partial": false,
-          "gain": 125.81,
-          "loss": 1.93,
-          "net": 123.88,
-          "rate": 3.87
+          "gain": 125.94,
+          "loss": 3.47,
+          "net": 122.47,
+          "rate": 3.83
         },
         {
           "month": "2026-02",
@@ -5858,10 +5858,10 @@
           "to": "2026-03-02",
           "days": 28,
           "partial": false,
-          "gain": 137.94,
-          "loss": 4.63,
-          "net": 133.31,
-          "rate": 4.76
+          "gain": 137.97,
+          "loss": 5.88,
+          "net": 132.09,
+          "rate": 4.72
         },
         {
           "month": "2026-03",
@@ -5870,10 +5870,10 @@
           "to": "2026-04-03",
           "days": 32,
           "partial": false,
-          "gain": 121.72,
-          "loss": 1.27,
-          "net": 120.45,
-          "rate": 3.76
+          "gain": 121.77,
+          "loss": 2.4,
+          "net": 119.37,
+          "rate": 3.73
         },
         {
           "month": "2026-04",
@@ -5882,10 +5882,10 @@
           "to": "2026-05-01",
           "days": 28,
           "partial": false,
-          "gain": 77.69,
-          "loss": 0,
-          "net": 77.69,
-          "rate": 2.77
+          "gain": 77.74,
+          "loss": 1.29,
+          "net": 76.45,
+          "rate": 2.73
         },
         {
           "month": "2026-05",
@@ -5894,10 +5894,10 @@
           "to": "2026-06-02",
           "days": 32,
           "partial": false,
-          "gain": 39.97,
-          "loss": 0,
-          "net": 39.97,
-          "rate": 1.25
+          "gain": 40.29,
+          "loss": 1.26,
+          "net": 39.03,
+          "rate": 1.22
         },
         {
           "month": "2026-06",
@@ -5906,10 +5906,10 @@
           "to": "2026-07-04",
           "days": 32,
           "partial": false,
-          "gain": 67.65,
-          "loss": 10.77,
-          "net": 56.88,
-          "rate": 1.78
+          "gain": 68.23,
+          "loss": 12.24,
+          "net": 55.99,
+          "rate": 1.75
         },
         {
           "month": "2026-07",
@@ -5918,9 +5918,9 @@
           "to": "2026-08-01",
           "days": 28,
           "partial": false,
-          "gain": 49.73,
-          "loss": 3.79,
-          "net": 45.94,
+          "gain": 50.75,
+          "loss": 4.9,
+          "net": 45.85,
           "rate": 1.64
         },
         {
@@ -5930,10 +5930,10 @@
           "to": "2026-09-02",
           "days": 32,
           "partial": false,
-          "gain": 132.67,
-          "loss": 3.46,
-          "net": 129.21,
-          "rate": 4.04
+          "gain": 133.19,
+          "loss": 5.93,
+          "net": 127.26,
+          "rate": 3.98
         },
         {
           "month": "2026-09",
@@ -5942,10 +5942,10 @@
           "to": "2026-10-04",
           "days": 32,
           "partial": false,
-          "gain": 115.33,
-          "loss": 5.32,
-          "net": 110.01,
-          "rate": 3.44
+          "gain": 115.47,
+          "loss": 6.77,
+          "net": 108.7,
+          "rate": 3.4
         },
         {
           "month": "2026-10",
@@ -5954,21 +5954,21 @@
           "to": "2026-10-24",
           "days": 20,
           "partial": true,
-          "gain": 51.72,
-          "loss": 5.4,
-          "net": 46.32,
-          "rate": 2.32
+          "gain": 52.01,
+          "loss": 6.24,
+          "net": 45.77,
+          "rate": 2.29
         }
       ],
       "totals": {
-        "gain": 1719.99,
-        "loss": 82.72,
-        "net": 1637.27
+        "gain": 1737.11,
+        "loss": 119.05,
+        "net": 1618.06
       },
       "fullTotals": {
-        "gain": 1668.27,
-        "loss": 77.32,
-        "net": 1590.95
+        "gain": 1685.1,
+        "loss": 112.81,
+        "net": 1572.29
       }
     },
     {
@@ -5983,10 +5983,10 @@
           "to": "2023-10-06",
           "days": 33,
           "partial": false,
-          "gain": 1.15,
-          "loss": 2.68,
-          "net": -1.53,
-          "rate": -0.05
+          "gain": 1.65,
+          "loss": 2.88,
+          "net": -1.23,
+          "rate": -0.04
         },
         {
           "month": "2023-10",
@@ -5995,10 +5995,10 @@
           "to": "2023-11-01",
           "days": 26,
           "partial": false,
-          "gain": 26.73,
-          "loss": 0,
-          "net": 26.73,
-          "rate": 1.03
+          "gain": 27.23,
+          "loss": 0.65,
+          "net": 26.58,
+          "rate": 1.02
         },
         {
           "month": "2023-11",
@@ -6007,10 +6007,10 @@
           "to": "2023-12-01",
           "days": 30,
           "partial": false,
-          "gain": 9.32,
-          "loss": 0,
-          "net": 9.32,
-          "rate": 0.31
+          "gain": 9.72,
+          "loss": 0.86,
+          "net": 8.86,
+          "rate": 0.3
         },
         {
           "month": "2023-12",
@@ -6019,9 +6019,9 @@
           "to": "2024-01-01",
           "days": 31,
           "partial": false,
-          "gain": 15.61,
-          "loss": 2.29,
-          "net": 13.32,
+          "gain": 16.36,
+          "loss": 3.07,
+          "net": 13.29,
           "rate": 0.43
         },
         {
@@ -6031,10 +6031,10 @@
           "to": "2024-02-01",
           "days": 31,
           "partial": false,
-          "gain": 6.43,
-          "loss": 0,
-          "net": 6.43,
-          "rate": 0.21
+          "gain": 8.08,
+          "loss": 1.01,
+          "net": 7.07,
+          "rate": 0.23
         },
         {
           "month": "2024-02",
@@ -6043,10 +6043,10 @@
           "to": "2024-03-01",
           "days": 29,
           "partial": false,
-          "gain": 100.09,
-          "loss": 0,
-          "net": 100.09,
-          "rate": 3.45
+          "gain": 100.57,
+          "loss": 0.92,
+          "net": 99.65,
+          "rate": 3.44
         },
         {
           "month": "2024-03",
@@ -6055,9 +6055,9 @@
           "to": "2024-04-01",
           "days": 31,
           "partial": false,
-          "gain": 50.75,
-          "loss": 1.14,
-          "net": 49.61,
+          "gain": 50.9,
+          "loss": 1.35,
+          "net": 49.55,
           "rate": 1.6
         },
         {
@@ -6067,10 +6067,10 @@
           "to": "2024-05-01",
           "days": 30,
           "partial": false,
-          "gain": 56.9,
-          "loss": 0,
-          "net": 56.9,
-          "rate": 1.9
+          "gain": 57.26,
+          "loss": 1.37,
+          "net": 55.89,
+          "rate": 1.86
         },
         {
           "month": "2024-05",
@@ -6079,10 +6079,10 @@
           "to": "2024-06-01",
           "days": 31,
           "partial": false,
-          "gain": 84.38,
-          "loss": 0,
-          "net": 84.38,
-          "rate": 2.72
+          "gain": 84.39,
+          "loss": 1.19,
+          "net": 83.2,
+          "rate": 2.68
         },
         {
           "month": "2024-06",
@@ -6091,10 +6091,10 @@
           "to": "2024-07-01",
           "days": 30,
           "partial": false,
-          "gain": 57.98,
-          "loss": 0,
-          "net": 57.98,
-          "rate": 1.93
+          "gain": 59.08,
+          "loss": 0.46,
+          "net": 58.62,
+          "rate": 1.95
         },
         {
           "month": "2024-07",
@@ -6103,10 +6103,10 @@
           "to": "2024-08-01",
           "days": 31,
           "partial": false,
-          "gain": 88.84,
-          "loss": 0.57,
-          "net": 88.27,
-          "rate": 2.85
+          "gain": 89.72,
+          "loss": 2.01,
+          "net": 87.71,
+          "rate": 2.83
         },
         {
           "month": "2024-08",
@@ -6115,10 +6115,10 @@
           "to": "2024-09-01",
           "days": 31,
           "partial": false,
-          "gain": 280.64,
-          "loss": 0,
-          "net": 280.64,
-          "rate": 9.05
+          "gain": 281.03,
+          "loss": 1.1,
+          "net": 279.93,
+          "rate": 9.03
         },
         {
           "month": "2024-09",
@@ -6127,10 +6127,10 @@
           "to": "2024-10-01",
           "days": 30,
           "partial": false,
-          "gain": 189.72,
-          "loss": 3.01,
-          "net": 186.71,
-          "rate": 6.22
+          "gain": 190.72,
+          "loss": 4.75,
+          "net": 185.97,
+          "rate": 6.2
         },
         {
           "month": "2024-10",
@@ -6139,10 +6139,10 @@
           "to": "2024-11-01",
           "days": 31,
           "partial": false,
-          "gain": 439.76,
-          "loss": 1.04,
-          "net": 438.72,
-          "rate": 14.15
+          "gain": 440.02,
+          "loss": 1.88,
+          "net": 438.14,
+          "rate": 14.13
         },
         {
           "month": "2024-11",
@@ -6151,10 +6151,10 @@
           "to": "2024-12-01",
           "days": 30,
           "partial": false,
-          "gain": 449.59,
-          "loss": 0,
-          "net": 449.59,
-          "rate": 14.99
+          "gain": 449.65,
+          "loss": 0.46,
+          "net": 449.19,
+          "rate": 14.97
         },
         {
           "month": "2024-12",
@@ -6163,10 +6163,10 @@
           "to": "2025-01-01",
           "days": 31,
           "partial": false,
-          "gain": 349.99,
-          "loss": 2.63,
-          "net": 347.36,
-          "rate": 11.21
+          "gain": 350.09,
+          "loss": 3.4,
+          "net": 346.69,
+          "rate": 11.18
         },
         {
           "month": "2025-01",
@@ -6175,10 +6175,10 @@
           "to": "2025-02-01",
           "days": 31,
           "partial": false,
-          "gain": 269.62,
-          "loss": 0.66,
-          "net": 268.96,
-          "rate": 8.68
+          "gain": 270.41,
+          "loss": 2.07,
+          "net": 268.34,
+          "rate": 8.66
         },
         {
           "month": "2025-02",
@@ -6187,10 +6187,10 @@
           "to": "2025-03-01",
           "days": 28,
           "partial": false,
-          "gain": 177.53,
-          "loss": 2.86,
-          "net": 174.67,
-          "rate": 6.24
+          "gain": 178.23,
+          "loss": 4.08,
+          "net": 174.15,
+          "rate": 6.22
         },
         {
           "month": "2025-03",
@@ -6199,10 +6199,10 @@
           "to": "2025-04-01",
           "days": 31,
           "partial": false,
-          "gain": 148.82,
-          "loss": 11.3,
-          "net": 137.52,
-          "rate": 4.44
+          "gain": 149.56,
+          "loss": 12.96,
+          "net": 136.6,
+          "rate": 4.41
         },
         {
           "month": "2025-04",
@@ -6211,10 +6211,10 @@
           "to": "2025-05-01",
           "days": 30,
           "partial": false,
-          "gain": 147.22,
-          "loss": 0.88,
-          "net": 146.34,
-          "rate": 4.88
+          "gain": 147.25,
+          "loss": 3.43,
+          "net": 143.82,
+          "rate": 4.79
         },
         {
           "month": "2025-05",
@@ -6223,10 +6223,10 @@
           "to": "2025-06-01",
           "days": 31,
           "partial": false,
-          "gain": 439.51,
-          "loss": 0,
-          "net": 439.51,
-          "rate": 14.18
+          "gain": 439.96,
+          "loss": 1.64,
+          "net": 438.32,
+          "rate": 14.14
         },
         {
           "month": "2025-06",
@@ -6235,10 +6235,10 @@
           "to": "2025-07-01",
           "days": 30,
           "partial": false,
-          "gain": 257.35,
-          "loss": 2.34,
-          "net": 255.01,
-          "rate": 8.5
+          "gain": 257.4,
+          "loss": 4.02,
+          "net": 253.38,
+          "rate": 8.45
         },
         {
           "month": "2025-07",
@@ -6247,10 +6247,10 @@
           "to": "2025-08-02",
           "days": 32,
           "partial": false,
-          "gain": 248.03,
-          "loss": 4.47,
-          "net": 243.56,
-          "rate": 7.61
+          "gain": 248.1,
+          "loss": 5.34,
+          "net": 242.76,
+          "rate": 7.59
         },
         {
           "month": "2025-08",
@@ -6259,10 +6259,10 @@
           "to": "2025-09-03",
           "days": 32,
           "partial": false,
-          "gain": 241.8,
-          "loss": 2.31,
-          "net": 239.49,
-          "rate": 7.48
+          "gain": 242.09,
+          "loss": 4.33,
+          "net": 237.76,
+          "rate": 7.43
         },
         {
           "month": "2025-09",
@@ -6271,10 +6271,10 @@
           "to": "2025-10-01",
           "days": 28,
           "partial": false,
-          "gain": 197.12,
-          "loss": 3.62,
-          "net": 193.5,
-          "rate": 6.91
+          "gain": 197.69,
+          "loss": 6.02,
+          "net": 191.67,
+          "rate": 6.85
         },
         {
           "month": "2025-10",
@@ -6283,10 +6283,10 @@
           "to": "2025-11-02",
           "days": 32,
           "partial": false,
-          "gain": 296.01,
-          "loss": 2.66,
-          "net": 293.35,
-          "rate": 9.17
+          "gain": 297.25,
+          "loss": 4.85,
+          "net": 292.4,
+          "rate": 9.14
         },
         {
           "month": "2025-11",
@@ -6295,10 +6295,10 @@
           "to": "2025-12-04",
           "days": 32,
           "partial": false,
-          "gain": 213.85,
-          "loss": 6.45,
-          "net": 207.4,
-          "rate": 6.48
+          "gain": 213.89,
+          "loss": 7.81,
+          "net": 206.08,
+          "rate": 6.44
         },
         {
           "month": "2025-12",
@@ -6307,9 +6307,9 @@
           "to": "2026-01-01",
           "days": 28,
           "partial": false,
-          "gain": 93.7,
-          "loss": 2.96,
-          "net": 90.74,
+          "gain": 95.36,
+          "loss": 4.54,
+          "net": 90.82,
           "rate": 3.24
         },
         {
@@ -6319,10 +6319,10 @@
           "to": "2026-02-02",
           "days": 32,
           "partial": false,
-          "gain": 55.8,
-          "loss": 1.23,
-          "net": 54.57,
-          "rate": 1.71
+          "gain": 56.24,
+          "loss": 2.33,
+          "net": 53.91,
+          "rate": 1.68
         },
         {
           "month": "2026-02",
@@ -6331,10 +6331,10 @@
           "to": "2026-03-02",
           "days": 28,
           "partial": false,
-          "gain": 35.44,
-          "loss": 46.07,
-          "net": -10.63,
-          "rate": -0.38
+          "gain": 36.49,
+          "loss": 46.48,
+          "net": -9.99,
+          "rate": -0.36
         },
         {
           "month": "2026-03",
@@ -6343,10 +6343,10 @@
           "to": "2026-04-03",
           "days": 32,
           "partial": false,
-          "gain": 70.97,
-          "loss": 92.77,
-          "net": -21.8,
-          "rate": -0.68
+          "gain": 71.02,
+          "loss": 95.18,
+          "net": -24.16,
+          "rate": -0.75
         },
         {
           "month": "2026-04",
@@ -6355,10 +6355,10 @@
           "to": "2026-05-01",
           "days": 28,
           "partial": false,
-          "gain": 51.67,
-          "loss": 12.79,
-          "net": 38.88,
-          "rate": 1.39
+          "gain": 52.54,
+          "loss": 14.18,
+          "net": 38.36,
+          "rate": 1.37
         },
         {
           "month": "2026-05",
@@ -6367,10 +6367,10 @@
           "to": "2026-06-02",
           "days": 32,
           "partial": false,
-          "gain": 73.96,
-          "loss": 19.66,
-          "net": 54.3,
-          "rate": 1.7
+          "gain": 74.42,
+          "loss": 21.1,
+          "net": 53.32,
+          "rate": 1.67
         },
         {
           "month": "2026-06",
@@ -6379,10 +6379,10 @@
           "to": "2026-07-04",
           "days": 32,
           "partial": false,
-          "gain": 47.74,
-          "loss": 56.77,
-          "net": -9.03,
-          "rate": -0.28
+          "gain": 48.77,
+          "loss": 58.78,
+          "net": -10.01,
+          "rate": -0.31
         },
         {
           "month": "2026-07",
@@ -6391,10 +6391,10 @@
           "to": "2026-08-01",
           "days": 28,
           "partial": false,
-          "gain": 59.51,
-          "loss": 32.54,
-          "net": 26.97,
-          "rate": 0.96
+          "gain": 60.76,
+          "loss": 32.91,
+          "net": 27.85,
+          "rate": 0.99
         },
         {
           "month": "2026-08",
@@ -6403,10 +6403,10 @@
           "to": "2026-09-02",
           "days": 32,
           "partial": false,
-          "gain": 18.5,
-          "loss": 76.43,
-          "net": -57.93,
-          "rate": -1.81
+          "gain": 19.35,
+          "loss": 77.6,
+          "net": -58.25,
+          "rate": -1.82
         },
         {
           "month": "2026-09",
@@ -6415,9 +6415,9 @@
           "to": "2026-10-04",
           "days": 32,
           "partial": false,
-          "gain": 79.76,
-          "loss": 29,
-          "net": 50.76,
+          "gain": 80.41,
+          "loss": 29.43,
+          "net": 50.98,
           "rate": 1.59
         },
         {
@@ -6427,21 +6427,21 @@
           "to": "2026-10-24",
           "days": 20,
           "partial": true,
-          "gain": 23.07,
-          "loss": 6.52,
-          "net": 16.55,
-          "rate": 0.83
+          "gain": 24.2,
+          "loss": 6.94,
+          "net": 17.26,
+          "rate": 0.86
         }
       ],
       "totals": {
-        "gain": 5454.86,
-        "loss": 427.65,
-        "net": 5027.21
+        "gain": 5477.86,
+        "loss": 473.38,
+        "net": 5004.48
       },
       "fullTotals": {
-        "gain": 5431.79,
-        "loss": 421.13,
-        "net": 5010.66
+        "gain": 5453.66,
+        "loss": 466.44,
+        "net": 4987.22
       }
     },
     {
@@ -6456,10 +6456,10 @@
           "to": "2023-10-06",
           "days": 33,
           "partial": false,
-          "gain": 4.52,
-          "loss": 10.93,
-          "net": -6.41,
-          "rate": -0.19
+          "gain": 5.48,
+          "loss": 11.13,
+          "net": -5.65,
+          "rate": -0.17
         },
         {
           "month": "2023-10",
@@ -6468,10 +6468,10 @@
           "to": "2023-11-01",
           "days": 26,
           "partial": false,
-          "gain": 0.97,
-          "loss": 4,
-          "net": -3.03,
-          "rate": -0.12
+          "gain": 2.11,
+          "loss": 4.38,
+          "net": -2.27,
+          "rate": -0.09
         },
         {
           "month": "2023-11",
@@ -6480,10 +6480,10 @@
           "to": "2023-12-01",
           "days": 30,
           "partial": false,
-          "gain": 4.64,
-          "loss": 5.71,
-          "net": -1.07,
-          "rate": -0.04
+          "gain": 5.69,
+          "loss": 6.58,
+          "net": -0.89,
+          "rate": -0.03
         },
         {
           "month": "2023-12",
@@ -6492,10 +6492,10 @@
           "to": "2024-01-01",
           "days": 31,
           "partial": false,
-          "gain": 1.92,
-          "loss": 1.27,
-          "net": 0.65,
-          "rate": 0.02
+          "gain": 2.58,
+          "loss": 1.65,
+          "net": 0.93,
+          "rate": 0.03
         },
         {
           "month": "2024-01",
@@ -6504,9 +6504,9 @@
           "to": "2024-02-01",
           "days": 31,
           "partial": false,
-          "gain": 5.16,
-          "loss": 0,
-          "net": 5.16,
+          "gain": 5.51,
+          "loss": 0.18,
+          "net": 5.33,
           "rate": 0.17
         },
         {
@@ -6516,10 +6516,10 @@
           "to": "2024-03-01",
           "days": 29,
           "partial": false,
-          "gain": 3.63,
-          "loss": 0,
-          "net": 3.63,
-          "rate": 0.13
+          "gain": 3.96,
+          "loss": 0.4,
+          "net": 3.56,
+          "rate": 0.12
         },
         {
           "month": "2024-03",
@@ -6529,9 +6529,9 @@
           "days": 31,
           "partial": false,
           "gain": 4.39,
-          "loss": 0,
-          "net": 4.39,
-          "rate": 0.14
+          "loss": 0.47,
+          "net": 3.92,
+          "rate": 0.13
         },
         {
           "month": "2024-04",
@@ -6540,10 +6540,10 @@
           "to": "2024-05-01",
           "days": 30,
           "partial": false,
-          "gain": 0,
-          "loss": 0,
-          "net": 0,
-          "rate": 0
+          "gain": 0.24,
+          "loss": 0.04,
+          "net": 0.2,
+          "rate": 0.01
         },
         {
           "month": "2024-05",
@@ -6552,10 +6552,10 @@
           "to": "2024-06-01",
           "days": 31,
           "partial": false,
-          "gain": 8.19,
-          "loss": 0,
-          "net": 8.19,
-          "rate": 0.26
+          "gain": 8.21,
+          "loss": 0.38,
+          "net": 7.83,
+          "rate": 0.25
         },
         {
           "month": "2024-06",
@@ -6564,10 +6564,10 @@
           "to": "2024-07-01",
           "days": 30,
           "partial": false,
-          "gain": 1.1,
-          "loss": 0.61,
-          "net": 0.49,
-          "rate": 0.02
+          "gain": 1.53,
+          "loss": 0.69,
+          "net": 0.84,
+          "rate": 0.03
         },
         {
           "month": "2024-07",
@@ -6576,10 +6576,10 @@
           "to": "2024-08-01",
           "days": 31,
           "partial": false,
-          "gain": 32.86,
-          "loss": 0,
-          "net": 32.86,
-          "rate": 1.06
+          "gain": 32.87,
+          "loss": 0.68,
+          "net": 32.19,
+          "rate": 1.04
         },
         {
           "month": "2024-08",
@@ -6589,9 +6589,9 @@
           "days": 31,
           "partial": false,
           "gain": 13.56,
-          "loss": 0,
-          "net": 13.56,
-          "rate": 0.44
+          "loss": 0.43,
+          "net": 13.13,
+          "rate": 0.42
         },
         {
           "month": "2024-09",
@@ -6601,8 +6601,8 @@
           "days": 30,
           "partial": false,
           "gain": 100.92,
-          "loss": 0.91,
-          "net": 100.01,
+          "loss": 1.15,
+          "net": 99.77,
           "rate": 3.33
         },
         {
@@ -6613,9 +6613,9 @@
           "days": 31,
           "partial": false,
           "gain": 1.32,
-          "loss": 0.95,
-          "net": 0.37,
-          "rate": 0.01
+          "loss": 1.68,
+          "net": -0.36,
+          "rate": -0.01
         },
         {
           "month": "2024-11",
@@ -6625,9 +6625,9 @@
           "days": 30,
           "partial": false,
           "gain": 34.39,
-          "loss": 2.01,
-          "net": 32.38,
-          "rate": 1.08
+          "loss": 2.37,
+          "net": 32.02,
+          "rate": 1.07
         },
         {
           "month": "2024-12",
@@ -6637,8 +6637,8 @@
           "days": 31,
           "partial": false,
           "gain": 111.29,
-          "loss": 0,
-          "net": 111.29,
+          "loss": 0.13,
+          "net": 111.16,
           "rate": 3.59
         },
         {
@@ -6648,10 +6648,10 @@
           "to": "2025-02-01",
           "days": 31,
           "partial": false,
-          "gain": 6.43,
-          "loss": 0,
-          "net": 6.43,
-          "rate": 0.21
+          "gain": 6.46,
+          "loss": 0.18,
+          "net": 6.28,
+          "rate": 0.2
         },
         {
           "month": "2025-02",
@@ -6696,10 +6696,10 @@
           "to": "2025-06-01",
           "days": 31,
           "partial": false,
-          "gain": 0,
-          "loss": 0,
-          "net": 0,
-          "rate": 0
+          "gain": 0.01,
+          "loss": 0.24,
+          "net": -0.23,
+          "rate": -0.01
         },
         {
           "month": "2025-06",
@@ -6709,9 +6709,9 @@
           "days": 30,
           "partial": false,
           "gain": 11.83,
-          "loss": 0,
-          "net": 11.83,
-          "rate": 0.39
+          "loss": 0.35,
+          "net": 11.48,
+          "rate": 0.38
         },
         {
           "month": "2025-07",
@@ -6721,9 +6721,9 @@
           "days": 32,
           "partial": false,
           "gain": 3.4,
-          "loss": 0,
-          "net": 3.4,
-          "rate": 0.11
+          "loss": 0.07,
+          "net": 3.33,
+          "rate": 0.1
         },
         {
           "month": "2025-08",
@@ -6744,9 +6744,9 @@
           "to": "2025-10-01",
           "days": 28,
           "partial": false,
-          "gain": 0,
+          "gain": 0.01,
           "loss": 0.67,
-          "net": -0.67,
+          "net": -0.66,
           "rate": -0.02
         },
         {
@@ -6769,8 +6769,8 @@
           "days": 32,
           "partial": false,
           "gain": 197.68,
-          "loss": 0,
-          "net": 197.68,
+          "loss": 0.02,
+          "net": 197.66,
           "rate": 6.18
         },
         {
@@ -6781,9 +6781,9 @@
           "days": 28,
           "partial": false,
           "gain": 167.56,
-          "loss": 0.89,
-          "net": 166.67,
-          "rate": 5.95
+          "loss": 1.36,
+          "net": 166.2,
+          "rate": 5.94
         },
         {
           "month": "2026-01",
@@ -6792,10 +6792,10 @@
           "to": "2026-02-02",
           "days": 32,
           "partial": false,
-          "gain": 40.69,
-          "loss": 3.15,
-          "net": 37.54,
-          "rate": 1.17
+          "gain": 40.77,
+          "loss": 3.95,
+          "net": 36.82,
+          "rate": 1.15
         },
         {
           "month": "2026-02",
@@ -6804,10 +6804,10 @@
           "to": "2026-03-02",
           "days": 28,
           "partial": false,
-          "gain": 74.33,
-          "loss": 1.03,
-          "net": 73.3,
-          "rate": 2.62
+          "gain": 74.34,
+          "loss": 1.83,
+          "net": 72.51,
+          "rate": 2.59
         },
         {
           "month": "2026-03",
@@ -6816,10 +6816,10 @@
           "to": "2026-04-03",
           "days": 32,
           "partial": false,
-          "gain": 32.65,
-          "loss": 0,
-          "net": 32.65,
-          "rate": 1.02
+          "gain": 32.84,
+          "loss": 1.15,
+          "net": 31.69,
+          "rate": 0.99
         },
         {
           "month": "2026-04",
@@ -6828,9 +6828,9 @@
           "to": "2026-05-01",
           "days": 28,
           "partial": false,
-          "gain": 59.06,
-          "loss": 0.63,
-          "net": 58.43,
+          "gain": 59.52,
+          "loss": 1.02,
+          "net": 58.5,
           "rate": 2.09
         },
         {
@@ -6840,10 +6840,10 @@
           "to": "2026-06-02",
           "days": 32,
           "partial": false,
-          "gain": 59.94,
-          "loss": 4.01,
-          "net": 55.93,
-          "rate": 1.75
+          "gain": 60.02,
+          "loss": 4.55,
+          "net": 55.47,
+          "rate": 1.73
         },
         {
           "month": "2026-06",
@@ -6852,10 +6852,10 @@
           "to": "2026-07-04",
           "days": 32,
           "partial": false,
-          "gain": 46.4,
-          "loss": 0,
-          "net": 46.4,
-          "rate": 1.45
+          "gain": 46.45,
+          "loss": 1.39,
+          "net": 45.06,
+          "rate": 1.41
         },
         {
           "month": "2026-07",
@@ -6864,10 +6864,10 @@
           "to": "2026-08-01",
           "days": 28,
           "partial": false,
-          "gain": 9.84,
-          "loss": 0,
-          "net": 9.84,
-          "rate": 0.35
+          "gain": 9.85,
+          "loss": 0.47,
+          "net": 9.38,
+          "rate": 0.34
         },
         {
           "month": "2026-08",
@@ -6877,9 +6877,9 @@
           "days": 32,
           "partial": false,
           "gain": 43.43,
-          "loss": 2.79,
-          "net": 40.64,
-          "rate": 1.27
+          "loss": 2.97,
+          "net": 40.46,
+          "rate": 1.26
         },
         {
           "month": "2026-09",
@@ -6888,9 +6888,9 @@
           "to": "2026-10-04",
           "days": 32,
           "partial": false,
-          "gain": 1.83,
-          "loss": 0.52,
-          "net": 1.31,
+          "gain": 1.94,
+          "loss": 0.82,
+          "net": 1.12,
           "rate": 0.04
         },
         {
@@ -6900,21 +6900,21 @@
           "to": "2026-10-24",
           "days": 20,
           "partial": true,
-          "gain": 18.85,
-          "loss": 27.64,
-          "net": -8.79,
-          "rate": -0.44
+          "gain": 19.02,
+          "loss": 28.2,
+          "net": -9.18,
+          "rate": -0.46
         }
       ],
       "totals": {
-        "gain": 1148.77,
-        "loss": 72.21,
-        "net": 1076.56
+        "gain": 1155.17,
+        "loss": 86.07,
+        "net": 1069.1
       },
       "fullTotals": {
-        "gain": 1129.92,
-        "loss": 44.57,
-        "net": 1085.35
+        "gain": 1136.15,
+        "loss": 57.87,
+        "net": 1078.28
       }
     },
     {
@@ -6929,10 +6929,10 @@
           "to": "2023-10-06",
           "days": 33,
           "partial": false,
-          "gain": 1.46,
-          "loss": 26.16,
-          "net": -24.7,
-          "rate": -0.75
+          "gain": 1.8,
+          "loss": 26.23,
+          "net": -24.43,
+          "rate": -0.74
         },
         {
           "month": "2023-10",
@@ -6941,9 +6941,9 @@
           "to": "2023-11-01",
           "days": 26,
           "partial": false,
-          "gain": 0,
-          "loss": 8.35,
-          "net": -8.35,
+          "gain": 0.87,
+          "loss": 9.29,
+          "net": -8.42,
           "rate": -0.32
         },
         {
@@ -6953,9 +6953,9 @@
           "to": "2023-12-01",
           "days": 30,
           "partial": false,
-          "gain": 0.62,
-          "loss": 9.88,
-          "net": -9.26,
+          "gain": 0.77,
+          "loss": 10.17,
+          "net": -9.4,
           "rate": -0.31
         },
         {
@@ -6965,9 +6965,9 @@
           "to": "2024-01-01",
           "days": 31,
           "partial": false,
-          "gain": 3.7,
-          "loss": 2.23,
-          "net": 1.47,
+          "gain": 4.06,
+          "loss": 2.45,
+          "net": 1.61,
           "rate": 0.05
         },
         {
@@ -6978,8 +6978,8 @@
           "days": 31,
           "partial": false,
           "gain": 1.32,
-          "loss": 0,
-          "net": 1.32,
+          "loss": 0.1,
+          "net": 1.22,
           "rate": 0.04
         },
         {
@@ -6989,10 +6989,10 @@
           "to": "2024-03-01",
           "days": 29,
           "partial": false,
-          "gain": 4.45,
-          "loss": 0,
-          "net": 4.45,
-          "rate": 0.15
+          "gain": 4.81,
+          "loss": 0.18,
+          "net": 4.63,
+          "rate": 0.16
         },
         {
           "month": "2024-03",
@@ -7001,9 +7001,9 @@
           "to": "2024-04-01",
           "days": 31,
           "partial": false,
-          "gain": 14.71,
-          "loss": 0,
-          "net": 14.71,
+          "gain": 14.72,
+          "loss": 0.1,
+          "net": 14.62,
           "rate": 0.47
         },
         {
@@ -7013,10 +7013,10 @@
           "to": "2024-05-01",
           "days": 30,
           "partial": false,
-          "gain": 6.73,
-          "loss": 0,
-          "net": 6.73,
-          "rate": 0.22
+          "gain": 6.75,
+          "loss": 0.39,
+          "net": 6.36,
+          "rate": 0.21
         },
         {
           "month": "2024-05",
@@ -7025,10 +7025,10 @@
           "to": "2024-06-01",
           "days": 31,
           "partial": false,
-          "gain": 1.41,
-          "loss": 0,
-          "net": 1.41,
-          "rate": 0.05
+          "gain": 1.42,
+          "loss": 0.19,
+          "net": 1.23,
+          "rate": 0.04
         },
         {
           "month": "2024-06",
@@ -7037,10 +7037,10 @@
           "to": "2024-07-01",
           "days": 30,
           "partial": false,
-          "gain": 0,
-          "loss": 0,
-          "net": 0,
-          "rate": 0
+          "gain": 0.72,
+          "loss": 0.21,
+          "net": 0.51,
+          "rate": 0.02
         },
         {
           "month": "2024-07",
@@ -7049,10 +7049,10 @@
           "to": "2024-08-01",
           "days": 31,
           "partial": false,
-          "gain": 4.94,
-          "loss": 0,
-          "net": 4.94,
-          "rate": 0.16
+          "gain": 4.95,
+          "loss": 0.32,
+          "net": 4.63,
+          "rate": 0.15
         },
         {
           "month": "2024-08",
@@ -7062,8 +7062,8 @@
           "days": 31,
           "partial": false,
           "gain": 10.86,
-          "loss": 0,
-          "net": 10.86,
+          "loss": 0.13,
+          "net": 10.73,
           "rate": 0.35
         },
         {
@@ -7085,10 +7085,10 @@
           "to": "2024-11-01",
           "days": 31,
           "partial": false,
-          "gain": 104.84,
-          "loss": 0,
-          "net": 104.84,
-          "rate": 3.38
+          "gain": 104.86,
+          "loss": 0.28,
+          "net": 104.58,
+          "rate": 3.37
         },
         {
           "month": "2024-11",
@@ -7098,9 +7098,9 @@
           "days": 30,
           "partial": false,
           "gain": 7.79,
-          "loss": 0.75,
-          "net": 7.04,
-          "rate": 0.23
+          "loss": 1.25,
+          "net": 6.54,
+          "rate": 0.22
         },
         {
           "month": "2024-12",
@@ -7109,10 +7109,10 @@
           "to": "2025-01-01",
           "days": 31,
           "partial": false,
-          "gain": 3.69,
-          "loss": 0.95,
-          "net": 2.74,
-          "rate": 0.09
+          "gain": 3.7,
+          "loss": 1.34,
+          "net": 2.36,
+          "rate": 0.08
         },
         {
           "month": "2025-01",
@@ -7122,8 +7122,8 @@
           "days": 31,
           "partial": false,
           "gain": 0,
-          "loss": 0,
-          "net": 0,
+          "loss": 0.04,
+          "net": -0.04,
           "rate": 0
         },
         {
@@ -7133,9 +7133,9 @@
           "to": "2025-03-01",
           "days": 28,
           "partial": false,
-          "gain": 0.81,
-          "loss": 3.14,
-          "net": -2.33,
+          "gain": 0.83,
+          "loss": 3.18,
+          "net": -2.35,
           "rate": -0.08
         },
         {
@@ -7146,9 +7146,9 @@
           "days": 31,
           "partial": false,
           "gain": 36.35,
-          "loss": 0,
-          "net": 36.35,
-          "rate": 1.17
+          "loss": 0.86,
+          "net": 35.49,
+          "rate": 1.14
         },
         {
           "month": "2025-04",
@@ -7157,10 +7157,10 @@
           "to": "2025-05-01",
           "days": 30,
           "partial": false,
-          "gain": 16.39,
-          "loss": 0,
-          "net": 16.39,
-          "rate": 0.55
+          "gain": 16.42,
+          "loss": 1.27,
+          "net": 15.15,
+          "rate": 0.51
         },
         {
           "month": "2025-05",
@@ -7169,10 +7169,10 @@
           "to": "2025-06-01",
           "days": 31,
           "partial": false,
-          "gain": 4.15,
-          "loss": 3.8,
-          "net": 0.35,
-          "rate": 0.01
+          "gain": 4.74,
+          "loss": 3.83,
+          "net": 0.91,
+          "rate": 0.03
         },
         {
           "month": "2025-06",
@@ -7182,9 +7182,9 @@
           "days": 30,
           "partial": false,
           "gain": 11.9,
-          "loss": 0.87,
-          "net": 11.03,
-          "rate": 0.37
+          "loss": 0.99,
+          "net": 10.91,
+          "rate": 0.36
         },
         {
           "month": "2025-07",
@@ -7194,9 +7194,9 @@
           "days": 32,
           "partial": false,
           "gain": 23.01,
-          "loss": 0,
-          "net": 23.01,
-          "rate": 0.72
+          "loss": 0.16,
+          "net": 22.85,
+          "rate": 0.71
         },
         {
           "month": "2025-08",
@@ -7205,10 +7205,10 @@
           "to": "2025-09-03",
           "days": 32,
           "partial": false,
-          "gain": 54.89,
-          "loss": 0.9,
-          "net": 53.99,
-          "rate": 1.69
+          "gain": 54.94,
+          "loss": 1.38,
+          "net": 53.56,
+          "rate": 1.67
         },
         {
           "month": "2025-09",
@@ -7218,9 +7218,9 @@
           "days": 28,
           "partial": false,
           "gain": 4.43,
-          "loss": 0,
-          "net": 4.43,
-          "rate": 0.16
+          "loss": 0.11,
+          "net": 4.32,
+          "rate": 0.15
         },
         {
           "month": "2025-10",
@@ -7229,10 +7229,10 @@
           "to": "2025-11-02",
           "days": 32,
           "partial": false,
-          "gain": 70.15,
-          "loss": 0.63,
-          "net": 69.52,
-          "rate": 2.17
+          "gain": 70.28,
+          "loss": 1.62,
+          "net": 68.66,
+          "rate": 2.15
         },
         {
           "month": "2025-11",
@@ -7242,9 +7242,9 @@
           "days": 32,
           "partial": false,
           "gain": 15.47,
-          "loss": 34.25,
-          "net": -18.78,
-          "rate": -0.59
+          "loss": 34.9,
+          "net": -19.43,
+          "rate": -0.61
         },
         {
           "month": "2025-12",
@@ -7253,9 +7253,9 @@
           "to": "2026-01-01",
           "days": 28,
           "partial": false,
-          "gain": 12.05,
-          "loss": 1.65,
-          "net": 10.4,
+          "gain": 12.26,
+          "loss": 2.01,
+          "net": 10.25,
           "rate": 0.37
         },
         {
@@ -7265,10 +7265,10 @@
           "to": "2026-02-02",
           "days": 32,
           "partial": false,
-          "gain": 106.93,
-          "loss": 3.3,
-          "net": 103.63,
-          "rate": 3.24
+          "gain": 107,
+          "loss": 4.42,
+          "net": 102.58,
+          "rate": 3.21
         },
         {
           "month": "2026-02",
@@ -7278,9 +7278,9 @@
           "days": 28,
           "partial": false,
           "gain": 4.73,
-          "loss": 0,
-          "net": 4.73,
-          "rate": 0.17
+          "loss": 0.95,
+          "net": 3.78,
+          "rate": 0.13
         },
         {
           "month": "2026-03",
@@ -7289,10 +7289,10 @@
           "to": "2026-04-03",
           "days": 32,
           "partial": false,
-          "gain": 27.31,
-          "loss": 10.16,
-          "net": 17.15,
-          "rate": 0.54
+          "gain": 27.58,
+          "loss": 10.97,
+          "net": 16.61,
+          "rate": 0.52
         },
         {
           "month": "2026-04",
@@ -7301,10 +7301,10 @@
           "to": "2026-05-01",
           "days": 28,
           "partial": false,
-          "gain": 5.49,
-          "loss": 9.96,
-          "net": -4.47,
-          "rate": -0.16
+          "gain": 6.26,
+          "loss": 9.97,
+          "net": -3.71,
+          "rate": -0.13
         },
         {
           "month": "2026-05",
@@ -7313,10 +7313,10 @@
           "to": "2026-06-02",
           "days": 32,
           "partial": false,
-          "gain": 0,
-          "loss": 8.18,
-          "net": -8.18,
-          "rate": -0.26
+          "gain": 0.95,
+          "loss": 8.56,
+          "net": -7.61,
+          "rate": -0.24
         },
         {
           "month": "2026-06",
@@ -7325,9 +7325,9 @@
           "to": "2026-07-04",
           "days": 32,
           "partial": false,
-          "gain": 8.68,
-          "loss": 64.33,
-          "net": -55.65,
+          "gain": 9.33,
+          "loss": 65.17,
+          "net": -55.84,
           "rate": -1.74
         },
         {
@@ -7337,10 +7337,10 @@
           "to": "2026-08-01",
           "days": 28,
           "partial": false,
-          "gain": 1.28,
-          "loss": 4.06,
-          "net": -2.78,
-          "rate": -0.1
+          "gain": 1.56,
+          "loss": 4.07,
+          "net": -2.51,
+          "rate": -0.09
         },
         {
           "month": "2026-08",
@@ -7349,10 +7349,10 @@
           "to": "2026-09-02",
           "days": 32,
           "partial": false,
-          "gain": 19.66,
-          "loss": 9.38,
-          "net": 10.28,
-          "rate": 0.32
+          "gain": 20.33,
+          "loss": 9.4,
+          "net": 10.93,
+          "rate": 0.34
         },
         {
           "month": "2026-09",
@@ -7361,10 +7361,10 @@
           "to": "2026-10-04",
           "days": 32,
           "partial": false,
-          "gain": 68.3,
-          "loss": 0,
-          "net": 68.3,
-          "rate": 2.13
+          "gain": 68.31,
+          "loss": 0.54,
+          "net": 67.77,
+          "rate": 2.12
         },
         {
           "month": "2026-10",
@@ -7373,34 +7373,34 @@
           "to": "2026-10-24",
           "days": 20,
           "partial": true,
-          "gain": 12.37,
-          "loss": 2.61,
-          "net": 9.76,
+          "gain": 12.63,
+          "loss": 2.89,
+          "net": 9.74,
           "rate": 0.49
         }
       ],
       "totals": {
-        "gain": 670.87,
-        "loss": 205.54,
-        "net": 465.33
+        "gain": 678.71,
+        "loss": 219.92,
+        "net": 458.79
       },
       "fullTotals": {
-        "gain": 658.5,
-        "loss": 202.93,
-        "net": 455.57
+        "gain": 666.08,
+        "loss": 217.03,
+        "net": 449.05
       }
     }
   ],
   "unassigned": {
     "totals": {
-      "gain": 2112.72,
-      "loss": 1521.59,
-      "net": 591.13
+      "gain": 2125.55,
+      "loss": 1540.26,
+      "net": 585.29
     },
     "fullTotals": {
-      "gain": 2012.23,
-      "loss": 1474.15,
-      "net": 538.08
+      "gain": 2024.38,
+      "loss": 1492.46,
+      "net": 531.92
     }
   },
   "groupings": [],

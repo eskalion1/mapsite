@@ -167,7 +167,7 @@
     /** Делит MultiPolygon на крупные и микрокомпоненты по порогу, км². */
     function splitComponents(multiPolygon, thresholdKm2) {
         var threshold = Number(thresholdKm2);
-        if (!Number.isFinite(threshold) || threshold < 0) threshold = 0.5;
+        if (!Number.isFinite(threshold) || threshold < 0) threshold = 0;
         var kept = [];
         var dropped = [];
         var keptArea = 0;
@@ -400,7 +400,7 @@
     function summarizeDelta(prevRing, currRing, clip, options) {
         var opts = options || {};
         var threshold = Number(opts.thresholdKm2);
-        if (!Number.isFinite(threshold) || threshold < 0) threshold = 0.5;
+        if (!Number.isFinite(threshold) || threshold < 0) threshold = 0;
         var delta = computeDelta(prevRing, currRing, clip);
         return summarizeComponents(
             splitComponents(delta.gain, threshold),
@@ -505,7 +505,7 @@
     function buildStats(snapshots, rings, clip, options) {
         var opts = options || {};
         var threshold = Number(opts.thresholdKm2);
-        if (!Number.isFinite(threshold) || threshold < 0) threshold = 0.5;
+        if (!Number.isFinite(threshold) || threshold < 0) threshold = 0;
         var minDate = opts.minDate || null;
         var maxDate = opts.maxDate || null;
         var includePartial = opts.includePartial !== false;
@@ -716,9 +716,11 @@
                 thresholdKm2: threshold,
                 excludedAreas: Array.isArray(opts.excludeAreas) ? opts.excludeAreas : [],
                 minDate: minDate,
-                note: 'Плюс — продвижение ВС РФ. Компоненты меньше порога не учитываются; их сумма приведена в micro.',
+                note: threshold > 0
+                    ? 'Плюс — продвижение ВС РФ. Компоненты меньше порога не учитываются; их сумма приведена в micro.'
+                    : 'Плюс — продвижение ВС РФ. Порог отключён: учитываются все компоненты разности.',
                 directions: directionsEnabled ? {
-                    version: opts.directionsVersion || 'test',
+                    version: opts.directionsVersion || '1',
                     note: opts.directionsNote || null,
                     method: 'centroid',
                     count: directionDefs.length

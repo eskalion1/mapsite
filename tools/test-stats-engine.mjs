@@ -64,6 +64,14 @@ test('микрокомпоненты отбрасываются, но видны
     assert.equal(summary.micro.gain, 0);
 });
 
+test('по умолчанию учитываются все компоненты, включая микрополигоны', () => {
+    const tiny = [[0, 0], [0.005, 0], [0.005, 0.005], [0, 0.005], [0, 0]];
+    const split = StatsEngine.splitComponents([[tiny]]);
+    assert.equal(split.keptCount, 1);
+    assert.equal(split.droppedCount, 0);
+    assert.ok(split.keptArea > 0.1 && split.keptArea < 0.5, 'area=' + split.keptArea);
+});
+
 test('месячные срезы выбираются около 1-го числа', () => {
     const snapshots = [
         StatsEngine.snapshotInfo('Control_26_09_02.kml'),
@@ -95,6 +103,12 @@ test('реальные срезы 01.10.2024 → 01.11.2024', () => {
     assert.ok(summary.gain > 1020 && summary.gain < 1030, 'gain=' + summary.gain);
     assert.ok(summary.loss > 205 && summary.loss < 211, 'loss=' + summary.loss);
     assert.ok(summary.net > 812 && summary.net < 818, 'net=' + summary.net);
+
+    const all = StatsEngine.summarizeDelta(prev, curr, clip, { thresholdKm2: 0 });
+    assert.ok(all.gain > summary.gain, 'gain без порога должен быть больше');
+    assert.ok(all.loss > summary.loss, 'loss без порога должен быть больше');
+    assert.equal(all.micro.gain, 0);
+    assert.equal(all.micro.loss, 0);
 });
 
 test('KML направлений: 8 полигонов с id', () => {

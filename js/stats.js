@@ -293,12 +293,19 @@
         }
         var note = document.getElementById('stats-table-note');
         if (note) {
-            note.textContent = periods.length
-                ? 'Показано ' + periods.length + ' периодов. Не вошли микрополигоны меньше '
-                    + formatNumber(state.data && state.data.source ? state.data.source.thresholdKm2 : 0.5)
-                    + ' км²: прирост +' + formatNumber(microGain)
-                    + ', уменьшение −' + formatNumber(microLoss) + ' км².'
-                : 'За выбранный период данных нет.';
+            var threshold = state.data && state.data.source && state.data.source.thresholdKm2 != null
+                ? Number(state.data.source.thresholdKm2)
+                : 0;
+            if (!periods.length) {
+                note.textContent = 'За выбранный период данных нет.';
+            } else if (threshold > 0) {
+                note.textContent = 'Показано ' + periods.length + ' периодов. Не вошли микрополигоны меньше '
+                    + formatNumber(threshold) + ' км²: прирост +' + formatNumber(microGain)
+                    + ', уменьшение −' + formatNumber(microLoss) + ' км².';
+            } else {
+                note.textContent = 'Показано ' + periods.length
+                    + ' периодов. Учитываются все компоненты разности, включая мелкие.';
+            }
         }
         var sub = document.getElementById('stats-table-sub');
         if (sub) {
