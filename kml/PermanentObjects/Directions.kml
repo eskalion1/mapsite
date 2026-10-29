@@ -1003,7 +1003,7 @@
 <name>Днепровско-Запорожское</name>
 <styleUrl>#dir</styleUrl>
 <description>Площадь: 8469.50 км²</description>
-<ExtendedData><Data name="id"><value>orekhiv</value></Data><Data name="group"><value>Восток</value></Data></ExtendedData>
+<ExtendedData><Data name="id"><value>orekhiv</value></Data><Data name="group"><value>Днепр</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
 35.21835,47.08043,0 35.21874,47.08045,0 35.26167,47.07092,0 35.26428,47.07041,0 35.30001,47.06422,0 35.30214,47.06389,0
 35.35770,47.05706,0 35.35950,47.05689,0 35.41944,47.05318,0 35.42105,47.05313,0 35.46023,47.05291,0 35.52244,47.02428,0

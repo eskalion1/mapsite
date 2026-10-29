@@ -121,6 +121,7 @@ test('KML направлений: 11 полигонов с id', () => {
     assert.ok(directions.some(direction => direction.id === 'kharkiv'));
     assert.ok(directions.some(direction => direction.id === 'dnipropetrovsk'));
     assert.ok(directions.some(direction => direction.id === 'herson'));
+    assert.equal(directions.find(direction => direction.id === 'orekhiv').group, 'Днепр');
     assert.ok(directions.some(direction => direction.id === 'chernihiv'));
     assert.ok(!directions.some(direction => direction.id === 'krasny_liman'));
     assert.ok(directions.every(direction => direction.polygon.length >= 5));
