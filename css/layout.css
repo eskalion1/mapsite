@@ -680,3 +680,14 @@ body {
     padding: 5px 8px;
     pointer-events: none;
 }
+
+.direction-label-fragment {
+    border-color: rgba(211, 47, 47, 0.75);
+}
+
+.direction-label-fragment-note {
+    color: #b02a37;
+    display: block;
+    font-size: 9.5px;
+    margin-top: 1px;
+}

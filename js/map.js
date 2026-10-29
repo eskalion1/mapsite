@@ -723,16 +723,21 @@ if (new URLSearchParams(window.location.search).has('directions') && typeof omni
     directionHint.addTo(map);
 
     const directionsLayer = omnivore.kml('kml/PermanentObjects/Directions.kml');
+    // #12/#13 — осколки исходной разбивки. Показываем их только на карте,
+    // в статистику направлений они не входят.
+    const fragmentsLayer = omnivore.kml('kml/PermanentObjects/Directions_fragments.kml');
     let directionsStats = null;
     let directionsReady = false;
 
     function updateDirectionLabelVisibility() {
         const show = map.getZoom() >= directionLabelMinZoom;
-        directionsLayer.eachLayer(function (layer) {
-            const tooltip = layer.getTooltip && layer.getTooltip();
-            if (!tooltip) return;
-            const element = tooltip.getElement && tooltip.getElement();
-            if (element) element.style.display = show ? '' : 'none';
+        [directionsLayer, fragmentsLayer].forEach(function (layerGroup) {
+            layerGroup.eachLayer(function (layer) {
+                const tooltip = layer.getTooltip && layer.getTooltip();
+                if (!tooltip) return;
+                const element = tooltip.getElement && tooltip.getElement();
+                if (element) element.style.display = show ? '' : 'none';
+            });
         });
         const hint = document.querySelector('.direction-hint');
         if (hint) hint.style.display = show ? 'none' : '';
@@ -806,6 +811,40 @@ if (new URLSearchParams(window.location.search).has('directions') && typeof omni
             const bounds = this.getBounds && this.getBounds();
             if (bounds && bounds.isValid()) map.fitBounds(bounds, { padding: [20, 20] });
         }
+    });
+
+    fragmentsLayer.on('ready', function () {
+        this.eachLayer(function (layer) {
+            if (typeof layer.setStyle === 'function') {
+                layer.setStyle({
+                    color: '#d32f2f',
+                    weight: 2,
+                    opacity: 0.95,
+                    dashArray: '3 3',
+                    fillColor: '#d32f2f',
+                    fillOpacity: 0.18
+                });
+            }
+            const properties = layer.feature && layer.feature.properties ? layer.feature.properties : {};
+            const name = properties.name || 'Осколок';
+            const description = properties.description || '';
+            if (typeof layer.bindTooltip === 'function') {
+                const offset = name.indexOf('13') !== -1 ? [55, 16] : [-55, -16];
+                layer.bindTooltip(
+                    '<b>' + directionEscape(name) + '</b>'
+                        + (description ? '<span class="direction-label-fragment-note">' + directionEscape(description) + '</span>' : ''),
+                    {
+                        permanent: true,
+                        direction: 'center',
+                        offset: offset,
+                        className: 'direction-label direction-label-fragment',
+                        opacity: 0.96
+                    }
+                );
+            }
+        });
+        this.addTo(map);
+        updateDirectionLabelVisibility();
     });
 
     fetch('stats/stats.json?ts=' + Date.now(), { cache: 'no-store' })

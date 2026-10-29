@@ -97,6 +97,8 @@
         while ((match = re.exec(text)) !== null) {
             index += 1;
             var body = match[1];
+            // В KML могут быть отдельные LineString (линия фронта и т.п.) — это не полигон.
+            if (!/<Polygon\b/i.test(body)) continue;
             var nameMatch = body.match(/<name[^>]*>([\s\S]*?)<\/name>/i);
             var idMatch = body.match(/<Data\s+name=["']id["'][^>]*>\s*<value>([\s\S]*?)<\/value>/i);
             var groupMatch = body.match(/<Data\s+name=["']group["'][^>]*>\s*<value>([\s\S]*?)<\/value>/i);

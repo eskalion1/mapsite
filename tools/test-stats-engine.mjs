@@ -111,16 +111,30 @@ test('реальные срезы 01.10.2024 → 01.11.2024', () => {
     assert.equal(all.micro.loss, 0);
 });
 
-test('KML направлений: 8 полигонов с id', () => {
+test('KML направлений: 11 полигонов с id', () => {
     const text = fs.readFileSync(path.join(ROOT, 'kml/PermanentObjects/Directions.kml'), 'utf8');
     const directions = StatsEngine.parseKmlPolygons(text);
-    assert.equal(directions.length, 8);
+    assert.equal(directions.length, 11);
     assert.equal(directions[0].id, 'sumy');
-    assert.equal(directions[0].name, 'Сумская область');
+    assert.equal(directions[0].name, 'Сумское');
     assert.equal(directions[0].group, 'Север');
-    assert.ok(!directions.some(direction => direction.id === 'kharkiv'));
-    assert.ok(!directions.some(direction => direction.id === 'dnipropetrovsk'));
+    assert.ok(directions.some(direction => direction.id === 'kharkiv'));
+    assert.ok(directions.some(direction => direction.id === 'dnipropetrovsk'));
+    assert.ok(directions.some(direction => direction.id === 'herson'));
+    assert.ok(directions.some(direction => direction.id === 'chernihiv'));
+    assert.ok(!directions.some(direction => direction.id === 'krasny_liman'));
     assert.ok(directions.every(direction => direction.polygon.length >= 5));
+
+    const fragments = StatsEngine.parseKmlPolygons(
+        fs.readFileSync(path.join(ROOT, 'kml/PermanentObjects/Directions_fragments.kml'), 'utf8')
+    );
+    assert.equal(fragments.length, 2);
+    assert.deepEqual(fragments.map(direction => direction.id), ['fragment_12', 'fragment_13']);
+});
+
+test('LineString не считается полигоном направления', () => {
+    const line = '<Placemark><name>Линия</name><LineString><coordinates>30,45,0 31,46,0</coordinates></LineString></Placemark>';
+    assert.equal(StatsEngine.parseKmlPolygons(line).length, 0);
 });
 
 test('направления: сумма направлений + unassigned = итог', () => {

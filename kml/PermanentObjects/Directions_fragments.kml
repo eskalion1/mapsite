@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Осколки направлений</name>
+<description>Технические осколки разбивки, не входят в статистику направлений.</description>
+<Style id="frag"><LineStyle><color>ff0000ff</color><width>2</width></LineStyle><PolyStyle><color>330000ff</color><fill>1</fill><outline>1</outline></PolyStyle></Style>
+<Placemark>
+<name>Осколок 12</name>
+<styleUrl>#frag</styleUrl>
+<description>Площадь: 16.89 км²</description>
+<ExtendedData><Data name="id"><value>fragment_12</value></Data><Data name="group"><value>Осколки</value></Data></ExtendedData>
+<Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
+36.34187,48.54661,0 36.34654,48.54424,0 36.35501,48.53965,0 36.34973,48.53496,0 36.35517,48.53229,0 36.36995,48.54510,0
+36.37571,48.55034,0 36.38177,48.55545,0 36.38721,48.56032,0 36.39189,48.56475,0 36.39007,48.56577,0 36.38131,48.57027,0
+36.39218,48.58127,0 36.39905,48.58767,0 36.40801,48.59630,0 36.40983,48.59839,0 36.41178,48.60020,0 36.41414,48.60264,0
+36.41859,48.60687,0 36.41943,48.60707,0 36.42025,48.60776,0 36.42008,48.60827,0 36.42411,48.61192,0 36.42692,48.61428,0
+36.42988,48.61307,0 36.43193,48.61249,0 36.43600,48.61211,0 36.43861,48.61198,0 36.44186,48.61249,0 36.44356,48.61316,0
+36.44471,48.61316,0 36.44591,48.61384,0 36.44566,48.61484,0 36.44348,48.61448,0 36.43959,48.61408,0 36.43534,48.61461,0
+36.42855,48.61563,0 36.43232,48.61910,0 36.43724,48.62353,0 36.44264,48.62850,0 36.43646,48.62979,0 36.43141,48.63104,0
+36.42669,48.63180,0 36.38673,48.59259,0 36.37630,48.58518,0 36.37152,48.58083,0 36.34187,48.54661,0
+</coordinates></LinearRing></outerBoundaryIs></Polygon>
+</Placemark>
+<Placemark>
+<name>Осколок 13</name>
+<styleUrl>#frag</styleUrl>
+<description>Площадь: 0.16 км²</description>
+<ExtendedData><Data name="id"><value>fragment_13</value></Data><Data name="group"><value>Осколки</value></Data></ExtendedData>
+<Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>
+36.42669,48.63180,0 36.42942,48.63447,0 36.43112,48.63414,0 36.42848,48.63466,0 36.42344,48.63506,0 36.42041,48.63515,0
+36.41934,48.63405,0 36.42402,48.63263,0 36.42630,48.63186,0 36.42669,48.63180,0
+</coordinates></LinearRing></outerBoundaryIs></Polygon>
+</Placemark>
+</Document>
+</kml>
