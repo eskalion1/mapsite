@@ -33,6 +33,7 @@ const thresholdKm2 = Number(arg('--threshold', '0'));
 const minDate = arg('--min-date', '2023-10-01');
 const includePartial = !process.argv.includes('--no-partial');
 const directionsPath = path.resolve(ROOT, arg('--directions', 'kml/PermanentObjects/Directions.kml'));
+const exclusionsPath = path.resolve(ROOT, arg('--exclude', 'kml/PermanentObjects/Kakhovka_reservoir.kml'));
 
 function fail(message) {
     console.error('Ошибка: ' + message);
@@ -83,6 +84,21 @@ if (fs.existsSync(directionsPath)) {
     console.warn('Нет файла границ направлений: ' + directionsPath + ' — считаю только общий итог');
 }
 
+let excludeGeometry = [];
+let excludeInfo = [];
+if (fs.existsSync(exclusionsPath)) {
+    const parsed = StatsEngine.parseKmlPolygons(fs.readFileSync(exclusionsPath, 'utf8'));
+    excludeGeometry = parsed.map(item => item.polygon);
+    excludeInfo = parsed.map((item, index) => ({
+        id: item.id || ('exclusion-' + (index + 1)),
+        name: item.name || ('Исключение ' + (index + 1)),
+        areaKm2: StatsEngine.round2(StatsEngine.ringAreaKm2(item.polygon))
+    }));
+    console.log('\nИсключено из расчёта: ' + excludeInfo.map(item => item.name + ' (' + item.areaKm2 + ' км²)').join(', '));
+} else {
+    console.warn('Нет файла исключений: ' + exclusionsPath + ' — считаю без исключений');
+}
+
 const result = StatsEngine.buildStats(snapshots, rings, clip, {
     thresholdKm2,
     minDate,
@@ -90,6 +106,8 @@ const result = StatsEngine.buildStats(snapshots, rings, clip, {
     directions,
     directionsVersion: '1',
     directionsNote: 'Границы направлений: области и секторы; компонент относится к направлению по центроиду.',
+    excludeGeometry,
+    excludeAreas: excludeInfo,
     generator: 'tools/build-stats.mjs',
     generatedAt: new Date().toISOString()
 });

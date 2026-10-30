@@ -166,6 +166,34 @@
         };
     }
 
+    /**
+     * Приводит исключения к MultiPolygon.
+     * Принимает массив колец или массив полигонов (кольцо = [[lon,lat], ...]).
+     */
+    function normalizeExclusionGeometry(areas) {
+        var list = Array.isArray(areas) ? areas : [];
+        var polygons = [];
+        for (var i = 0; i < list.length; i++) {
+            var area = list[i];
+            if (!Array.isArray(area) || !area.length) continue;
+            if (Array.isArray(area[0]) && typeof area[0][0] === 'number') {
+                polygons.push([area]);
+            } else if (Array.isArray(area[0]) && Array.isArray(area[0][0])) {
+                polygons.push(area);
+            }
+        }
+        return polygons;
+    }
+
+    /** Вычитает исключённые области из компонент прироста/уменьшения. */
+    function subtractExclusions(delta, exclusions, clip) {
+        if (!exclusions.length) return delta;
+        return {
+            gain: clip.difference(delta.gain, exclusions),
+            loss: clip.difference(delta.loss, exclusions)
+        };
+    }
+
     /** Делит MultiPolygon на крупные и микрокомпоненты по порогу, км². */
     function splitComponents(multiPolygon, thresholdKm2) {
         var threshold = Number(thresholdKm2);
@@ -404,6 +432,7 @@
         var threshold = Number(opts.thresholdKm2);
         if (!Number.isFinite(threshold) || threshold < 0) threshold = 0;
         var delta = computeDelta(prevRing, currRing, clip);
+        delta = subtractExclusions(delta, normalizeExclusionGeometry(opts.excludeGeometry), clip);
         return summarizeComponents(
             splitComponents(delta.gain, threshold),
             splitComponents(delta.loss, threshold)
@@ -502,7 +531,7 @@
      * @param rings     объект/Map: имя снимка -> кольцо.
      * @param clip      polygon-clipping.
      * @param options   {thresholdKm2, minDate, maxDate, includePartial,
-     *                   generator, excludeAreas}
+     *                   generator, excludeAreas, excludeGeometry}
      */
     function buildStats(snapshots, rings, clip, options) {
         var opts = options || {};
@@ -511,6 +540,7 @@
         var minDate = opts.minDate || null;
         var maxDate = opts.maxDate || null;
         var includePartial = opts.includePartial !== false;
+        var exclusionPolygons = normalizeExclusionGeometry(opts.excludeGeometry);
         var getRing = function (name) {
             if (rings instanceof Map) return rings.get(name) || null;
             return rings ? rings[name] || null : null;
@@ -558,6 +588,7 @@
 
         function summarizePeriod(from, to, fromRing, toRing, partial) {
             var delta = computeDelta(fromRing, toRing, clip);
+            delta = subtractExclusions(delta, exclusionPolygons, clip);
             var gainParts = splitComponents(delta.gain, threshold);
             var lossParts = splitComponents(delta.loss, threshold);
             var summary = summarizeComponents(gainParts, lossParts);

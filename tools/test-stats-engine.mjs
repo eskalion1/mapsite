@@ -51,6 +51,20 @@ test('разность двух квадратов: прирост и умень
     assert.ok(Math.abs(summary.raw.net) < 1e-6);
 });
 
+test('исключённая область вычитается из дельты', () => {
+    const prev = [[0, 0], [2, 0], [2, 2], [0, 2], [0, 0]];
+    const curr = [[1, 0], [3, 0], [3, 2], [1, 2], [1, 0]];
+    const base = StatsEngine.summarizeDelta(prev, curr, clip, { thresholdKm2: 0 });
+    const water = [[2, 0], [2.5, 0], [2.5, 2], [2, 2], [2, 0]];
+    const cut = StatsEngine.summarizeDelta(prev, curr, clip, {
+        thresholdKm2: 0,
+        excludeGeometry: [water]
+    });
+    assert.ok(cut.gain < base.gain, 'gain should shrink');
+    assert.ok(Math.abs(cut.gain - base.gain / 2) < 1, 'cut=' + cut.gain + ' base=' + base.gain);
+    assert.ok(Math.abs(cut.loss - base.loss) < 0.01, 'loss should stay');
+});
+
 test('микрокомпоненты отбрасываются, но видны в micro', () => {
     const tiny = [[0, 0], [0.005, 0], [0.005, 0.005], [0, 0.005], [0, 0]];
     const split = StatsEngine.splitComponents([[tiny]], 0.5);
