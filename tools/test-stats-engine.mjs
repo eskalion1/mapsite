@@ -169,4 +169,11 @@ test('направления: сумма направлений + unassigned = �
         'loss invariant');
 });
 
+test('stats.json начинается с октября 2023', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'stats/stats.json'), 'utf8'));
+    assert.equal(data.source.minDate, '2023-10-01');
+    assert.equal(data.periods[0].month, '2023-10');
+    assert.ok(data.periods.every(period => period.month >= '2023-10'));
+});
+
 console.log('\nВсе проверки пройдены.');

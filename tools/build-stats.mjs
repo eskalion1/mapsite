@@ -4,7 +4,7 @@
  *
  * Запуск:
  *   node tools/build-stats.mjs
- *   node tools/build-stats.mjs --threshold 0 --min-date 2023-09-01
+ *   node tools/build-stats.mjs --threshold 0 --min-date 2023-10-01
  *
  * Скрипт читает только месячные срезы (ближайшие к 1-му числу) и последний
  * срез для текущего месяца. Полные KML-файлы в память целиком не копятся.
@@ -30,7 +30,7 @@ function arg(name, fallback) {
 const controlDir = path.join(ROOT, 'kml/ControlZones');
 const outputPath = path.resolve(ROOT, arg('--out', 'stats/stats.json'));
 const thresholdKm2 = Number(arg('--threshold', '0'));
-const minDate = arg('--min-date', '2023-09-01');
+const minDate = arg('--min-date', '2023-10-01');
 const includePartial = !process.argv.includes('--no-partial');
 const directionsPath = path.resolve(ROOT, arg('--directions', 'kml/PermanentObjects/Directions.kml'));
 

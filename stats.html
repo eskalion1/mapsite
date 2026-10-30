@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Статистика территорий — Creamy caprice</title>
-    <meta name="description" content="Прирост и уменьшение контроля территорий по месячным срезам. Плюс — продвижение ВС РФ.">
+    <meta name="description" content="Продвижение и отход контроля территорий по месячным срезам. Плюс — продвижение ВС РФ.">
     <link rel="icon" href="img/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +31,7 @@
             <div class="stats-title-row">
                 <div>
                     <h1>Статистика территорий</h1>
-                    <p class="stats-subtitle">Прирост и уменьшение контроля по месячным срезам. Плюс — продвижение ВС РФ.</p>
+                    <p class="stats-subtitle">Продвижение и отход контроля по месячным срезам. Плюс — продвижение ВС РФ.</p>
                 </div>
                 <div id="stats-updated" class="stats-updated" aria-live="polite"></div>
             </div>
@@ -44,7 +44,7 @@
                 <span id="stats-range-label" class="stats-range-label"></span>
                 <nav class="stats-jump" aria-label="Разделы статистики">
                     <a href="#months">Месяцы</a>
-                    <a href="#stats-current">Текущий</a>
+                    <a href="#stats-current">Месяц</a>
                     <a href="#directions">Направления</a>
                     <a href="#groups">Группировки</a>
                 </nav>
@@ -57,23 +57,23 @@
                     <div>
                         <div class="stats-panel-title-row">
                             <h2>Динамика по месяцам</h2>
-                            <button type="button" id="stats-chart-detail" class="stats-icon-btn" title="Детальный вид: подписи нетто по точкам" aria-label="Показать подписи нетто по точкам" aria-pressed="false">
+                            <button type="button" id="stats-chart-detail" class="stats-icon-btn" title="Детальный вид: подписи всего по точкам" aria-label="Показать подписи всего по точкам" aria-pressed="false">
                                 <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
                             </button>
                             <button type="button" id="stats-chart-png" class="stats-icon-btn" title="Скачать PNG" aria-label="Скачать месячный график в PNG">
                                 <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </button>
                         </div>
-                        <p id="stats-chart-sub" class="stats-panel-sub">Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто.</p>
+                        <p id="stats-chart-sub" class="stats-panel-sub">Продвижение — выше нуля, отход — ниже нуля, линия — всего.</p>
                     </div>
                     <div class="stats-legend" aria-hidden="true">
-                        <span class="stats-legend-item"><span class="stats-dot stats-dot-gain"></span>прирост</span>
-                        <span class="stats-legend-item"><span class="stats-dot stats-dot-loss"></span>уменьшение</span>
-                        <span class="stats-legend-item"><span class="stats-dot stats-dot-net"></span>нетто</span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-gain"></span>продвижение</span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-loss"></span>отход</span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-net"></span>всего</span>
                     </div>
                 </div>
                 <div class="stats-chart-wrap">
-                    <canvas id="monthly-chart" aria-label="График прироста, уменьшения и нетто по месяцам" role="img"></canvas>
+                    <canvas id="monthly-chart" aria-label="График продвижения, отхода и всего по месяцам" role="img"></canvas>
                 </div>
                 <p id="stats-current-note" class="stats-chart-note"></p>
                 <p id="stats-chart-fallback" class="stats-note hidden">График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает.</p>
@@ -96,9 +96,9 @@
                                 <th>Месяц</th>
                                 <th>Период</th>
                                 <th class="num">Дней</th>
-                                <th class="num">Прирост, км²</th>
-                                <th class="num">Уменьшение, км²</th>
-                                <th class="num">Нетто, км²</th>
+                                <th class="num">Продвижение, км²</th>
+                                <th class="num">Отход, км²</th>
+                                <th class="num">Всего, км²</th>
                                 <th class="num">Темп, км²/день</th>
                             </tr>
                         </thead>
@@ -111,7 +111,7 @@
             <section id="stats-current" class="stats-panel hidden">
                 <div class="stats-panel-head">
                     <div>
-                        <h2>Текущий период по направлениям</h2>
+                        <h2>Текущий месяц по направлениям</h2>
                         <p id="stats-current-sub" class="stats-panel-sub"></p>
                     </div>
                 </div>
@@ -120,9 +120,9 @@
                         <thead>
                             <tr>
                                 <th>Направление</th>
-                                <th class="num">Прирост, км²</th>
-                                <th class="num">Уменьшение, км²</th>
-                                <th class="num">Нетто, км²</th>
+                                <th class="num">Продвижение, км²</th>
+                                <th class="num">Отход, км²</th>
+                                <th class="num">Всего, км²</th>
                                 <th class="num">Темп, км²/день</th>
                             </tr>
                         </thead>
@@ -151,9 +151,9 @@
                         <thead>
                             <tr>
                                 <th>Направление</th>
-                                <th class="num">Прирост, км²</th>
-                                <th class="num">Уменьшение, км²</th>
-                                <th class="num">Нетто, км²</th>
+                                <th class="num">Продвижение, км²</th>
+                                <th class="num">Отход, км²</th>
+                                <th class="num">Всего, км²</th>
                             </tr>
                         </thead>
                         <tbody id="stats-directions-body"></tbody>
@@ -180,11 +180,11 @@
                 <div class="stats-panel-head">
                     <div>
                         <h2>По группировкам</h2>
-                        <p id="stats-groups-sub" class="stats-panel-sub">Нетто по группам направлений за выбранный период.</p>
+                        <p id="stats-groups-sub" class="stats-panel-sub">Всего по группам направлений за выбранный период.</p>
                     </div>
                 </div>
                 <div class="stats-chart-wrap">
-                    <canvas id="groups-chart" aria-label="График нетто по группировкам" role="img"></canvas>
+                    <canvas id="groups-chart" aria-label="График всего по группировкам" role="img"></canvas>
                 </div>
                 <p id="groups-chart-fallback" class="stats-note hidden">График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает.</p>
                 <div class="stats-table-wrap">
@@ -192,9 +192,9 @@
                         <thead>
                             <tr>
                                 <th>Группировка</th>
-                                <th class="num">Прирост, км²</th>
-                                <th class="num">Уменьшение, км²</th>
-                                <th class="num">Нетто, км²</th>
+                                <th class="num">Продвижение, км²</th>
+                                <th class="num">Отход, км²</th>
+                                <th class="num">Всего, км²</th>
                             </tr>
                         </thead>
                         <tbody id="stats-groups-body"></tbody>

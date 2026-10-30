@@ -11,7 +11,7 @@
         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     var numberFormat = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
     var charts = { main: null, direction: null, groups: null };
-    var state = { data: null, range: 'all', direction: null, detail: false };
+    var state = { data: null, range: 'all', month: null, direction: null, detail: false };
     var GROUP_FALLBACK = 'Без группы';
     var GROUP_COLORS = ['#c81e0f', '#2f63b8', '#1f8a4c', '#b8860b', '#7a4fb3', '#6c757d'];
 
@@ -84,14 +84,40 @@
             + '</span>';
     }
 
-    function card(label, value, context, lines) {
-        var cls = valueClass(value);
-        return '<article class="stats-card ' + cardClass(value) + '">'
+    function card(label, value, context, lines, displayValue) {
+        var missing = displayValue === '—';
+        var cls = missing ? 'neutral' : valueClass(value);
+        var display = displayValue != null ? displayValue : signed(value);
+        return '<article class="stats-card ' + (missing ? 'is-total' : cardClass(value)) + '">'
             + '<span class="stats-card-label">' + escapeHtml(label) + '</span>'
-            + '<span class="stats-card-value ' + cls + '">' + escapeHtml(signed(value)) + '</span>'
+            + '<span class="stats-card-value ' + cls + '">' + escapeHtml(display) + '</span>'
             + (context ? '<span class="stats-card-context">' + escapeHtml(context) + '</span>' : '')
             + '<span class="stats-card-lines">' + (lines || []).join('') + '</span>'
             + '</article>';
+    }
+
+    function shortMonthYear(month) {
+        var parts = String(month || '').split('-');
+        var index = Number(parts[1]) - 1;
+        if (!MONTHS_FULL[index]) return String(month || '');
+        return MONTHS_FULL[index] + ' ' + String(parts[0] || '').slice(2);
+    }
+
+    function periodName(periods) {
+        if (/^\d{4}$/.test(String(state.range || ''))) return String(state.range);
+        if (!periods || !periods.length) return 'Нет данных';
+        var first = periods[0];
+        var last = periods[periods.length - 1];
+        var firstYear = String(first.month || '').slice(0, 4);
+        var lastYear = String(last.month || '').slice(0, 4);
+        if (firstYear === lastYear) {
+            var firstMonth = Number(String(first.month || '').slice(5, 7));
+            var lastMonth = Number(String(last.month || '').slice(5, 7));
+            if (firstMonth === 1 && lastMonth === 12) return firstYear;
+            if (firstMonth === lastMonth) return fullMonthLabel(first.month);
+            return MONTHS_FULL[firstMonth - 1] + ' — ' + MONTHS_FULL[lastMonth - 1] + ' ' + firstYear;
+        }
+        return firstYear + '–' + lastYear;
     }
 
     function findPeriodByMonth(periods, month) {
@@ -171,27 +197,35 @@
 
     function filterPeriods(periods, range) {
         var list = Array.isArray(periods) ? periods : [];
-        if (!range || range === 'all') return list.slice();
-        if (isYearRange(range)) {
+        var value = String(range || 'all');
+        if (value === 'all') return list.slice();
+        if (value === 'current') {
+            return list.length ? [list[list.length - 1]] : [];
+        }
+        if (isYearRange(value)) {
             return list.filter(function (period) {
-                return String(period.month || '').slice(0, 4) === String(range);
+                return String(period.month || '').slice(0, 4) === value;
             });
         }
-        if (isMonthRange(range)) {
+        if (isMonthRange(value)) {
             return list.filter(function (period) {
-                return String(period.month || '') === String(range);
+                return String(period.month || '') === value;
             });
         }
-        var count = Number(range);
-        if (!Number.isFinite(count) || count <= 0 || count >= list.length) return list.slice();
-        return list.slice(-count);
+        var count = Number(value);
+        if (Number.isFinite(count) && count > 0) {
+            return list.slice(-count);
+        }
+        return list.slice();
     }
 
     function rangeLabel(range) {
-        if (!range || range === 'all') return 'всё время';
-        if (isYearRange(range)) return range + ' год';
-        if (isMonthRange(range)) return fullMonthLabel(range);
-        return 'последние ' + range + ' мес.';
+        var value = String(range || 'all');
+        if (value === 'all') return 'всё время';
+        if (value === 'current') return 'текущий месяц';
+        if (isYearRange(value)) return value + ' год';
+        if (isMonthRange(value)) return fullMonthLabel(value);
+        return 'последние ' + value + ' мес.';
     }
 
     function fullPeriods(periods) {
@@ -201,8 +235,7 @@
     }
 
     function totalsPeriods(periods, range) {
-        var filtered = filterPeriods(periods, range);
-        return isMonthRange(range) ? filtered : fullPeriods(filtered);
+        return filterPeriods(periods, range);
     }
 
     function periodsCaption(periods) {
@@ -261,25 +294,25 @@
     }
 
     function renderCards(data, periods) {
-        var latest = latestPeriod(data);
-        if (!latest) return;
         var allPeriods = data.periods || [];
+        var current = latestPeriod(data);
         var previous = previousCalendarPeriod(data);
+        if (!current) return;
         var totals = summarize(periods);
         var allTotals = summarize(allPeriods);
         var allRate = allTotals.days > 0 ? allTotals.net / allTotals.days : 0;
         var cards = [];
 
-        var latestPrior = findPeriodByMonth(allPeriods, shiftMonth(latest.month, -12));
+        var currentPrior = findPeriodByMonth(allPeriods, shiftMonth(current.month, -12));
         cards.push(card(
-            'Текущий месяц',
-            latest.net,
-            formatDate(latest.from) + ' — ' + formatDate(latest.to) + ' · ' + latest.days + ' дн.',
+            shortMonthYear(current.month),
+            current.net,
+            formatDate(current.from) + ' — ' + formatDate(current.to) + ' · ' + current.days + ' дн.',
             [
-                cardLine('Продвижение', '+' + formatNumber(latest.gain), 'gain'),
-                cardLine('Отход', '−' + formatNumber(latest.loss), 'loss'),
-                latestPrior
-                    ? cardLine(fullMonthLabel(latestPrior.month), signed(latestPrior.net) + daysSuffix(latestPrior.days, latest.days), valueClass(latestPrior.net))
+                cardLine('Продвижение', '+' + formatNumber(current.gain), 'gain'),
+                cardLine('Отход', '−' + formatNumber(current.loss), 'loss'),
+                currentPrior
+                    ? cardLine(fullMonthLabel(currentPrior.month), signed(currentPrior.net) + daysSuffix(currentPrior.days, current.days), valueClass(currentPrior.net))
                     : cardLine('Год назад', '—', 'neutral')
             ]
         ));
@@ -287,9 +320,9 @@
         if (previous) {
             var previousPrior = findPeriodByMonth(allPeriods, shiftMonth(previous.month, -12));
             cards.push(card(
-                'Предыдущий месяц',
+                shortMonthYear(previous.month),
                 previous.net,
-                previous.label + ' · ' + formatDate(previous.from) + ' — ' + formatDate(previous.to) + ' · ' + previous.days + ' дн.',
+                formatDate(previous.from) + ' — ' + formatDate(previous.to) + ' · ' + previous.days + ' дн.',
                 [
                     cardLine('Продвижение', '+' + formatNumber(previous.gain), 'gain'),
                     cardLine('Отход', '−' + formatNumber(previous.loss), 'loss'),
@@ -305,30 +338,36 @@
             ? fullMonthLabel(priorRange.periods[0].month)
             : 'Год назад';
         cards.push(card(
-            'Выбранный период',
+            periodName(periods),
             totals.net,
-            capitalize(rangeLabel(state.range)) + ' · ' + formatNumber(totals.days) + ' дн.',
+            periods.length
+                ? formatDate(periods[0].from) + ' — ' + formatDate(periods[periods.length - 1].to) + ' · ' + formatNumber(totals.days) + ' дн.'
+                : 'Нет данных за выбранный период',
             [
-                cardLine('Продвижение', '+' + formatNumber(totals.gain), 'gain'),
-                cardLine('Отход', '−' + formatNumber(totals.loss), 'loss'),
+                cardLine('Продвижение', periods.length ? '+' + formatNumber(totals.gain) : '—', periods.length ? 'gain' : 'neutral'),
+                cardLine('Отход', periods.length ? '−' + formatNumber(totals.loss) : '—', periods.length ? 'loss' : 'neutral'),
                 priorRange
                     ? cardLine(priorLabel, signed(priorRange.totals.net) + daysSuffix(priorRange.totals.days, totals.days), valueClass(priorRange.totals.net))
                     : cardLine('Год назад', '—', 'neutral')
-            ]
+            ],
+            periods.length ? null : '—'
         ));
 
         var fullCount = fullPeriods(allPeriods).length;
         var partialCount = allPeriods.length - fullCount;
         cards.push(card(
-            'С начала наступления',
+            'Всего с начала наступления',
             allTotals.net,
-            formatDate(data.firstSnapshot) + ' — ' + formatDate(data.lastSnapshot) + ' · ' + formatNumber(allTotals.days) + ' дн.',
+            allPeriods.length
+                ? formatDate(allPeriods[0].from) + ' — ' + formatDate(allPeriods[allPeriods.length - 1].to) + ' · ' + formatNumber(allTotals.days) + ' дн.'
+                : 'Нет данных',
             [
-                cardLine('Продвижение', '+' + formatNumber(allTotals.gain), 'gain'),
-                cardLine('Отход', '−' + formatNumber(allTotals.loss), 'loss'),
+                cardLine('Продвижение', allPeriods.length ? '+' + formatNumber(allTotals.gain) : '—', allPeriods.length ? 'gain' : 'neutral'),
+                cardLine('Отход', allPeriods.length ? '−' + formatNumber(allTotals.loss) : '—', allPeriods.length ? 'loss' : 'neutral'),
                 cardLine('Месяцев', allPeriods.length + (partialCount ? ' (' + fullCount + ' полных)' : ''), 'neutral'),
-                cardLine('Темп', signed(allRate) + ' км²/день', 'neutral')
-            ]
+                cardLine('Темп', allPeriods.length ? signed(allRate) + ' км²/день' : '—', 'neutral')
+            ],
+            allPeriods.length ? null : '—'
         ));
 
         document.getElementById('stats-cards').innerHTML = cards.join('');
@@ -374,8 +413,8 @@
                 note.textContent = 'За выбранный период данных нет.';
             } else if (threshold > 0) {
                 note.textContent = 'Показано ' + periods.length + ' периодов. Не вошли микрополигоны меньше '
-                    + formatNumber(threshold) + ' км²: прирост +' + formatNumber(microGain)
-                    + ', уменьшение −' + formatNumber(microLoss) + ' км².';
+                    + formatNumber(threshold) + ' км²: продвижение +' + formatNumber(microGain)
+                    + ', отход −' + formatNumber(microLoss) + ' км².';
             } else {
                 note.textContent = 'Показано ' + periods.length
                     + ' периодов. Учитываются все компоненты разности, включая мелкие.';
@@ -391,15 +430,15 @@
     function renderCurrentDirections(data) {
         var section = document.getElementById('stats-current');
         var body = document.getElementById('stats-current-body');
-        var latest = latestPeriod(data);
-        if (!section || !body || !latest || !latest.partial || !latest.directions || !latest.directions.length) {
+        var period = latestPeriod(data);
+        if (!section || !body || !period || !period.directions || !period.directions.length) {
             if (section) section.classList.add('hidden');
             return;
         }
 
-        var rows = latest.directions.map(function (direction) {
+        var rows = period.directions.map(function (direction) {
             var net = Number(direction.net) || 0;
-            var rate = latest.days > 0 ? net / latest.days : 0;
+            var rate = period.days > 0 ? net / period.days : 0;
             return '<tr>'
                 + '<td>' + escapeHtml(direction.name) + '</td>'
                 + '<td class="num gain">' + ((Number(direction.gain) || 0) > 0 ? '+' + formatNumber(direction.gain) : '0') + '</td>'
@@ -409,33 +448,33 @@
                 + '</tr>';
         });
 
-        if (latest.unassigned) {
+        if (period.unassigned) {
             rows.push('<tr class="is-unassigned">'
                 + '<td>Вне направлений</td>'
-                + '<td class="num gain">' + (latest.unassigned.gain > 0 ? '+' + formatNumber(latest.unassigned.gain) : '0') + '</td>'
-                + '<td class="num loss">' + (latest.unassigned.loss > 0 ? '−' + formatNumber(latest.unassigned.loss) : '0') + '</td>'
-                + '<td class="num">' + signed(latest.unassigned.net) + '</td>'
-                + '<td class="num">' + signed(latest.unassigned.net / Math.max(1, latest.days)) + '</td>'
+                + '<td class="num gain">' + (period.unassigned.gain > 0 ? '+' + formatNumber(period.unassigned.gain) : '0') + '</td>'
+                + '<td class="num loss">' + (period.unassigned.loss > 0 ? '−' + formatNumber(period.unassigned.loss) : '0') + '</td>'
+                + '<td class="num">' + signed(period.unassigned.net) + '</td>'
+                + '<td class="num">' + signed(period.unassigned.net / Math.max(1, period.days)) + '</td>'
                 + '</tr>');
         }
 
         rows.push('<tr class="is-total">'
             + '<td>Итого</td>'
-            + '<td class="num gain">+' + formatNumber(latest.gain) + '</td>'
-            + '<td class="num loss">−' + formatNumber(latest.loss) + '</td>'
-            + '<td class="num">' + signed(latest.net) + '</td>'
-            + '<td class="num">' + signed(latest.rate) + '</td>'
+            + '<td class="num gain">+' + formatNumber(period.gain) + '</td>'
+            + '<td class="num loss">−' + formatNumber(period.loss) + '</td>'
+            + '<td class="num">' + signed(period.net) + '</td>'
+            + '<td class="num">' + signed(period.rate) + '</td>'
             + '</tr>');
 
         body.innerHTML = rows.join('');
         var sub = document.getElementById('stats-current-sub');
         if (sub) {
-            sub.textContent = formatDate(latest.from) + ' — ' + formatDate(latest.to)
-                + ' · ' + latest.days + ' дн. · темп ' + signed(latest.rate) + ' км²/день.';
+            sub.textContent = formatDate(period.from) + ' — ' + formatDate(period.to)
+                + ' · ' + period.days + ' дн. · темп ' + signed(period.rate) + ' км²/день.';
         }
         var note = document.getElementById('stats-current-note');
         if (note) {
-            note.textContent = 'Текущий неполный период показан независимо от фильтра. '
+            note.textContent = 'Текущий период: ' + period.label + '. '
                 + 'Значения по направлениям и «вне направлений» в сумме дают итог периода.';
         }
         section.classList.remove('hidden');
@@ -486,6 +525,37 @@
 
     var yearSeparatorsPlugin = {
         id: 'yearSeparators',
+        beforeDatasetsDraw: function (chart) {
+            var opts = chart.options.plugins.yearSeparators;
+            if (!opts || !opts.periods || opts.periods.length < 2) return;
+            var meta = chart.getDatasetMeta(0);
+            if (!meta || !meta.data || meta.data.length < 2) return;
+            var periods = opts.periods;
+            var area = chart.chartArea;
+            var ctx = chart.ctx;
+            var yearOf = function (period) { return String(period.month || '').slice(0, 4); };
+            var groups = [];
+            var start = 0;
+            for (var i = 1; i <= periods.length; i++) {
+                if (i < periods.length && yearOf(periods[i]) === yearOf(periods[start])) continue;
+                groups.push({ start: start, end: i - 1, year: yearOf(periods[start]) });
+                start = i;
+            }
+            ctx.save();
+            for (var g = 0; g < groups.length; g++) {
+                if (g % 2 === 0) continue;
+                var group = groups[g];
+                var x0 = group.start === 0
+                    ? area.left
+                    : (meta.data[group.start - 1].x + meta.data[group.start].x) / 2;
+                var x1 = group.end === periods.length - 1
+                    ? area.right
+                    : (meta.data[group.end].x + meta.data[group.end + 1].x) / 2;
+                ctx.fillStyle = 'rgba(31, 35, 40, 0.06)';
+                ctx.fillRect(x0, area.top, x1 - x0, area.bottom - area.top);
+            }
+            ctx.restore();
+        },
         afterDatasetsDraw: function (chart) {
             var opts = chart.options.plugins.yearSeparators;
             if (!opts || !opts.periods || opts.periods.length < 2) return;
@@ -497,22 +567,22 @@
             var yearOf = function (period) { return String(period.month || '').slice(0, 4); };
             var drawYear = function (x, year) {
                 ctx.save();
-                ctx.font = '10px Roboto, Arial, sans-serif';
+                ctx.font = '600 12px Roboto, Arial, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.lineWidth = 3;
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
-                ctx.strokeText(year, x, area.top + 11);
-                ctx.fillStyle = 'rgba(31, 35, 40, 0.62)';
-                ctx.fillText(year, x, area.top + 11);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.92)';
+                ctx.strokeText(year, x, area.top + 12);
+                ctx.fillStyle = 'rgba(31, 35, 40, 0.72)';
+                ctx.fillText(year, x, area.top + 12);
                 ctx.restore();
             };
 
             var firstBoundaryX = null;
             ctx.save();
-            ctx.setLineDash([4, 4]);
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = 'rgba(31, 35, 40, 0.22)';
+            ctx.setLineDash([4, 3]);
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = 'rgba(31, 35, 40, 0.55)';
             for (var i = 1; i < periods.length; i++) {
                 if (yearOf(periods[i]) === yearOf(periods[i - 1])) continue;
                 var x = (meta.data[i - 1].x + meta.data[i].x) / 2;
@@ -525,7 +595,7 @@
             }
             ctx.restore();
 
-            var firstX = Math.max(area.left + 16, meta.data[0].x);
+            var firstX = Math.max(area.left + 18, meta.data[0].x);
             if (firstBoundaryX === null || firstBoundaryX - firstX >= 28) {
                 drawYear(firstX, yearOf(periods[0]));
             }
@@ -575,6 +645,12 @@
             chartUnavailable(wrap, fallback);
             return;
         }
+        if (!periods.length) {
+            if (fallback) fallback.textContent = 'За выбранный период данных нет.';
+            chartUnavailable(wrap, fallback);
+            return;
+        }
+        if (fallback) fallback.textContent = 'График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает.';
         chartAvailable(wrap, fallback);
 
         var labels = periods.map(function (period) {
@@ -593,7 +669,7 @@
         var lastNet = nets[nets.length - 1];
 
         var sub = document.getElementById('stats-chart-sub');
-        if (sub) sub.textContent = 'Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто. * — неполный месяц. Пунктир — уровень последнего периода, вертикальные линии — годы. Показано ' + periods.length + ' периодов.';
+        if (sub) sub.textContent = 'Продвижение — выше нуля, отход — ниже нуля, линия — всего. * — неполный месяц. Пунктир — уровень последнего периода, вертикальные линии — годы. Показано ' + periods.length + ' периодов.';
         var currentNote = document.getElementById('stats-current-note');
         if (currentNote) {
             currentNote.textContent = 'Пунктир — ' + (lastPeriod && lastPeriod.partial ? 'текущий' : 'последний')
@@ -609,7 +685,7 @@
                 datasets: [
                     {
                         type: 'line',
-                        label: 'Нетто',
+                        label: 'Всего',
                         data: nets,
                         fill: 'origin',
                         borderColor: MAIN_GAIN,
@@ -648,7 +724,7 @@
                     },
                     {
                         type: 'bar',
-                        label: 'Прирост',
+                        label: 'Продвижение',
                         data: gains,
                         backgroundColor: gainColors,
                         borderRadius: 2,
@@ -657,7 +733,7 @@
                     },
                     {
                         type: 'bar',
-                        label: 'Уменьшение',
+                        label: 'Отход',
                         data: losses,
                         backgroundColor: lossColors,
                         borderRadius: 2,
@@ -761,7 +837,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Нетто',
+                    label: 'Всего',
                     data: net,
                     borderColor: '#1f2328',
                     backgroundColor: 'rgba(31, 35, 40, 0.10)',
@@ -790,14 +866,14 @@
                                 return period ? period.label : '';
                             },
                             label: function (context) {
-                                return 'Нетто: ' + signed(context.parsed.y) + ' км²';
+                                return 'Всего: ' + signed(context.parsed.y) + ' км²';
                             },
                             afterBody: function (items) {
                                 var period = periods[items[0].dataIndex];
                                 if (!period) return '';
                                 return [
-                                    'Прирост: +' + formatNumber(period.gain),
-                                    'Уменьшение: −' + formatNumber(period.loss),
+                                    'Продвижение: +' + formatNumber(period.gain),
+                                    'Отход: −' + formatNumber(period.loss),
                                     'Дней: ' + period.days
                                 ];
                             }
@@ -1008,7 +1084,7 @@
     function renderGroups(data, periods) {
         var section = document.getElementById('groups');
         if (!section) return;
-        if (!data.directions || !data.directions.length) {
+        if (!data.directions || !data.directions.length || !periods.length) {
             section.classList.add('hidden');
             return;
         }
@@ -1050,7 +1126,7 @@
 
         var sub = document.getElementById('stats-groups-sub');
         if (sub) {
-            sub.textContent = 'Нетто по группам; показано '
+            sub.textContent = 'Всего по группам; показано '
                 + periodsCaption(totalsPeriods(periods, state.range)) + '. * — неполный месяц.';
         }
         var note = document.getElementById('stats-groups-note');
@@ -1090,8 +1166,8 @@
         var totals = directionTotals(direction, state.range);
         if (title) title.textContent = direction.name;
         if (sub) {
-            sub.textContent = directionGroup(direction) + ' · ' + totals.count
-                + ' полн. мес. · ' + rangeLabel(state.range) + ' · * — неполный месяц.';
+            sub.textContent = directionGroup(direction) + ' · '
+                + periodsCaption(directionPeriods) + ' · ' + rangeLabel(state.range) + ' · * — неполный месяц.';
         }
         if (totalsBox) {
             totalsBox.innerHTML = '<span class="gain">+' + formatNumber(totals.gain) + '</span>'
@@ -1107,7 +1183,7 @@
         var select = document.getElementById('stats-direction-select');
         if (!section || !body) return;
         var directions = data.directions || [];
-        if (!directions.length) {
+        if (!directions.length || !periods.length) {
             section.classList.add('hidden');
             return;
         }
@@ -1159,7 +1235,7 @@
         var note = document.getElementById('stats-directions-note');
         if (note) {
             note.textContent = 'Нажмите на направление, чтобы открыть его график. '
-                + 'Сумма строк и «вне направлений» сходится с итогом полных месяцев.';
+                + 'Сумма строк и «вне направлений» сходится с итогом выбранного периода.';
         }
         section.classList.remove('hidden');
         renderDirectionDetail(data, selected, periods);
@@ -1167,10 +1243,13 @@
 
     function updateRangeLabel(data, periods) {
         var label = document.getElementById('stats-range-label');
-        if (label) {
-            label.textContent = periods.length + ' из ' + data.periods.length
-                + ' периодов · ' + rangeLabel(state.range);
+        if (!label) return;
+        if (!periods.length) {
+            label.textContent = 'Нет данных · ' + rangeLabel(state.range);
+            return;
         }
+        label.textContent = periods.length + ' из ' + data.periods.length
+            + ' периодов · ' + rangeLabel(state.range);
     }
 
     function renderRangeOptions(data) {
@@ -1203,10 +1282,10 @@
         });
         var groups = [
             { label: 'Периоды', options: presets },
-            { label: 'Месяцы', options: monthOptions },
-            { label: 'Годы', options: yearOptions }
+            { label: 'Годы', options: yearOptions },
+            { label: 'Месяцы', options: monthOptions }
         ];
-        var allOptions = presets.concat(monthOptions, yearOptions);
+        var allOptions = presets.concat(yearOptions, monthOptions);
         var valid = false;
         for (var i = 0; i < allOptions.length; i++) {
             if (allOptions[i].value === state.range) valid = true;
@@ -1273,17 +1352,6 @@
         state.range = 'all';
         renderAll();
         syncUrl();
-    }
-
-    function selectDirection(id) {
-        if (!state.data) return;
-        state.direction = id;
-        renderDirections(state.data, filterPeriods(state.data.periods, state.range));
-        syncUrl();
-        var detail = document.getElementById('stats-direction-detail');
-        if (detail && typeof detail.scrollIntoView === 'function') {
-            detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
     }
 
     function savePngDataUrl(dataUrl) {
