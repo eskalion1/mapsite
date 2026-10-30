@@ -236,6 +236,41 @@ code {
     color: var(--text-muted);
 }
 
+.stats-panel-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stats-icon-btn {
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    height: 26px;
+    justify-content: center;
+    padding: 0;
+    width: 26px;
+}
+
+.stats-icon-btn:hover {
+    border-color: var(--stats-gain);
+    color: var(--stats-gain);
+}
+
+.stats-icon-btn svg {
+    display: block;
+}
+
+.stats-chart-note {
+    margin: 7px 0 0;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
 .stats-chart-wrap {
     position: relative;
     height: 470px;
@@ -248,13 +283,6 @@ code {
 .stats-chart-wrap canvas {
     width: 100% !important;
     height: 100% !important;
-}
-
-.stats-chart-tools {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 14px;
 }
 
 .stats-legend {

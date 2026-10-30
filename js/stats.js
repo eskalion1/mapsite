@@ -386,6 +386,8 @@
 
     var MAIN_GAIN = '#e01b0b';
     var MAIN_LOSS = '#2f63b8';
+    var MAIN_GAIN_LINE = 'rgba(224, 27, 11, 0.78)';
+    var MAIN_LOSS_LINE = 'rgba(47, 99, 184, 0.78)';
 
     var currentLevelPlugin = {
         id: 'currentLevel',
@@ -404,18 +406,6 @@
             ctx.moveTo(area.left, y);
             ctx.lineTo(area.right, y);
             ctx.stroke();
-            ctx.setLineDash([]);
-
-            var text = opts.label || '';
-            ctx.font = '11px Roboto, Arial, sans-serif';
-            var width = ctx.measureText(text).width;
-            var x = area.right - width - 6;
-            var labelY = y - 5;
-            if (labelY < area.top + 12) labelY = y + 15;
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
-            ctx.fillRect(x - 3, labelY - 10, width + 6, 14);
-            ctx.fillStyle = 'rgba(31, 35, 40, 0.82)';
-            ctx.fillText(text, x, labelY);
             ctx.restore();
         }
     };
@@ -495,7 +485,12 @@
         var lastNet = nets[nets.length - 1];
 
         var sub = document.getElementById('stats-chart-sub');
-        if (sub) sub.textContent = 'Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто. * — неполный месяц. Пунктир — текущий уровень, вертикальные линии — годы. Показано ' + periods.length + ' периодов.';
+        if (sub) sub.textContent = 'Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто. * — неполный месяц. Пунктир — уровень последнего периода, вертикальные линии — годы. Показано ' + periods.length + ' периодов.';
+        var currentNote = document.getElementById('stats-current-note');
+        if (currentNote) {
+            currentNote.textContent = 'Пунктир — ' + (lastPeriod && lastPeriod.partial ? 'текущий' : 'последний')
+                + ' уровень: ' + signed(lastNet) + ' км².';
+        }
 
         destroyChart('main');
         charts.main = new Chart(canvas.getContext('2d'), {
@@ -527,13 +522,19 @@
                         borderWidth: 2.5,
                         pointRadius: 2,
                         pointHoverRadius: 4,
-                        pointBackgroundColor: '#1f2328',
+                        pointBorderWidth: 0,
+                        pointBackgroundColor: function (context) {
+                            return context.parsed.y >= 0 ? MAIN_GAIN : MAIN_LOSS;
+                        },
+                        pointHoverBackgroundColor: function (context) {
+                            return context.parsed.y >= 0 ? MAIN_GAIN : MAIN_LOSS;
+                        },
                         tension: 0.25,
                         order: 2,
                         segment: {
                             borderColor: function (context) {
                                 var value = (context.p0.parsed.y + context.p1.parsed.y) / 2;
-                                return value >= 0 ? MAIN_GAIN : MAIN_LOSS;
+                                return value >= 0 ? MAIN_GAIN_LINE : MAIN_LOSS_LINE;
                             }
                         }
                     },
@@ -564,10 +565,7 @@
                 animation: false,
                 plugins: {
                     legend: { display: false },
-                    currentLevel: {
-                        value: lastNet,
-                        label: (lastPeriod && lastPeriod.partial ? 'текущий: ' : 'последний: ') + signed(lastNet) + ' км²'
-                    },
+                    currentLevel: { value: lastNet },
                     yearSeparators: { periods: periods },
                     tooltip: {
                         backgroundColor: 'rgba(31, 35, 40, 0.94)',
@@ -1179,10 +1177,7 @@
         }
     }
 
-    function downloadMainChartPng() {
-        var chart = charts.main;
-        if (!chart) return;
-        var source = chart.canvas;
+    function savePngCanvas(source) {
         var out = document.createElement('canvas');
         out.width = source.width;
         out.height = source.height;
@@ -1196,6 +1191,24 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    }
+
+    function downloadMainChartPng() {
+        var frame = document.getElementById('months');
+        if (!frame) return;
+        if (typeof window.html2canvas !== 'function') {
+            if (charts.main && charts.main.canvas) savePngCanvas(charts.main.canvas);
+            return;
+        }
+        window.html2canvas(frame, {
+            backgroundColor: '#ffffff',
+            scale: Math.min(2, window.devicePixelRatio || 1),
+            useCORS: true,
+            logging: false,
+            ignoreElements: function (element) { return element.id === 'stats-chart-png'; }
+        }).then(savePngCanvas).catch(function (error) {
+            console.error('Не удалось сохранить PNG:', error);
+        });
     }
 
     function bindEvents() {

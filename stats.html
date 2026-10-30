@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Wallpoet&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/stats.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+    <script src="js/vendor/chart.umd.js" defer></script>
+    <script src="js/vendor/html2canvas.min.js" defer></script>
     <script src="js/stats.js" defer></script>
 </head>
 <body class="stats-page">
@@ -54,21 +55,24 @@
             <section id="months" class="stats-panel">
                 <div class="stats-panel-head">
                     <div>
-                        <h2>Динамика по месяцам</h2>
+                        <div class="stats-panel-title-row">
+                            <h2>Динамика по месяцам</h2>
+                            <button type="button" id="stats-chart-png" class="stats-icon-btn" title="Скачать PNG" aria-label="Скачать месячный график в PNG" data-html2canvas-ignore="true">
+                                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                        </div>
                         <p id="stats-chart-sub" class="stats-panel-sub">Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто.</p>
                     </div>
-                    <div class="stats-chart-tools">
-                        <div class="stats-legend" aria-hidden="true">
-                            <span class="stats-legend-item"><span class="stats-dot stats-dot-gain"></span>прирост</span>
-                            <span class="stats-legend-item"><span class="stats-dot stats-dot-loss"></span>уменьшение</span>
-                            <span class="stats-legend-item"><span class="stats-dot stats-dot-net"></span>нетто</span>
-                        </div>
-                        <button type="button" id="stats-chart-png" class="stats-text-btn" title="Скачать график в PNG">Скачать PNG</button>
+                    <div class="stats-legend" aria-hidden="true">
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-gain"></span>прирост</span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-loss"></span>уменьшение</span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-net"></span>нетто</span>
                     </div>
                 </div>
                 <div class="stats-chart-wrap">
                     <canvas id="monthly-chart" aria-label="График прироста, уменьшения и нетто по месяцам" role="img"></canvas>
                 </div>
+                <p id="stats-current-note" class="stats-chart-note"></p>
                 <p id="stats-chart-fallback" class="stats-note hidden">График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает.</p>
             </section>
 
