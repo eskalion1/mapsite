@@ -6,8 +6,10 @@
 :root {
     --stats-gain: #e01b0b;
     --stats-gain-soft: rgba(224, 27, 11, 0.14);
+    --stats-gain-bar: rgba(224, 27, 11, 0.45);
     --stats-loss: #2f63b8;
     --stats-loss-soft: rgba(47, 99, 184, 0.14);
+    --stats-loss-bar: rgba(47, 99, 184, 0.35);
     --stats-net: #1f2328;
     --stats-max-width: 1180px;
 }
@@ -236,12 +238,23 @@ code {
 
 .stats-chart-wrap {
     position: relative;
-    height: 370px;
+    height: 470px;
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
 }
 
 .stats-chart-wrap canvas {
     width: 100% !important;
     height: 100% !important;
+}
+
+.stats-chart-tools {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
 }
 
 .stats-legend {
@@ -267,9 +280,9 @@ code {
     display: inline-block;
 }
 
-.stats-dot-gain { background: var(--stats-gain); }
-.stats-dot-loss { background: var(--stats-loss); }
-.stats-dot-net { background: var(--stats-net); height: 3px; border-radius: 2px; }
+.stats-dot-gain { background: var(--stats-gain-bar); }
+.stats-dot-loss { background: var(--stats-loss-bar); }
+.stats-dot-net { background: linear-gradient(90deg, var(--stats-gain) 0 50%, var(--stats-loss) 50% 100%); height: 3px; border-radius: 2px; }
 
 /* ---------- Таблица ---------- */
 
@@ -616,7 +629,8 @@ code {
     }
 
     .stats-chart-wrap {
-        height: 290px;
+        height: 360px;
+        max-height: 70vh;
     }
 
     .stats-table {

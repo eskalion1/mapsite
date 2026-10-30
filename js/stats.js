@@ -384,6 +384,90 @@
         if (fallback) fallback.classList.add('hidden');
     }
 
+    var MAIN_GAIN = '#e01b0b';
+    var MAIN_LOSS = '#2f63b8';
+
+    var currentLevelPlugin = {
+        id: 'currentLevel',
+        afterDatasetsDraw: function (chart) {
+            var opts = chart.options.plugins.currentLevel;
+            if (!opts || !isFinite(opts.value)) return;
+            var area = chart.chartArea;
+            var y = chart.scales.y.getPixelForValue(opts.value);
+            if (!area || !isFinite(y) || y < area.top || y > area.bottom) return;
+            var ctx = chart.ctx;
+            ctx.save();
+            ctx.setLineDash([6, 4]);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(31, 35, 40, 0.55)';
+            ctx.beginPath();
+            ctx.moveTo(area.left, y);
+            ctx.lineTo(area.right, y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            var text = opts.label || '';
+            ctx.font = '11px Roboto, Arial, sans-serif';
+            var width = ctx.measureText(text).width;
+            var x = area.right - width - 6;
+            var labelY = y - 5;
+            if (labelY < area.top + 12) labelY = y + 15;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
+            ctx.fillRect(x - 3, labelY - 10, width + 6, 14);
+            ctx.fillStyle = 'rgba(31, 35, 40, 0.82)';
+            ctx.fillText(text, x, labelY);
+            ctx.restore();
+        }
+    };
+
+    var yearSeparatorsPlugin = {
+        id: 'yearSeparators',
+        afterDatasetsDraw: function (chart) {
+            var opts = chart.options.plugins.yearSeparators;
+            if (!opts || !opts.periods || opts.periods.length < 2) return;
+            var meta = chart.getDatasetMeta(0);
+            if (!meta || !meta.data || meta.data.length < 2) return;
+            var periods = opts.periods;
+            var area = chart.chartArea;
+            var ctx = chart.ctx;
+            var yearOf = function (period) { return String(period.month || '').slice(0, 4); };
+            var drawYear = function (x, year) {
+                ctx.save();
+                ctx.font = '10px Roboto, Arial, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.strokeText(year, x, area.top + 11);
+                ctx.fillStyle = 'rgba(31, 35, 40, 0.62)';
+                ctx.fillText(year, x, area.top + 11);
+                ctx.restore();
+            };
+
+            var firstBoundaryX = null;
+            ctx.save();
+            ctx.setLineDash([4, 4]);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(31, 35, 40, 0.22)';
+            for (var i = 1; i < periods.length; i++) {
+                if (yearOf(periods[i]) === yearOf(periods[i - 1])) continue;
+                var x = (meta.data[i - 1].x + meta.data[i].x) / 2;
+                if (firstBoundaryX === null) firstBoundaryX = x;
+                ctx.beginPath();
+                ctx.moveTo(x, area.top);
+                ctx.lineTo(x, area.bottom);
+                ctx.stroke();
+                drawYear(x, yearOf(periods[i]));
+            }
+            ctx.restore();
+
+            var firstX = Math.max(area.left + 16, meta.data[0].x);
+            if (firstBoundaryX === null || firstBoundaryX - firstX >= 28) {
+                drawYear(firstX, yearOf(periods[0]));
+            }
+        }
+    };
+
     function renderMainChart(periods) {
         var canvas = document.getElementById('monthly-chart');
         if (!canvas) return;
@@ -402,18 +486,21 @@
         var losses = periods.map(function (period) { return -(Number(period.loss) || 0); });
         var nets = periods.map(function (period) { return Number(period.net) || 0; });
         var gainColors = periods.map(function (period) {
-            return period.partial ? 'rgba(224, 27, 11, 0.35)' : 'rgba(224, 27, 11, 0.82)';
+            return period.partial ? 'rgba(224, 27, 11, 0.24)' : 'rgba(224, 27, 11, 0.45)';
         });
         var lossColors = periods.map(function (period) {
-            return period.partial ? 'rgba(47, 99, 184, 0.30)' : 'rgba(47, 99, 184, 0.78)';
+            return period.partial ? 'rgba(47, 99, 184, 0.20)' : 'rgba(47, 99, 184, 0.35)';
         });
+        var lastPeriod = periods[periods.length - 1];
+        var lastNet = nets[nets.length - 1];
 
         var sub = document.getElementById('stats-chart-sub');
-        if (sub) sub.textContent = 'Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто. * — неполный месяц. Показано ' + periods.length + ' периодов.';
+        if (sub) sub.textContent = 'Прирост — выше нуля, уменьшение — ниже нуля, линия — нетто. * — неполный месяц. Пунктир — текущий уровень, вертикальные линии — годы. Показано ' + periods.length + ' периодов.';
 
         destroyChart('main');
         charts.main = new Chart(canvas.getContext('2d'), {
             type: 'bar',
+            plugins: [currentLevelPlugin, yearSeparatorsPlugin],
             data: {
                 labels: labels,
                 datasets: [
@@ -421,13 +508,34 @@
                         type: 'line',
                         label: 'Нетто',
                         data: nets,
-                        borderColor: '#1f2328',
-                        backgroundColor: '#1f2328',
-                        borderWidth: 2,
+                        fill: 'origin',
+                        borderColor: MAIN_GAIN,
+                        backgroundColor: function (context) {
+                            var chart = context.chart;
+                            var area = chart.chartArea;
+                            if (!area) return 'rgba(224, 27, 11, 0.10)';
+                            var zero = chart.scales.y.getPixelForValue(0);
+                            var ratio = (zero - area.top) / (area.bottom - area.top);
+                            ratio = Math.min(1, Math.max(0, ratio));
+                            var gradient = chart.ctx.createLinearGradient(0, area.top, 0, area.bottom);
+                            gradient.addColorStop(0, 'rgba(224, 27, 11, 0.10)');
+                            gradient.addColorStop(ratio, 'rgba(224, 27, 11, 0.10)');
+                            gradient.addColorStop(Math.min(1, ratio + 0.0001), 'rgba(47, 99, 184, 0.10)');
+                            gradient.addColorStop(1, 'rgba(47, 99, 184, 0.10)');
+                            return gradient;
+                        },
+                        borderWidth: 2.5,
                         pointRadius: 2,
                         pointHoverRadius: 4,
+                        pointBackgroundColor: '#1f2328',
                         tension: 0.25,
-                        order: 2
+                        order: 2,
+                        segment: {
+                            borderColor: function (context) {
+                                var value = (context.p0.parsed.y + context.p1.parsed.y) / 2;
+                                return value >= 0 ? MAIN_GAIN : MAIN_LOSS;
+                            }
+                        }
                     },
                     {
                         type: 'bar',
@@ -456,6 +564,11 @@
                 animation: false,
                 plugins: {
                     legend: { display: false },
+                    currentLevel: {
+                        value: lastNet,
+                        label: (lastPeriod && lastPeriod.partial ? 'текущий: ' : 'последний: ') + signed(lastNet) + ' км²'
+                    },
+                    yearSeparators: { periods: periods },
                     tooltip: {
                         backgroundColor: 'rgba(31, 35, 40, 0.94)',
                         titleFont: { family: 'Roboto, Arial, sans-serif', size: 13 },
@@ -1066,6 +1179,25 @@
         }
     }
 
+    function downloadMainChartPng() {
+        var chart = charts.main;
+        if (!chart) return;
+        var source = chart.canvas;
+        var out = document.createElement('canvas');
+        out.width = source.width;
+        out.height = source.height;
+        var ctx = out.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, out.width, out.height);
+        ctx.drawImage(source, 0, 0);
+        var link = document.createElement('a');
+        link.download = 'territory-months-' + new Date().toISOString().slice(0, 10) + '.png';
+        link.href = out.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     function bindEvents() {
         var rangeSelect = document.getElementById('stats-range-select');
         if (rangeSelect) {
@@ -1079,6 +1211,11 @@
         var monthReset = document.getElementById('stats-month-reset');
         if (monthReset) {
             monthReset.addEventListener('click', resetMonth);
+        }
+
+        var pngButton = document.getElementById('stats-chart-png');
+        if (pngButton) {
+            pngButton.addEventListener('click', downloadMainChartPng);
         }
 
         var directionSelect = document.getElementById('stats-direction-select');
