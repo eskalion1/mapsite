@@ -88,11 +88,18 @@ code {
 }
 
 .stats-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     color: var(--text-secondary);
     text-decoration: none;
     padding: 6px 10px;
     border-radius: var(--radius-md);
     transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.stats-nav-icon {
+    flex-shrink: 0;
 }
 
 .stats-nav-link:hover {
