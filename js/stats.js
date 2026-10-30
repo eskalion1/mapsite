@@ -77,13 +77,69 @@
         return 'is-total';
     }
 
-    function card(label, value, sub, valueClassOverride) {
-        var cls = valueClassOverride || valueClass(value);
+    function cardLine(label, value, cls) {
+        return '<span class="stats-card-line">'
+            + '<span class="stats-card-line-label">' + escapeHtml(label) + '</span>'
+            + '<span class="stats-card-line-value ' + (cls || 'neutral') + '">' + escapeHtml(value) + '</span>'
+            + '</span>';
+    }
+
+    function card(label, value, context, lines) {
+        var cls = valueClass(value);
         return '<article class="stats-card ' + cardClass(value) + '">'
             + '<span class="stats-card-label">' + escapeHtml(label) + '</span>'
             + '<span class="stats-card-value ' + cls + '">' + escapeHtml(signed(value)) + '</span>'
-            + '<span class="stats-card-sub">' + sub + '</span>'
+            + (context ? '<span class="stats-card-context">' + escapeHtml(context) + '</span>' : '')
+            + '<span class="stats-card-lines">' + (lines || []).join('') + '</span>'
             + '</article>';
+    }
+
+    function findPeriodByMonth(periods, month) {
+        for (var i = 0; i < periods.length; i++) {
+            if (periods[i].month === month) return periods[i];
+        }
+        return null;
+    }
+
+    function shiftMonth(month, delta) {
+        var parts = String(month || '').split('-');
+        var year = Number(parts[0]);
+        var mon = Number(parts[1]);
+        if (!year || !mon) return '';
+        var total = year * 12 + (mon - 1) + delta;
+        var nextYear = Math.floor(total / 12);
+        var nextMon = (total % 12 + 12) % 12 + 1;
+        return nextYear + '-' + String(nextMon).padStart(2, '0');
+    }
+
+    function previousCalendarPeriod(data) {
+        var periods = data && data.periods ? data.periods : [];
+        var latest = latestPeriod(data);
+        if (!latest) return null;
+        for (var i = periods.length - 1; i >= 0; i--) {
+            if (periods[i].month < latest.month) return periods[i];
+        }
+        return null;
+    }
+
+    function previousYearTotals(periods, allPeriods) {
+        var priorPeriods = [];
+        for (var i = 0; i < periods.length; i++) {
+            var prior = findPeriodByMonth(allPeriods, shiftMonth(periods[i].month, -12));
+            if (!prior) return null;
+            priorPeriods.push(prior);
+        }
+        if (!priorPeriods.length) return null;
+        return { periods: priorPeriods, totals: summarize(priorPeriods) };
+    }
+
+    function daysSuffix(days, compareDays) {
+        return Number(days) !== Number(compareDays) ? ' (' + formatNumber(days) + ' дн.)' : '';
+    }
+
+    function capitalize(value) {
+        var text = String(value || '');
+        return text ? text.charAt(0).toUpperCase() + text.slice(1) : text;
     }
 
     function findDirection(data, id) {
@@ -206,55 +262,73 @@
 
     function renderCards(data, periods) {
         var latest = latestPeriod(data);
-        var lastFull = latestFullPeriod(data);
         if (!latest) return;
-        var counted = totalsPeriods(periods, state.range);
-        var totals = summarize(counted);
-        var averageRate = totals.days > 0 ? totals.net / totals.days : 0;
-        var totalLabel = state.range === 'all'
-            ? 'Суммарно за всё время'
-            : isYearRange(state.range)
-                ? 'Суммарно за ' + state.range
-                : isMonthRange(state.range)
-                    ? 'Суммарно за ' + fullMonthLabel(state.range)
-                    : 'Суммарно за период';
-
+        var allPeriods = data.periods || [];
+        var previous = previousCalendarPeriod(data);
+        var totals = summarize(periods);
+        var allTotals = summarize(allPeriods);
+        var allRate = allTotals.days > 0 ? allTotals.net / allTotals.days : 0;
         var cards = [];
-        if (latest.partial) {
-            cards.push(card(
-                'Текущий период',
-                latest.net,
-                formatDate(latest.from) + ' — ' + formatDate(latest.to)
-                    + ' · ' + latest.days + ' дн. · темп ' + signed(latest.rate) + ' км²/день'
-            ));
-        } else {
-            cards.push(card(
-                'Последний месяц',
-                latest.net,
-                latest.label + ' · ' + formatDate(latest.from) + ' — ' + formatDate(latest.to)
-            ));
-        }
 
-        if (lastFull) {
-            cards.push(card(
-                'Последний полный месяц',
-                lastFull.net,
-                lastFull.label + ' · прирост +' + formatNumber(lastFull.gain)
-                    + ' / уменьшение −' + formatNumber(lastFull.loss)
-            ));
-        }
-
+        var latestPrior = findPeriodByMonth(allPeriods, shiftMonth(latest.month, -12));
         cards.push(card(
-            totalLabel,
-            totals.net,
-            periodsCaption(counted) + ' · прирост +' + formatNumber(totals.gain)
-                + ' / уменьшение −' + formatNumber(totals.loss)
+            'Текущий месяц',
+            latest.net,
+            formatDate(latest.from) + ' — ' + formatDate(latest.to) + ' · ' + latest.days + ' дн.',
+            [
+                cardLine('Продвижение', '+' + formatNumber(latest.gain), 'gain'),
+                cardLine('Отход', '−' + formatNumber(latest.loss), 'loss'),
+                latestPrior
+                    ? cardLine(fullMonthLabel(latestPrior.month), signed(latestPrior.net) + daysSuffix(latestPrior.days, latest.days), valueClass(latestPrior.net))
+                    : cardLine('Год назад', '—', 'neutral')
+            ]
         ));
 
+        if (previous) {
+            var previousPrior = findPeriodByMonth(allPeriods, shiftMonth(previous.month, -12));
+            cards.push(card(
+                'Предыдущий месяц',
+                previous.net,
+                previous.label + ' · ' + formatDate(previous.from) + ' — ' + formatDate(previous.to) + ' · ' + previous.days + ' дн.',
+                [
+                    cardLine('Продвижение', '+' + formatNumber(previous.gain), 'gain'),
+                    cardLine('Отход', '−' + formatNumber(previous.loss), 'loss'),
+                    previousPrior
+                        ? cardLine(fullMonthLabel(previousPrior.month), signed(previousPrior.net) + daysSuffix(previousPrior.days, previous.days), valueClass(previousPrior.net))
+                        : cardLine('Год назад', '—', 'neutral')
+                ]
+            ));
+        }
+
+        var priorRange = previousYearTotals(periods, allPeriods);
+        var priorLabel = priorRange && priorRange.periods.length === 1
+            ? fullMonthLabel(priorRange.periods[0].month)
+            : 'Год назад';
         cards.push(card(
-            'Средний темп',
-            averageRate,
-            'км²/день за ' + periodsCaption(counted)
+            'Выбранный период',
+            totals.net,
+            capitalize(rangeLabel(state.range)) + ' · ' + formatNumber(totals.days) + ' дн.',
+            [
+                cardLine('Продвижение', '+' + formatNumber(totals.gain), 'gain'),
+                cardLine('Отход', '−' + formatNumber(totals.loss), 'loss'),
+                priorRange
+                    ? cardLine(priorLabel, signed(priorRange.totals.net) + daysSuffix(priorRange.totals.days, totals.days), valueClass(priorRange.totals.net))
+                    : cardLine('Год назад', '—', 'neutral')
+            ]
+        ));
+
+        var fullCount = fullPeriods(allPeriods).length;
+        var partialCount = allPeriods.length - fullCount;
+        cards.push(card(
+            'С начала наступления',
+            allTotals.net,
+            formatDate(data.firstSnapshot) + ' — ' + formatDate(data.lastSnapshot) + ' · ' + formatNumber(allTotals.days) + ' дн.',
+            [
+                cardLine('Продвижение', '+' + formatNumber(allTotals.gain), 'gain'),
+                cardLine('Отход', '−' + formatNumber(allTotals.loss), 'loss'),
+                cardLine('Месяцев', allPeriods.length + (partialCount ? ' (' + fullCount + ' полных)' : ''), 'neutral'),
+                cardLine('Темп', signed(allRate) + ' км²/день', 'neutral')
+            ]
         ));
 
         document.getElementById('stats-cards').innerHTML = cards.join('');

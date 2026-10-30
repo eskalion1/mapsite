@@ -149,19 +149,31 @@ code {
 
 .stats-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 14px;
     margin-bottom: 18px;
 }
 
 .stats-card {
     position: relative;
+    display: flex;
+    flex-direction: column;
     background: var(--surface);
     border: 1px solid var(--gray-200);
     border-radius: var(--radius-xl);
     padding: 16px 18px 15px;
     box-shadow: var(--shadow-sm);
     overflow: hidden;
+}
+
+.stats-card.is-gain {
+    background: linear-gradient(180deg, rgba(224, 27, 11, 0.055), var(--surface) 70%);
+    border-color: rgba(224, 27, 11, 0.18);
+}
+
+.stats-card.is-loss {
+    background: linear-gradient(180deg, rgba(47, 99, 184, 0.06), var(--surface) 70%);
+    border-color: rgba(47, 99, 184, 0.20);
 }
 
 .stats-card::before {
@@ -199,12 +211,43 @@ code {
 .stats-card-value.loss { color: var(--stats-loss); }
 .stats-card-value.neutral { color: var(--stats-net); }
 
-.stats-card-sub {
+.stats-card-context {
     display: block;
-    margin-top: 7px;
-    font-size: var(--font-size-xs);
-    color: var(--text-secondary);
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.35;
 }
+
+.stats-card-lines {
+    display: grid;
+    gap: 3px;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.stats-card-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: var(--font-size-xs);
+    line-height: 1.35;
+}
+
+.stats-card-line-label {
+    color: var(--text-muted);
+}
+
+.stats-card-line-value {
+    color: var(--text-main);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.stats-card-line-value.gain { color: var(--stats-gain); }
+.stats-card-line-value.loss { color: var(--stats-loss); }
+.stats-card-line-value.neutral { color: var(--text-secondary); }
 
 /* ---------- Панели ---------- */
 
