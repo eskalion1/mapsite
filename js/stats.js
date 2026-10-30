@@ -11,7 +11,7 @@
         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     var numberFormat = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
     var charts = { main: null, direction: null, groups: null };
-    var state = { data: null, range: 'all', direction: null };
+    var state = { data: null, range: 'all', direction: null, detail: false };
     var GROUP_FALLBACK = 'Без группы';
     var GROUP_COLORS = ['#c81e0f', '#2f63b8', '#1f8a4c', '#b8860b', '#7a4fb3', '#6c757d'];
 
@@ -458,6 +458,40 @@
         }
     };
 
+    var detailLabelsPlugin = {
+        id: 'detailLabels',
+        afterDatasetsDraw: function (chart) {
+            var opts = chart.options.plugins.detailLabels;
+            if (!opts || !opts.enabled) return;
+            var meta = chart.getDatasetMeta(0);
+            if (!meta || !meta.data) return;
+            var values = chart.data.datasets[0].data;
+            var area = chart.chartArea;
+            var ctx = chart.ctx;
+            var compact = area && area.width < 500;
+            ctx.save();
+            ctx.font = (compact ? '8px' : '9px') + ' Roboto, Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.92)';
+            ctx.fillStyle = 'rgba(31, 35, 40, 0.82)';
+            for (var i = 0; i < meta.data.length; i++) {
+                var point = meta.data[i];
+                var value = Number(values[i]);
+                if (!point || !isFinite(point.x) || !isFinite(point.y) || !isFinite(value)) continue;
+                var offset = (i % 2 === 0 ? 9 : 19) * (compact ? 0.85 : 1);
+                var labelY = value >= 0 ? point.y - offset : point.y + offset;
+                if (labelY < area.top + 7) labelY = point.y + offset;
+                if (labelY > area.bottom - 5) labelY = point.y - offset;
+                var labelX = Math.min(area.right - 4, Math.max(area.left + 4, point.x));
+                ctx.strokeText(signed(value), labelX, labelY);
+                ctx.fillText(signed(value), labelX, labelY);
+            }
+            ctx.restore();
+        }
+    };
+
     function renderMainChart(periods) {
         var canvas = document.getElementById('monthly-chart');
         if (!canvas) return;
@@ -495,7 +529,7 @@
         destroyChart('main');
         charts.main = new Chart(canvas.getContext('2d'), {
             type: 'bar',
-            plugins: [currentLevelPlugin, yearSeparatorsPlugin],
+            plugins: [currentLevelPlugin, yearSeparatorsPlugin, detailLabelsPlugin],
             data: {
                 labels: labels,
                 datasets: [
@@ -567,6 +601,7 @@
                     legend: { display: false },
                     currentLevel: { value: lastNet },
                     yearSeparators: { periods: periods },
+                    detailLabels: { enabled: state.detail },
                     tooltip: {
                         backgroundColor: 'rgba(31, 35, 40, 0.94)',
                         titleFont: { family: 'Roboto, Arial, sans-serif', size: 13 },
@@ -1229,6 +1264,16 @@
         var pngButton = document.getElementById('stats-chart-png');
         if (pngButton) {
             pngButton.addEventListener('click', downloadMainChartPng);
+        }
+
+        var detailButton = document.getElementById('stats-chart-detail');
+        if (detailButton) {
+            detailButton.addEventListener('click', function () {
+                state.detail = !state.detail;
+                detailButton.classList.toggle('is-active', state.detail);
+                detailButton.setAttribute('aria-pressed', state.detail ? 'true' : 'false');
+                if (state.data) renderMainChart(filterPeriods(state.data.periods, state.range));
+            });
         }
 
         var directionSelect = document.getElementById('stats-direction-select');

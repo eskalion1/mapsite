@@ -256,9 +256,14 @@ code {
     width: 26px;
 }
 
-.stats-icon-btn:hover {
+.stats-icon-btn:hover,
+.stats-icon-btn.is-active {
     border-color: var(--stats-gain);
     color: var(--stats-gain);
+}
+
+.stats-icon-btn.is-active {
+    background: var(--stats-gain-soft);
 }
 
 .stats-icon-btn svg {
