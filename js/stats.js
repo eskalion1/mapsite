@@ -1212,6 +1212,15 @@
         }
     }
 
+    function savePngDataUrl(dataUrl) {
+        var link = document.createElement('a');
+        link.download = 'territory-months-' + new Date().toISOString().slice(0, 10) + '.png';
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     function savePngCanvas(source) {
         var out = document.createElement('canvas');
         out.width = source.width;
@@ -1220,30 +1229,28 @@
         ctx.fillStyle = '#fff';
         ctx.fillRect(0, 0, out.width, out.height);
         ctx.drawImage(source, 0, 0);
-        var link = document.createElement('a');
-        link.download = 'territory-months-' + new Date().toISOString().slice(0, 10) + '.png';
-        link.href = out.toDataURL('image/png');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        savePngDataUrl(out.toDataURL('image/png'));
     }
 
     function downloadMainChartPng() {
         var frame = document.getElementById('months');
         if (!frame) return;
-        if (typeof window.html2canvas !== 'function') {
-            if (charts.main && charts.main.canvas) savePngCanvas(charts.main.canvas);
+        var lib = window.modernScreenshot;
+        if (lib && typeof lib.domToPng === 'function') {
+            lib.domToPng(frame, {
+                backgroundColor: '#ffffff',
+                scale: Math.min(2, window.devicePixelRatio || 1),
+                font: false,
+                filter: function (node) {
+                    return node.id !== 'stats-chart-png' && node.id !== 'stats-chart-detail';
+                }
+            }).then(savePngDataUrl).catch(function (error) {
+                console.error('Не удалось сохранить PNG:', error);
+                if (charts.main && charts.main.canvas) savePngCanvas(charts.main.canvas);
+            });
             return;
         }
-        window.html2canvas(frame, {
-            backgroundColor: '#ffffff',
-            scale: Math.min(2, window.devicePixelRatio || 1),
-            useCORS: true,
-            logging: false,
-            ignoreElements: function (element) { return element.id === 'stats-chart-png'; }
-        }).then(savePngCanvas).catch(function (error) {
-            console.error('Не удалось сохранить PNG:', error);
-        });
+        if (charts.main && charts.main.canvas) savePngCanvas(charts.main.canvas);
     }
 
     function bindEvents() {
