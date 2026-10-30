@@ -358,10 +358,13 @@ body {
 }
 
 .view-dropdown .view-btn {
-    display: block;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 48px;
     width: 100%;
     text-align: left;
-    padding: 8px 12px;
+    padding: 0 12px;
     border: none;
     background: none;
     cursor: pointer;
