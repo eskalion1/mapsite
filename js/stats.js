@@ -1243,6 +1243,9 @@
                 font: false,
                 filter: function (node) {
                     return node.id !== 'stats-chart-png' && node.id !== 'stats-chart-detail';
+                },
+                onCloneNode: function (node) {
+                    if (node.tagName === 'H2') node.style.whiteSpace = 'nowrap';
                 }
             }).then(savePngDataUrl).catch(function (error) {
                 console.error('Не удалось сохранить PNG:', error);

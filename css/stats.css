@@ -220,6 +220,7 @@ code {
 .stats-panel h2 {
     margin: 0;
     font-size: var(--font-size-lg);
+    white-space: nowrap;
 }
 
 .stats-panel-head {
