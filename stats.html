@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика территорий — Creamy caprice</title>
+    <meta name="description" content="Продвижение и отход контроля территорий по месячным срезам. Плюс — продвижение ВС РФ.">
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Wallpoet&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/stats.css">
+    <link rel="stylesheet" href="css/language.css">
+    <script src="js/vendor/chart.umd.js" defer></script>
+    <script src="js/vendor/modern-screenshot.js" defer></script>
+    <script src="js/stats.js" defer></script>
+</head>
+<body class="stats-page">
+    <header class="stats-header">
+        <div class="stats-header-inner">
+            <a class="stats-brand" href="index.html">Creamy caprice</a>
+            <nav class="stats-nav" aria-label="Навигация">
+                <a class="stats-nav-link" href="index.html"><svg class="stats-nav-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M14 8H2m0 0 4-4M2 8l4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-ru="На карту" data-en="Back to map">На карту</span></a>
+                <span class="stats-nav-current" data-ru="Статистика" data-en="Statistics">Статистика</span>
+                <button id="stats-lang-toggle" class="lang-btn show-en" title="Switch to English" aria-label="Switch to English">
+                    <img src="img/flags/ru.svg" alt="RU" class="flag-icon flag-ru">
+                    <img src="img/flags/en.svg" alt="EN" class="flag-icon flag-en">
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="stats-main">
+        <div id="stats-content">
+            <div class="stats-title-row">
+                <div>
+                    <h1 data-ru="Статистика территорий" data-en="Territory statistics">Статистика территорий</h1>
+                    <p class="stats-subtitle" data-ru="Продвижение и отход контроля по месячным срезам. Плюс — продвижение ВС РФ." data-en="Territory control advance and withdrawal by monthly snapshots. Positive values show Russian advance.">Продвижение и отход контроля по месячным срезам. Плюс — продвижение ВС РФ.</p>
+                </div>
+                <div id="stats-updated" class="stats-updated" aria-live="polite"></div>
+            </div>
+
+            <section id="stats-cards" class="stats-cards" aria-label="Сводка"></section>
+
+            <div id="stats-toolbar" class="stats-toolbar">
+                <label class="stats-range">
+                    <span data-ru="Период" data-en="Period">Период</span>
+                    <select id="stats-range-select" aria-label="Период статистики" data-aria-ru="Период статистики" data-aria-en="Statistics period"></select>
+                </label>
+                <span id="stats-range-label" class="stats-toolbar-stats" aria-live="polite"></span>
+                <nav class="stats-jump" aria-label="Разделы статистики">
+                    <a href="#months" data-ru="Месяцы" data-en="Months">Месяцы</a>
+                    <a href="#stats-current" data-ru="Месяц" data-en="Month">Месяц</a>
+                    <a href="#directions" data-ru="Направления" data-en="Directions">Направления</a>
+                    <a href="#groups" data-ru="Группировки" data-en="Groups">Группировки</a>
+                </nav>
+            </div>
+
+
+            <section id="months" class="stats-panel">
+                <div class="stats-panel-head">
+                    <div>
+                        <div class="stats-panel-title-row">
+                            <h2 data-ru="Территориальные изменения" data-en="Territorial changes">Территориальные изменения</h2>
+                            <div class="stats-granularity" role="group" aria-label="Дискретность графика" data-aria-ru="Дискретность графика" data-aria-en="Chart granularity">
+                                <button type="button" data-granularity="month" class="is-active" aria-pressed="true" data-ru="Месяцы" data-en="Months">Месяцы</button>
+                                <button type="button" data-granularity="year" aria-pressed="false" data-ru="Годы" data-en="Years">Годы</button>
+                            </div>
+                            <button type="button" id="stats-chart-detail" class="stats-icon-btn" title="Детальный вид: подписи всего по точкам" aria-label="Показать подписи всего по точкам" data-title-ru="Детальный вид: подписи всего по точкам" data-title-en="Detailed view: net labels at each point" data-aria-ru="Показать подписи всего по точкам" data-aria-en="Show net labels at each point" aria-pressed="false">
+                                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                            </button>
+                            <button type="button" id="stats-chart-png" class="stats-icon-btn" title="Скачать PNG" aria-label="Скачать месячный график в PNG" data-title-ru="Скачать PNG" data-title-en="Download PNG" data-aria-ru="Скачать месячный график в PNG" data-aria-en="Download monthly chart as PNG">
+                                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                        </div>
+                        <p id="stats-chart-sub" class="stats-panel-sub" data-ru="Продвижение — выше нуля, отход — ниже нуля, линия — всего." data-en="Advance — above zero, withdrawal — below zero, line — total.">Продвижение — выше нуля, отход — ниже нуля, линия — всего.</p>
+                    </div>
+                    <div class="stats-legend" aria-hidden="true">
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-gain"></span><span data-ru="продвижение" data-en="advance">продвижение</span></span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-loss"></span><span data-ru="отход" data-en="withdrawal">отход</span></span>
+                        <span class="stats-legend-item"><span class="stats-dot stats-dot-net"></span><span data-ru="всего" data-en="total">всего</span></span>
+                    </div>
+                </div>
+                <div class="stats-chart-wrap">
+                    <canvas id="monthly-chart" aria-label="График продвижения, отхода и всего по месяцам" data-aria-ru="График продвижения, отхода и всего по месяцам" data-aria-en="Monthly advance, withdrawal and total chart" role="img"></canvas>
+                </div>
+                <p id="stats-chart-level-note" class="stats-chart-note"></p>
+                <p id="stats-chart-fallback" class="stats-note hidden" data-ru="График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает." data-en="Chart unavailable: Chart.js failed to load. The table below still works.">График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает.</p>
+            </section>
+
+            <section class="stats-panel">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2 data-ru="Таблица по месяцам" data-en="Monthly table">Таблица по месяцам</h2>
+                        <p id="stats-table-sub" class="stats-panel-sub" data-ru="Фактические даты срезов, между которыми посчитана дельта." data-en="Actual snapshot dates between which the delta is calculated.">Фактические даты срезов, между которыми посчитана дельта.</p>
+                    </div>
+                    <div class="stats-panel-actions">
+                        <button type="button" id="stats-month-reset" class="stats-text-btn hidden" data-ru="Сбросить месяц" data-en="Reset month">Сбросить месяц</button>
+                    </div>
+                </div>
+                <div class="stats-table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th data-ru="Месяц" data-en="Month">Месяц</th>
+                                <th data-ru="Период" data-en="Period">Период</th>
+                                <th class="num" data-ru="Дней" data-en="Days">Дней</th>
+                                <th class="num" data-ru="Продвижение, км²" data-en="Advance, km²">Продвижение, км²</th>
+                                <th class="num" data-ru="Отход, км²" data-en="Withdrawal, km²">Отход, км²</th>
+                                <th class="num" data-ru="Всего, км²" data-en="Total, km²">Всего, км²</th>
+                                <th class="num" data-ru="Темп, км²/день" data-en="Rate, km²/day">Темп, км²/день</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-table-body"></tbody>
+                    </table>
+                </div>
+                <p id="stats-table-note" class="stats-note"></p>
+            </section>
+
+            <section id="stats-current" class="stats-panel hidden">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2 data-ru="Текущий месяц по направлениям" data-en="Current month by direction">Текущий месяц по направлениям</h2>
+                        <p id="stats-current-sub" class="stats-panel-sub"></p>
+                    </div>
+                </div>
+                <div class="stats-table-wrap">
+                    <table class="stats-table stats-table--compact">
+                        <thead>
+                            <tr>
+                                <th data-ru="Направление" data-en="Direction">Направление</th>
+                                <th class="num" data-ru="Продвижение, км²" data-en="Advance, km²">Продвижение, км²</th>
+                                <th class="num" data-ru="Отход, км²" data-en="Withdrawal, km²">Отход, км²</th>
+                                <th class="num" data-ru="Всего, км²" data-en="Total, km²">Всего, км²</th>
+                                <th class="num" data-ru="Темп, км²/день" data-en="Rate, km²/day">Темп, км²/день</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-current-body"></tbody>
+                    </table>
+                </div>
+                <p id="stats-current-note" class="stats-note"></p>
+            </section>
+
+            <section id="directions" class="stats-panel hidden">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2 data-ru="По направлениям" data-en="By direction">По направлениям</h2>
+                        <p id="stats-directions-sub" class="stats-panel-sub" data-ru="Полные месяцы за выбранный период." data-en="Full months for the selected period.">Полные месяцы за выбранный период.</p>
+                    </div>
+                    <div class="stats-panel-actions">
+                        <label class="stats-inline-select">
+                            <span data-ru="Направление" data-en="Direction">Направление</span>
+                            <select id="stats-direction-select" aria-label="Выбрать направление" data-aria-ru="Выбрать направление" data-aria-en="Select direction"></select>
+                        </label>
+                        <a class="stats-map-link" href="index.html?directions=1" target="_blank" rel="noopener"><span data-ru="Границы на карте" data-en="Borders on map">Границы на карте</span></a>
+                    </div>
+                </div>
+                <div class="stats-table-wrap">
+                    <table class="stats-table stats-table--directions">
+                        <thead>
+                            <tr>
+                                <th data-ru="Направление" data-en="Direction">Направление</th>
+                                <th class="num" data-ru="Продвижение, км²" data-en="Advance, km²">Продвижение, км²</th>
+                                <th class="num" data-ru="Отход, км²" data-en="Withdrawal, km²">Отход, км²</th>
+                                <th class="num" data-ru="Всего, км²" data-en="Total, km²">Всего, км²</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-directions-body"></tbody>
+                    </table>
+                </div>
+                <p id="stats-directions-note" class="stats-note"></p>
+
+                <div id="stats-direction-detail" class="stats-direction-detail">
+                    <div class="stats-direction-head">
+                        <div>
+                            <h3 id="stats-direction-title"></h3>
+                            <p id="stats-direction-sub" class="stats-panel-sub"></p>
+                        </div>
+                        <div id="stats-direction-totals" class="stats-direction-totals"></div>
+                    </div>
+                    <div class="stats-chart-wrap stats-chart-wrap--small">
+                        <canvas id="direction-chart" aria-label="График выбранного направления" data-aria-ru="График выбранного направления" data-aria-en="Selected direction chart" role="img"></canvas>
+                    </div>
+                    <p id="direction-chart-fallback" class="stats-note hidden" data-ru="График недоступен: не загрузилась библиотека Chart.js." data-en="Chart unavailable: Chart.js failed to load.">График недоступен: не загрузилась библиотека Chart.js.</p>
+                </div>
+            </section>
+
+            <section id="groups" class="stats-panel hidden">
+                <div class="stats-panel-head">
+                    <div>
+                        <h2 data-ru="По группировкам" data-en="By group">По группировкам</h2>
+                        <p id="stats-groups-sub" class="stats-panel-sub" data-ru="Всего по группам направлений за выбранный период." data-en="Total by direction groups for the selected period.">Всего по группам направлений за выбранный период.</p>
+                    </div>
+                </div>
+                <div class="stats-chart-wrap">
+                    <canvas id="groups-chart" aria-label="График всего по группировкам" data-aria-ru="График всего по группировкам" data-aria-en="Chart of totals by groups" role="img"></canvas>
+                </div>
+                <p id="groups-chart-fallback" class="stats-note hidden" data-ru="График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает." data-en="Chart unavailable: Chart.js failed to load. The table below still works.">График недоступен: не загрузилась библиотека Chart.js. Таблица ниже работает.</p>
+                <div class="stats-table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th data-ru="Группировка" data-en="Group">Группировка</th>
+                                <th class="num" data-ru="Продвижение, км²" data-en="Advance, km²">Продвижение, км²</th>
+                                <th class="num" data-ru="Отход, км²" data-en="Withdrawal, km²">Отход, км²</th>
+                                <th class="num" data-ru="Всего, км²" data-en="Total, km²">Всего, км²</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-groups-body"></tbody>
+                    </table>
+                </div>
+                <p id="stats-groups-note" class="stats-note"></p>
+            </section>
+        </div>
+
+        <div id="stats-empty" class="stats-empty hidden" role="alert">
+            <h1 data-ru="Статистика пока не рассчитана" data-en="Statistics not calculated yet">Статистика пока не рассчитана</h1>
+            <p id="stats-empty-text" data-ru="Не удалось загрузить stats/stats.json." data-en="Failed to load stats/stats.json.">Не удалось загрузить <code>stats/stats.json</code>.</p>
+        </div>
+    </main>
+</body>
+</html>
