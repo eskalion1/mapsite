@@ -560,6 +560,18 @@
         var boundaries = selectMonthlySnapshots(all);
         var periods = [];
         var warnings = [];
+        var areaCache = {};
+
+        function controlArea(snapshot, ring) {
+            if (!ring) return 0;
+            if (areaCache[snapshot.name] != null) return areaCache[snapshot.name];
+            var area = exclusionPolygons.length
+                ? multiPolygonAreaKm2(clip.difference([[ring]], exclusionPolygons))
+                : ringAreaKm2(ring);
+            area = round2(area);
+            areaCache[snapshot.name] = area;
+            return area;
+        }
 
         function directionValues(directionSummary) {
             var list = [];
@@ -608,7 +620,9 @@
                 days: days,
                 daysCount: days,
                 partial: partial,
-                rate: days > 0 ? round2(summary.net / days) : 0
+                rate: days > 0 ? round2(summary.net / days) : 0,
+                areaFrom: controlArea(from, fromRing),
+                areaTo: controlArea(to, toRing)
             }, summary);
             if (directionSummary) {
                 period.directions = directionValues(directionSummary);

@@ -380,6 +380,17 @@
         return totals;
     }
 
+    function directNet(periods) {
+        var list = Array.isArray(periods) ? periods : [];
+        if (!list.length) return 0;
+        var first = list[0];
+        var last = list[list.length - 1];
+        if (first.areaFrom != null && last.areaTo != null) {
+            return Math.round((Number(last.areaTo) - Number(first.areaFrom)) * 100) / 100;
+        }
+        return summarize(list).net;
+    }
+
     function latestPeriod(data) {
         var periods = data && data.periods ? data.periods : [];
         return periods.length ? periods[periods.length - 1] : null;
@@ -419,9 +430,11 @@
             return String(period.month || '').slice(0, 4) === currentYear;
         });
         var yearTotals = summarize(yearPeriods);
+        var yearNet = directNet(yearPeriods);
         var yearPrior = previousYearTotals(yearPeriods, allPeriods);
         var allTotals = summarize(allPeriods);
-        var allRate = allTotals.days > 0 ? allTotals.net / allTotals.days : 0;
+        var allNet = directNet(allPeriods);
+        var allRate = allTotals.days > 0 ? allNet / allTotals.days : 0;
         var cards = [];
 
         var currentPrior = findPeriodByMonth(allPeriods, shiftMonth(current.month, -12));
@@ -456,7 +469,7 @@
 
         cards.push(card(
             currentYear,
-            yearTotals.net,
+            yearNet,
             yearPeriods.length
                 ? formatDate(yearPeriods[0].from) + ' — ' + formatDate(yearPeriods[yearPeriods.length - 1].to) + ' · ' + unitDays(yearTotals.days)
                 : tr('Нет данных', 'No data'),
@@ -474,7 +487,7 @@
         var partialCount = allPeriods.length - fullCount;
         cards.push(card(
             tr('Всего с начала наступления', 'Total since the start'),
-            allTotals.net,
+            allNet,
             allPeriods.length
                 ? formatDate(allPeriods[0].from) + ' — ' + formatDate(allPeriods[allPeriods.length - 1].to) + ' · ' + unitDays(allTotals.days)
                 : tr('Нет данных', 'No data'),
@@ -1448,7 +1461,8 @@
         var label = document.getElementById('stats-range-label');
         var toolbar = document.getElementById('stats-toolbar');
         var totals = summarize(periods);
-        var toolbarClass = periods.length ? cardClass(totals.net) : 'is-total';
+        var net = directNet(periods);
+        var toolbarClass = periods.length ? cardClass(net) : 'is-total';
         if (toolbar) {
             toolbar.classList.remove('is-gain', 'is-loss', 'is-total');
             toolbar.classList.add(toolbarClass);
@@ -1465,7 +1479,7 @@
             + '<span class="sep" aria-hidden="true">|</span>'
             + '<span class="loss">−' + formatNumber(totals.loss) + ' ' + unitKm2() + '</span>'
             + '<span class="sep" aria-hidden="true">|</span>'
-            + '<span class="net ' + valueClass(totals.net) + '">' + tr('Всего: ', 'Total: ') + signed(totals.net) + ' ' + unitKm2() + '</span>';
+            + '<span class="net ' + valueClass(net) + '">' + tr('Всего: ', 'Total: ') + signed(net) + ' ' + unitKm2() + '</span>';
     }
 
     function renderRangeOptions(data) {
