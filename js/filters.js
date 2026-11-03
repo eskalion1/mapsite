@@ -1572,7 +1572,7 @@ function reloadUnitsUaLayer() {
             // После поиска подстраиваем карту под все найденные точки (зум не больше 12)
             if (filterSet !== null && window.unitsUaMarkers && window.unitsUaMarkers.length > 0) {
                 const searchBounds = L.latLngBounds(window.unitsUaMarkers.map(function(m) { return m.getLatLng(); }));
-                map.fitBounds(searchBounds, { padding: [20, 20], maxZoom: 14 });
+                map.fitBounds(searchBounds, { padding: [20, 20], maxZoom: 12 });
             }
         });
     }
